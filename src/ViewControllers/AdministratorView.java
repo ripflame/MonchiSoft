@@ -99,6 +99,7 @@ public class AdministratorView extends javax.swing.JFrame {
     private void CustomersModuleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CustomersModuleActionPerformed
         CustomersView clientsModule = new CustomersView();
         clientsModule.setVisible(rootPaneCheckingEnabled);
+        
         this.dispose();
     }//GEN-LAST:event_CustomersModuleActionPerformed
 
