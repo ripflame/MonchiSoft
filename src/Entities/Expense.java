@@ -14,14 +14,16 @@ public class Expense  implements java.io.Serializable {
      private Date date;
      private String supplier;
      private double total;
+     private String description;
 
     public Expense() {
     }
 
-    public Expense(Date date, String supplier, double total) {
+    public Expense(Date date, String supplier, double total, String description) {
        this.date = date;
        this.supplier = supplier;
        this.total = total;
+       this.description = description;
     }
    
     public Integer getId() {
@@ -53,9 +55,14 @@ public class Expense  implements java.io.Serializable {
         this.total = total;
     }
 
+    public String getDescription() {
+        return description;
+    }
 
-
-
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
 }
 
 
