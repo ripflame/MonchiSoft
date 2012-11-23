@@ -13,21 +13,21 @@ import Managers.ClientManagerImplementation;
  *
  * @author Ripflame
  */
-public class RegisterClient extends javax.swing.JDialog {
+public class RegisterCustomer extends javax.swing.JDialog {
     private Costumer modifiedClient;
     private boolean isAdd;
     
     /**
-     * Creates new form RegisterClient
+     * Creates new form RegisterCustomer
      */
-    public RegisterClient(java.awt.Frame parent, boolean modal) {
+    public RegisterCustomer(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.isAdd = true;
         this.colocarTextoAgregar();
     }
     
-    public RegisterClient(java.awt.Frame parent, boolean modal, Costumer modifiedClient) {
+    public RegisterCustomer(java.awt.Frame parent, boolean modal, Costumer modifiedClient) {
         super(parent, modal);
         initComponents();
         this.isAdd = false;
@@ -142,7 +142,7 @@ public class RegisterClient extends javax.swing.JDialog {
             ClientManager clientManager = new ClientManagerImplementation();
             modifiedClient.setName(this.nameField.getText());
             clientManager.modify(modifiedClient);
-            ((ClientsModule)this.getParent()).showAllClients();
+            ((CostumersModule)this.getParent()).showAllClients();
             this.dispose();
         } else {
             this.showErrorView();

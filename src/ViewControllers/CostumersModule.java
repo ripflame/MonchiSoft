@@ -17,12 +17,12 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Ripflame
  */
-public class ClientsModule extends javax.swing.JFrame {
+public class CostumersModule extends javax.swing.JFrame {
 
     /**
-     * Creates new form ClientsModule
+     * Creates new form CostumersModule
      */
-    public ClientsModule() {
+    public CostumersModule() {
         initComponents();
     }
 
@@ -46,6 +46,7 @@ public class ClientsModule extends javax.swing.JFrame {
         searchButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableClients = new javax.swing.JTable();
+        backButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Facturación");
@@ -134,6 +135,13 @@ public class ClientsModule extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tableClients);
         tableClients.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
+        backButton.setText("Regresar");
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -142,14 +150,17 @@ public class ClientsModule extends javax.swing.JFrame {
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(layout.createSequentialGroup()
-                        .add(searchField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 339, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(searchButton)
-                        .add(0, 0, Short.MAX_VALUE))
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                         .add(0, 0, Short.MAX_VALUE)
-                        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 430, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 430, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(layout.createSequentialGroup()
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(layout.createSequentialGroup()
+                                .add(searchField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 339, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(searchButton))
+                            .add(backButton))
+                        .add(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -162,14 +173,16 @@ public class ClientsModule extends javax.swing.JFrame {
                     .add(searchButton))
                 .add(18, 18, 18)
                 .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 233, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(backButton)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
-        RegisterClient addClientView = new RegisterClient(this, true);
+        RegisterCustomer addClientView = new RegisterCustomer(this, true);
         addClientView.setLocationRelativeTo(this);
         addClientView.setVisible(true);
     }//GEN-LAST:event_newButtonActionPerformed
@@ -179,9 +192,9 @@ public class ClientsModule extends javax.swing.JFrame {
         if (selectedRow > -1) {
             int clientID = Integer.parseInt((String) this.tableClients.getValueAt(selectedRow, 0));
             String clientName = (String) this.tableClients.getValueAt(selectedRow, 1);
-            Costumer selectedClient = new Costumer(clientName);
-            selectedClient.setId(clientID);
-            RegisterClient modifyClientView = new RegisterClient(this, true, selectedClient);
+            Costumer selectedCustomer = new Costumer(clientName);
+            selectedCustomer.setId(clientID);
+            RegisterCustomer modifyClientView = new RegisterCustomer(this, true, selectedCustomer);
             modifyClientView.setLocationRelativeTo(this);
             modifyClientView.setVisible(true);
         } else if (selectedRow == -1) {
@@ -215,6 +228,12 @@ public class ClientsModule extends javax.swing.JFrame {
             this.showMessage("No seleccionaste ninguna celda.");
         }
     }//GEN-LAST:event_removeButtonActionPerformed
+
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+        AdministratorModule administratorModule = new AdministratorModule();
+        administratorModule.setVisible(rootPaneCheckingEnabled);
+        this.dispose();
+    }//GEN-LAST:event_backButtonActionPerformed
 
     private boolean validData() {
         boolean validData = true;
@@ -321,6 +340,7 @@ public class ClientsModule extends javax.swing.JFrame {
         this.tableClients.setRowSelectionAllowed(true);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton backButton;
     private javax.swing.Box.Filler filler1;
     private javax.swing.ButtonGroup filtroBusqueda;
     private javax.swing.JScrollPane jScrollPane1;

@@ -97,7 +97,7 @@ public class AdministratorModule extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ClientsModuleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClientsModuleActionPerformed
-        ClientsModule clientsModule = new ClientsModule();
+        CostumersModule clientsModule = new CostumersModule();
         clientsModule.setVisible(rootPaneCheckingEnabled);
         this.dispose();
     }//GEN-LAST:event_ClientsModuleActionPerformed
