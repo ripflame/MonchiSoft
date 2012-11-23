@@ -13,6 +13,7 @@ public class FinalProductToppingsId  implements java.io.Serializable {
      private int toppingId;
 
     public FinalProductToppingsId() {
+        
     }
 
     public FinalProductToppingsId(int finalProductId, int toppingId) {
