@@ -4,7 +4,7 @@
   <schema-selection match-catalog="monchisDataBase"/>
   <table-filter match-name="SALE"/>
   <table-filter match-name="BASE_PRODUCT"/>
-  <table-filter match-name="COSTUMER"/>
+  <table-filter match-name="CUSTOMER"/>
   <table-filter match-name="EXPENSE"/>
   <table-filter match-name="TOPPING"/>
   <table-filter match-name="OTHER_PRODUCT"/>

@@ -6,8 +6,8 @@ package Helpers;
  */
 public class QueryConstants {
     
-    public static final String COSTUMER_QUERY_NAME = "from Costumer c where c.name like '";
-    public static final String COSTUMER_QUERY_ID = "from Costumer c where c.id like '";
+    public static final String CUSTOMER_QUERY_NAME = "from Customer c where c.name like '";
+    public static final String CUSTOMER_QUERY_ID = "from Customer c where c.id like '";
     
     public static final String BASE_PRODUCT_QUERY_NAME = "from BaseProduct bp where bp.name like '";
     public static final String BASE_PRODUCT_QUERY_ID = "from BaseProduct bp where bp.id like '";
