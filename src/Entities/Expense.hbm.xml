@@ -17,7 +17,7 @@
       <column name="total" not-null="true" precision="22" scale="0"/>
     </property>
     <property name="description" type="string">
-        <column name="description" type="description"/>
+        <column length="100" name="description" not-null="true"/>
     </property>
   </class>
 </hibernate-mapping>
