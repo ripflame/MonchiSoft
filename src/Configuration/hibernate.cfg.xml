@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/monchisDataBase?zeroDateTimeBehavior=convertToNull</property>
+    <property name="hibernate.connection.username">ripflame</property>
+    <property name="hibernate.connection.password">ripflame</property>
+    <mapping resource="Entities/Sale.hbm.xml"/>
+    <mapping resource="Entities/BaseProduct.hbm.xml"/>
+    <mapping resource="Entities/FinalProduct.hbm.xml"/>
+    <mapping resource="Entities/DailyCashClosing.hbm.xml"/>
+    <mapping resource="Entities/OtherProduct.hbm.xml"/>
+    <mapping resource="Entities/Costumer.hbm.xml"/>
+    <mapping resource="Entities/Topping.hbm.xml"/>
+    <mapping resource="Entities/Expense.hbm.xml"/>
+    <mapping resource="Entities/FinalProductToppings.hbm.xml"/>
+  </session-factory>
+</hibernate-configuration>
