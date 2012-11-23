@@ -1,6 +1,6 @@
 package Helpers;
 
-import Managers.ClientManagerImplementation;
+import Managers.CustomerManagerImplementation;
 import Utilities.HibernateUtil;
 import java.util.List;
 import java.util.logging.Level;
@@ -24,7 +24,7 @@ public class HQLQueryHelper {
             resultList = queryToExecute.list();
             session.getTransaction().commit();
         } catch (HibernateException e) {
-            Logger.getLogger(ClientManagerImplementation.class.getName()).log(Level.INFO, "Couldn't execute query", e);
+            Logger.getLogger(CustomerManagerImplementation.class.getName()).log(Level.INFO, "Couldn't execute query", e);
         }
         
         return resultList;

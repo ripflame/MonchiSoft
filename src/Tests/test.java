@@ -5,7 +5,7 @@
 package Tests;
 
 import Entities.BaseProduct;
-import Entities.Costumer;
+import Entities.Customer;
 import Entities.DailyCashClosing;
 import Entities.Expense;
 import Entities.FinalProduct;
@@ -14,8 +14,8 @@ import Entities.Sale;
 import Entities.Topping;
 import Managers.BaseProductManager;
 import Managers.BaseProductManagerImplementation;
-import Managers.ClientManager;
-import Managers.ClientManagerImplementation;
+import Managers.CustomerManager;
+import Managers.CustomerManagerImplementation;
 import Managers.DailyCashClosingManager;
 import Managers.DailyCashClosingManagerImplementation;
 import Managers.ExpenseManager;
@@ -50,12 +50,12 @@ public class test {
             System.out.println("Product: " + temporalProduct.getName());
         }
         
-        ClientManager clientManager = new ClientManagerImplementation();
-        List<Costumer> clients = clientManager.getAll();
-        Iterator<Costumer> clientIterator = clients.iterator();
+        CustomerManager clientManager = new CustomerManagerImplementation();
+        List<Customer> clients = clientManager.getAll();
+        Iterator<Customer> clientIterator = clients.iterator();
         System.out.println("List of clients:");
         while (clientIterator.hasNext()) {
-            Costumer temporalClient = clientIterator.next();
+            Customer temporalClient = clientIterator.next();
             System.out.println("Name: " + temporalClient.getName());
         }
         
