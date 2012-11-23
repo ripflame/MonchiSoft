@@ -12,7 +12,7 @@
     <mapping resource="Entities/FinalProduct.hbm.xml"/>
     <mapping resource="Entities/DailyCashClosing.hbm.xml"/>
     <mapping resource="Entities/OtherProduct.hbm.xml"/>
-    <mapping resource="Entities/Costumer.hbm.xml"/>
+    <mapping resource="Entities/Customer.hbm.xml"/>
     <mapping resource="Entities/Topping.hbm.xml"/>
     <mapping resource="Entities/Expense.hbm.xml"/>
     <mapping resource="Entities/FinalProductToppings.hbm.xml"/>
