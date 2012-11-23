@@ -5,8 +5,8 @@
     <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
     <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
     <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/monchisDataBase?zeroDateTimeBehavior=convertToNull</property>
-    <property name="hibernate.connection.username">ripflame</property>
-    <property name="hibernate.connection.password">ripflame</property>
+    <property name="hibernate.connection.username">monchisoft</property>
+    <property name="hibernate.connection.password">monchisoft</property>
     <mapping resource="Entities/Sale.hbm.xml"/>
     <mapping resource="Entities/BaseProduct.hbm.xml"/>
     <mapping resource="Entities/FinalProduct.hbm.xml"/>
