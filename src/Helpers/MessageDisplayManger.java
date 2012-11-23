@@ -11,12 +11,14 @@ public class MessageDisplayManger {
     private static final String NO_CELL_SELECTED_STRING = "No seleccionaste ninguna celda";
     private static final String SEARCH_FIELD_EMPTY_STRING = "No escribiste nada en el campo de búsqueda";
     private static final String NO_COSTUMER_FOUND_STRING = "No se encontró ningún cliente";
+    private static final String INFORMATION_DIALOG_TITLE = "Información";
+    private static final String ERROR_DIALOG_TITLE = "Error";
     
     public static void showInformation(MessageType type, JFrame parentFrame) {
         String dialogMessage = getMessageStringFromType(type);
         JOptionPane.showConfirmDialog(parentFrame,
                 dialogMessage,
-                "Información",
+                INFORMATION_DIALOG_TITLE,
                 JOptionPane.DEFAULT_OPTION,
                 JOptionPane.INFORMATION_MESSAGE);
     }
@@ -25,7 +27,7 @@ public class MessageDisplayManger {
         String dialogMessage = getMessageStringFromType(type);
         JOptionPane.showConfirmDialog(parentFrame,
                 dialogMessage,
-                "Error",
+                ERROR_DIALOG_TITLE,
                 JOptionPane.DEFAULT_OPTION,
                 JOptionPane.ERROR_MESSAGE);
     }
