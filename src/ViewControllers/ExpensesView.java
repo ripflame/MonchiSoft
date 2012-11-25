@@ -173,7 +173,7 @@ public class ExpensesView extends javax.swing.JFrame {
 
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
         
-        int selectedRow = this.expensesTable.getSelectedRow();        
+        int selectedRow = this.expensesTable.getSelectedRow(); 
         if (selectedRow > -1) {
             int idExpense = Integer.parseInt((String) this.expensesTable.getValueAt(selectedRow, 0));
             String expenseSupplier = (String) this.expensesTable.getValueAt(selectedRow, 1);
