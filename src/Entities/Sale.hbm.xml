@@ -13,8 +13,8 @@
     <property name="finalProduct" type="int">
       <column name="final_product" not-null="true"/>
     </property>
-    <property name="price" type="int">
-      <column name="price" not-null="true"/>
+    <property name="price" type="double">
+      <column name="price" not-null="true" precision="22" scale="0"/>
     </property>
     <property name="client" type="int">
       <column name="client" not-null="true"/>
