@@ -14,12 +14,7 @@ import Managers.CustomerManagerImplementation;
  * @author Ripflame
  */
 public class CaptureCustomerDataView extends javax.swing.JDialog {
-    private Customer modifiedCustomer;
-    private boolean isAddButton;
     
-    /**
-     * Creates new form CaptureCustomerDataView
-     */
     public CaptureCustomerDataView(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -38,12 +33,12 @@ public class CaptureCustomerDataView extends javax.swing.JDialog {
     
     private void setAddText() {
         this.setTitle("Agregar");
-        this.addButton.setText("Agregar");
+        this.addModifyButton.setText("Agregar");
     }
     
     private void setModifyText() {
         this.setTitle("Modificar");
-        this.addButton.setText("Modificar");
+        this.addModifyButton.setText("Modificar");
     }
 
     /**
@@ -55,7 +50,7 @@ public class CaptureCustomerDataView extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        addButton = new javax.swing.JButton();
+        addModifyButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
         nameField = new javax.swing.JTextField();
         nameLabel = new javax.swing.JLabel();
@@ -63,10 +58,10 @@ public class CaptureCustomerDataView extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
-        addButton.setText("Agregar");
-        addButton.addActionListener(new java.awt.event.ActionListener() {
+        addModifyButton.setText("Agregar/Modificar");
+        addModifyButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addButtonActionPerformed(evt);
+                addModifyButtonActionPerformed(evt);
             }
         });
 
@@ -89,7 +84,7 @@ public class CaptureCustomerDataView extends javax.swing.JDialog {
                     .add(layout.createSequentialGroup()
                         .add(cancelButton)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(addButton))
+                        .add(addModifyButton))
                     .add(layout.createSequentialGroup()
                         .add(nameLabel)
                         .add(22, 22, 22)
@@ -105,7 +100,7 @@ public class CaptureCustomerDataView extends javax.swing.JDialog {
                     .add(nameField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .add(18, 18, 18)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(addButton)
+                    .add(addModifyButton)
                     .add(cancelButton))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -113,13 +108,13 @@ public class CaptureCustomerDataView extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+    private void addModifyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addModifyButtonActionPerformed
         if (this.isAddButton) {
             this.addCustomer();
         } else {
             this.modifyCustomer(this.modifiedCustomer);
         }
-    }//GEN-LAST:event_addButtonActionPerformed
+    }//GEN-LAST:event_addModifyButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         this.dispose();
@@ -138,8 +133,8 @@ public class CaptureCustomerDataView extends javax.swing.JDialog {
     
     private void modifyCustomer(Customer customer) {
         if (this.validData()) {
-            Customer modifiedCustomer = customer;
             CustomerManager customerManager = new CustomerManagerImplementation();
+            Customer modifiedCustomer = customer;
             modifiedCustomer.setName(this.nameField.getText());
             customerManager.modify(modifiedCustomer);
             ((CustomersView)this.getParent()).showAllCustomers();
@@ -165,8 +160,11 @@ public class CaptureCustomerDataView extends javax.swing.JDialog {
         
         return correctData;
     }
+    
+    private Customer modifiedCustomer;
+    private boolean isAddButton;
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addButton;
+    private javax.swing.JButton addModifyButton;
     private javax.swing.JButton cancelButton;
     private javax.swing.JTextField nameField;
     private javax.swing.JLabel nameLabel;
