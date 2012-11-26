@@ -11,8 +11,6 @@ import java.util.List;
  */
 public class ExpenseManagerImplementation extends GenericManagerImplementation<Expense, Integer> implements ExpenseManager {
 
-    private static final String EXPENSE_QUERY_SUPPLIER = "from Expense e where e.supplier like '";
-    
     @Override
     public List<Expense> searchById(Integer id) {
         List<Expense> expenses = null;
@@ -37,5 +35,7 @@ public class ExpenseManagerImplementation extends GenericManagerImplementation<E
         
         return expenses;
     }
+    
+    private static final String EXPENSE_QUERY_SUPPLIER = "from Expense e where e.supplier like '";
 
 }
