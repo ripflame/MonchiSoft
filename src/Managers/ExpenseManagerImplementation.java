@@ -11,11 +11,22 @@ import java.util.List;
  */
 public class ExpenseManagerImplementation extends GenericManagerImplementation<Expense, Integer> implements ExpenseManager {
 
+    private static final String EXPENSE_QUERY_SUPPLIER = "from Expense e where e.supplier like '";
+    
     @Override
     public List<Expense> searchById(Integer id) {
         List<Expense> expenses = null;
         expenses = HQLQueryHelper.execute(QueryConstants.EXPENSE_QUERY_ID + 
                 id + QueryConstants.TERMINATION_CHARACTER);
+        
+        return expenses;
+    }
+    
+    @Override
+    public List<Expense> searchBySupplier(String supplier) {
+        List<Expense> expenses = null;
+        expenses = HQLQueryHelper.execute(EXPENSE_QUERY_SUPPLIER + supplier + 
+                QueryConstants.SIMILAR_TERMINATION_CHARACTER);
         
         return expenses;
     }
