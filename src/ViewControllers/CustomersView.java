@@ -49,7 +49,7 @@ public class CustomersView extends javax.swing.JFrame {
         customersTable = new javax.swing.JTable();
         backButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gestión de Clientes");
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -282,7 +282,7 @@ public class CustomersView extends javax.swing.JFrame {
         String[] columnNames = new String[3];
         columnNames[0] = "Id";
         columnNames[1] = "Nombre";
-        columnNames[2] = "Vistas";
+        columnNames[2] = "Visitas";
         
         model.setColumnIdentifiers(columnNames);
         
