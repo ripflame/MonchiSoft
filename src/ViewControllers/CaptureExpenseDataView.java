@@ -66,6 +66,8 @@ public class CaptureExpenseDataView extends javax.swing.JDialog {
     }
    
    private void modifyExpense(Expense expense) {
+       //java.util.Date utilDate = ;
+
       double total= Double.parseDouble(this.totalField.getText());
         if (this.validData()) {
             Expense modifiedExpense = expense;

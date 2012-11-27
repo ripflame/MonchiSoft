@@ -11,6 +11,7 @@ public class MessageDisplayManger {
     private static final String NO_CELL_SELECTED_STRING = "No seleccionaste ninguna celda";
     private static final String SEARCH_FIELD_EMPTY_STRING = "No escribiste nada en el campo de búsqueda";
     private static final String NO_COSTUMER_FOUND_STRING = "No se encontró ningún cliente";
+    private static final String NO_SUPPLIER_FOUND_STRING = "No se encontró ningún provedor";
     private static final String INFORMATION_DIALOG_TITLE = "Información";
     private static final String ERROR_DIALOG_TITLE = "Error";
     
@@ -47,6 +48,9 @@ public class MessageDisplayManger {
             case NO_COSTUMER_FOUND:
                 messageString = NO_COSTUMER_FOUND_STRING;
                 break;
+                
+            case NO_SUPPLIER_FOUND:
+                messageString = NO_SUPPLIER_FOUND_STRING;
         }
         
         return messageString;
