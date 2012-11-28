@@ -21,6 +21,7 @@ public class QueryConstants {
     public static final String DAILY_CASH_CLOSING_QUERY_ID = "from DailyCashClosing dcc where dcc.id like '";
     
     public static final String EXPENSE_QUERY_ID = "from Expense e where e.id like '";
+    public static final String EXPENSE_QUERY_SUPPLIER = "from Expense e where e.supplier like '";
     
     public static final String FINAL_PRODUCT_QUERY_ID = "from FinalProduct fp where fp.id like '";
     
