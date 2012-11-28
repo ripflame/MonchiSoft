@@ -4,8 +4,9 @@
  */
 package ViewControllers;
 
-import javax.swing.JOptionPane;
 import Entities.Customer;
+import Helpers.MessageDisplayManger;
+import Helpers.MessageType;
 import Managers.CustomerManager;
 import Managers.CustomerManagerImplementation;
 
@@ -32,12 +33,12 @@ public class CaptureCustomerDataView extends javax.swing.JDialog {
     }
     
     private void setAddText() {
-        this.setTitle("Agregar");
+        this.setTitle("Agregar Cliente");
         this.addModifyButton.setText("Agregar");
     }
     
     private void setModifyText() {
-        this.setTitle("Modificar");
+        this.setTitle("Modificar Cliente");
         this.addModifyButton.setText("Modificar");
     }
 
@@ -127,7 +128,7 @@ public class CaptureCustomerDataView extends javax.swing.JDialog {
             customerManager.add(customer);
             this.dispose();
         } else {
-            this.showErrorView();
+            MessageDisplayManger.showInformation(MessageType.EMPTY_FIELDS, this );
         }
     }
     
@@ -140,16 +141,8 @@ public class CaptureCustomerDataView extends javax.swing.JDialog {
             ((CustomersView)this.getParent()).showAllCustomers();
             this.dispose();
         } else {
-            this.showErrorView();
+            MessageDisplayManger.showInformation(MessageType.EMPTY_FIELDS, this );
         }
-    }
-    
-    private void showErrorView() {
-        JOptionPane.showConfirmDialog(this,
-                "No todos los campos están llenos.",
-                "Oops!",
-                JOptionPane.DEFAULT_OPTION,
-                JOptionPane.INFORMATION_MESSAGE);
     }
     
     private boolean validData() {

@@ -5,11 +5,12 @@
 package ViewControllers;
 
 import Entities.Customer;
+import Helpers.MessageDisplayManger;
+import Helpers.MessageType;
 import Managers.CustomerManager;
 import Managers.CustomerManagerImplementation;
 import java.util.Iterator;
 import java.util.List;
-import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
@@ -48,9 +49,14 @@ public class CustomersView extends javax.swing.JFrame {
         customersTable = new javax.swing.JTable();
         backButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Facturación");
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Gestión de Clientes");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);
@@ -112,14 +118,14 @@ public class CustomersView extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Id", "Nombre"
+                "Id", "Nombre", "Visitas"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -198,7 +204,7 @@ public class CustomersView extends javax.swing.JFrame {
             modifyCustomerView.setLocationRelativeTo(this);
             modifyCustomerView.setVisible(true);
         } else if (selectedRow == -1) {
-            this.showMessage("No seleccionaste ninguna celda.");
+            MessageDisplayManger.showInformation(MessageType.NO_CELL_SELECTED, this );
         }
     }//GEN-LAST:event_modifyButtonActionPerformed
 
@@ -227,21 +233,26 @@ public class CustomersView extends javax.swing.JFrame {
             
             this.showAllCustomers();
         } else if (selectedRow == -1) {
-            this.showMessage("No seleccionaste ninguna celda.");
+            MessageDisplayManger.showInformation(MessageType.NO_CELL_SELECTED, this );
         }
     }//GEN-LAST:event_removeButtonActionPerformed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
-        AdministratorView administratorModule = new AdministratorView();
-        administratorModule.setVisible(rootPaneCheckingEnabled);
+        AdministratorView administratorView = new AdministratorView();
+        administratorView.setVisible(rootPaneCheckingEnabled);
         this.dispose();
     }//GEN-LAST:event_backButtonActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        AdministratorView administratorView = new AdministratorView();
+        administratorView.setVisible(rootPaneCheckingEnabled);
+    }//GEN-LAST:event_formWindowClosed
 
     private boolean validData() {
         boolean validData = true;
 
         if (this.searchField.getText().isEmpty()) {
-            this.showError("No escribiste nada en el campo de búsqueda.");
+            MessageDisplayManger.showError(MessageType.SEARCH_FIELD_EMPTY, this );
             validData = false;
         } 
 
@@ -270,9 +281,10 @@ public class CustomersView extends javax.swing.JFrame {
           }
         };
         
-        String[] columnNames = new String[2];
+        String[] columnNames = new String[3];
         columnNames[0] = "Id";
         columnNames[1] = "Nombre";
+        columnNames[2] = "Visitas";
         
         model.setColumnIdentifiers(columnNames);
         
@@ -284,7 +296,7 @@ public class CustomersView extends javax.swing.JFrame {
         DefaultTableModel model = this.createTableModel();
         if (customers == null) {
             this.customersTable.setModel(model);
-            this.showMessage("No se encontró ningún cliente.");
+            MessageDisplayManger.showInformation(MessageType.NO_COSTUMER_FOUND, this );
             return;
         }
         
@@ -304,37 +316,22 @@ public class CustomersView extends javax.swing.JFrame {
         DefaultTableModel model = this.createTableModel();
         if (customerFound == null) {
             this.customersTable.setModel(model);
-            this.showMessage("No se encontró el cliente.");
+            MessageDisplayManger.showInformation(MessageType.NO_COSTUMER_FOUND, this );
             return;
         }
         
-        String[] customerData = new String[2];
+        String[] customerData = new String[3];
         Iterator<Customer> iterator = customerFound.iterator();
         while (iterator.hasNext()) {
             Customer customer = (Customer)iterator.next();
             customerData[0] = Integer.toString(customer.getId());
             customerData[1] = customer.getName();
+            customerData[2] = "";
             model.addRow(customerData);
         }
         
         this.customersTable.setModel(model);
         this.rowSelection();
-    }
-    
-    private void showMessage(String mensaje) {
-        JOptionPane.showConfirmDialog(this,
-                mensaje,
-                "Oops!",
-                JOptionPane.DEFAULT_OPTION,
-                JOptionPane.INFORMATION_MESSAGE);
-    }
-    
-    private void showError(String mensajeError) {
-        JOptionPane.showConfirmDialog(this,
-                mensajeError,
-                "Error",
-                JOptionPane.DEFAULT_OPTION,
-                JOptionPane.ERROR_MESSAGE);
     }
     
     private void rowSelection() {
