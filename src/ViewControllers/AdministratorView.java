@@ -111,7 +111,9 @@ public class AdministratorView extends javax.swing.JFrame {
     }//GEN-LAST:event_StatisticsModuleActionPerformed
 
     private void ExpensesModuleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExpensesModuleActionPerformed
-        // TODO add your handling code here:
+        ExpensesView expensesModule = new ExpensesView();
+        expensesModule.setVisible(rootPaneCheckingEnabled);
+        this.dispose();
     }//GEN-LAST:event_ExpensesModuleActionPerformed
 
     /**

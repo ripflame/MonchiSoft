@@ -6,6 +6,7 @@ package ViewControllers;
 
 
 import Entities.Expense;
+import Helpers.MessageDisplayManger;
 import Managers.ExpenseManager;
 import Managers.ExpenseManagerImplementation;
 import java.sql.Date;
@@ -28,6 +29,7 @@ public class ExpensesView extends javax.swing.JFrame {
      */
     public ExpensesView() {
         initComponents();
+        //setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -51,7 +53,12 @@ public class ExpensesView extends javax.swing.JFrame {
         SearchButton = new java.awt.Button();
         jMenuBar1 = new javax.swing.JMenuBar();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         expensesTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -125,7 +132,8 @@ public class ExpensesView extends javax.swing.JFrame {
             }
         });
 
-        SearchButton.setLabel("button1");
+        SearchButton.setActionCommand("");
+        SearchButton.setLabel("Buscar");
         SearchButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 SearchButtonActionPerformed(evt);
@@ -186,6 +194,7 @@ public class ExpensesView extends javax.swing.JFrame {
             expenseManager.remove(selectedExpense);
             this.showAllExpenses();
         } else if (selectedRow == -1) {
+            
             this.showMessage("No seleccionaste ninguna celda.");
         }
     }//GEN-LAST:event_removeButtonActionPerformed
@@ -200,29 +209,36 @@ public class ExpensesView extends javax.swing.JFrame {
     }//GEN-LAST:event_modifyButtonActionPerformed
 
     private void searchFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchFieldActionPerformed
-        
+         
     }//GEN-LAST:event_searchFieldActionPerformed
 
     private void SearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchButtonActionPerformed
        if (this.validData()) {
-            List foundExpense = this.getExpense(Integer.parseInt(this.searchField.getText()));
+            List foundExpense = this.getExpense(this.searchField.getText());
             this.showFoundExpense(foundExpense);
         }
     }//GEN-LAST:event_SearchButtonActionPerformed
 
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+
+        AdministratorView administratorView = new AdministratorView();
+        administratorView.setVisible(rootPaneCheckingEnabled);
+       // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowClosed
+
     
-    private List getExpense(int id) {
+    private List getExpense(String supplier) {
         ExpenseManager expenseManager = new ExpenseManagerImplementation();
-        List foundExpense = expenseManager.searchById(id);
+        List foundExpense = expenseManager.searchBySupplier(supplier);
         
         return foundExpense;
     }
     
     private List getExpenses() {
         ExpenseManager expenseManager = new ExpenseManagerImplementation();
-        List customers = expenseManager.getAll();
+        List expenses = expenseManager.getAll();
         
-        return customers;
+        return expenses;
     }
     
     public void showAllExpenses() {

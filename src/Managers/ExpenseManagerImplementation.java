@@ -38,4 +38,13 @@ public class ExpenseManagerImplementation extends GenericManagerImplementation<E
     
     private static final String EXPENSE_QUERY_SUPPLIER = "from Expense e where e.supplier like '";
 
+    @Override
+    public List<Expense> searchBySupplier(String supplier) {
+        List<Expense> expensesList = null;
+        expensesList = HQLQueryHelper.execute(QueryConstants.EXPENSE_QUERY_SUPPLIER
+                + supplier + QueryConstants.SIMILAR_TERMINATION_CHARACTER);
+
+        return expensesList;
+    }
+
 }

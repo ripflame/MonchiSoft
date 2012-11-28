@@ -209,6 +209,7 @@ public class CustomersView extends javax.swing.JFrame {
     }//GEN-LAST:event_modifyButtonActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+        
         if (this.validData()) {
             List foundCustomer = this.getCustomer(this.searchField.getText());
             this.showFoundCustomer(foundCustomer);
@@ -229,6 +230,7 @@ public class CustomersView extends javax.swing.JFrame {
             selectedCustomer.setId(idCustomer);
             CustomerManager customerManager = new CustomerManagerImplementation();
             customerManager.remove(selectedCustomer);
+            
             this.showAllCustomers();
         } else if (selectedRow == -1) {
             MessageDisplayManger.showInformation(MessageType.NO_CELL_SELECTED, this );
