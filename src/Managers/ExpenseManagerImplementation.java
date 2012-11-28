@@ -21,15 +21,6 @@ public class ExpenseManagerImplementation extends GenericManagerImplementation<E
     }
     
     @Override
-    public List<Expense> searchBySupplier(String supplier) {
-        List<Expense> expenses = null;
-        expenses = HQLQueryHelper.execute(EXPENSE_QUERY_SUPPLIER + supplier + 
-                QueryConstants.SIMILAR_TERMINATION_CHARACTER);
-        
-        return expenses;
-    }
-    
-    @Override
     public List<Expense> getAll() {
         List<Expense> expenses = super.getAll(Expense.class);
         
@@ -46,5 +37,4 @@ public class ExpenseManagerImplementation extends GenericManagerImplementation<E
 
         return expensesList;
     }
-
 }

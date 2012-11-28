@@ -214,7 +214,7 @@ public class ExpensesView extends javax.swing.JFrame {
 
     private void SearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchButtonActionPerformed
        if (this.validData()) {
-            List foundExpense = this.getExpense(this.searchField.getText());
+            List<Expense> foundExpense = this.getExpense(this.searchField.getText());
             this.showFoundExpense(foundExpense);
         }
     }//GEN-LAST:event_SearchButtonActionPerformed
@@ -229,14 +229,14 @@ public class ExpensesView extends javax.swing.JFrame {
     
     private List getExpense(String supplier) {
         ExpenseManager expenseManager = new ExpenseManagerImplementation();
-        List foundExpense = expenseManager.searchBySupplier(supplier);
+        List<Expense> foundExpense = expenseManager.searchBySupplier(supplier);
         
         return foundExpense;
     }
     
     private List getExpenses() {
         ExpenseManager expenseManager = new ExpenseManagerImplementation();
-        List expenses = expenseManager.getAll();
+        List<Expense> expenses = expenseManager.getAll();
         
         return expenses;
     }
@@ -284,6 +284,8 @@ public class ExpensesView extends javax.swing.JFrame {
             expenseData[4] = expense.getDate().toString();
             model.addRow(expenseData);
         }
+        this.expensesTable.setModel(model);
+        this.rowSelection();
     }
     
     

@@ -20,11 +20,11 @@ public class Sale  implements java.io.Serializable {
     public Sale() {
     }
 
-    public Sale(Date date, int finalProduct, double price, int client, double total) {
+    public Sale(Date date, int finalProductId, double price, int customerId, double total) {
        this.date = date;
-       this.finalProductId = finalProduct;
+       this.finalProductId = finalProductId;
        this.price = price;
-       this.customerId = client;
+       this.customerId = customerId;
        this.total = total;
     }
    
@@ -42,12 +42,12 @@ public class Sale  implements java.io.Serializable {
     public void setDate(Date date) {
         this.date = date;
     }
-    public int getFinalProduct() {
+    public int getFinalProductId() {
         return this.finalProductId;
     }
     
-    public void setFinalProduct(int finalProduct) {
-        this.finalProductId = finalProduct;
+    public void setFinalProductId(int finalProductId) {
+        this.finalProductId = finalProductId;
     }
     public double getPrice() {
         return this.price;
@@ -56,12 +56,12 @@ public class Sale  implements java.io.Serializable {
     public void setPrice(int price) {
         this.price = price;
     }
-    public int getClient() {
+    public int getCustomerId() {
         return this.customerId;
     }
     
-    public void setClient(int client) {
-        this.customerId = client;
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
     }
     public double getTotal() {
         return this.total;
