@@ -10,14 +10,14 @@ public class FinalProduct  implements java.io.Serializable {
 
 
      private Integer id;
-     private int baseProduct;
+     private int baseProductId;
      private double price;
 
     public FinalProduct() {
     }
 
     public FinalProduct(int baseProduct, double price) {
-       this.baseProduct = baseProduct;
+       this.baseProductId = baseProduct;
        this.price = price;
     }
    
@@ -29,11 +29,11 @@ public class FinalProduct  implements java.io.Serializable {
         this.id = id;
     }
     public int getBaseProduct() {
-        return this.baseProduct;
+        return this.baseProductId;
     }
     
     public void setBaseProduct(int baseProduct) {
-        this.baseProduct = baseProduct;
+        this.baseProductId = baseProduct;
     }
     public double getPrice() {
         return this.price;

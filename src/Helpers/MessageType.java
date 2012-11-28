@@ -11,5 +11,6 @@ package Helpers;
 public enum MessageType {
     NO_CELL_SELECTED,
     SEARCH_FIELD_EMPTY,
-    NO_COSTUMER_FOUND
+    NO_COSTUMER_FOUND,
+    EMPTY_FIELDS
 }
