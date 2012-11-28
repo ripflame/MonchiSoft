@@ -14,6 +14,7 @@ import java.util.List;
 public interface ExpenseManager extends GenericManager<Expense, Integer>{
     
     public List<Expense> searchById(Integer id);
+    public List<Expense> searchBySupplier(String supplier);
     public List<Expense> getAll();
     
 }

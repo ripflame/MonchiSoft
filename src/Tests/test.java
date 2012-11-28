@@ -69,7 +69,7 @@ public class test {
         }
         
         ExpenseManager expenseManager = new ExpenseManagerImplementation();
-        List<Expense> expenses = expenseManager.getAll();
+        List<Expense> expenses = expenseManager.searchBySupplier("walmart");
         System.out.println("Expenses: ");
         Iterator<Expense> expensesIterator = expenses.iterator();
         while (expensesIterator.hasNext()) {
