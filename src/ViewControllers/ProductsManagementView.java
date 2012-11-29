@@ -21,9 +21,9 @@ public class ProductsManagementView extends javax.swing.JFrame implements Action
     public ProductsManagementView() {
         initComponents();
         
-        baseProductRadioButton.setActionCommand("Hola");
-        toppingRadioButton.setActionCommand("1");
-        otherProductRadioButton.setActionCommand("2");
+        baseProductRadioButton.setActionCommand("Base Product");
+        toppingRadioButton.setActionCommand("Topping");
+        otherProductRadioButton.setActionCommand("Other Product");
         
         toppingRadioButton.addActionListener(this);
         otherProductRadioButton.addActionListener(this);
@@ -169,14 +169,19 @@ public class ProductsManagementView extends javax.swing.JFrame implements Action
     public void actionPerformed(ActionEvent e) {
         
         String comando = e.getActionCommand();
-        if (comando.equalsIgnoreCase("Hola")){
-           JOptionPane.showMessageDialog(null,"Hola");
+        if (comando.equalsIgnoreCase("Base Product")){
+           setBaseProductManagementComponents();
+           _baseProductManagementComponents.displayCaptureView();
         }
-        else {JOptionPane.showMessageDialog(null,"Ileana");}
+        else {JOptionPane.showMessageDialog(null,"No se ha implementado");}
    
 }
+
+    public void setBaseProductManagementComponents() {
+        this._baseProductManagementComponents = new BaseProductManagementComponents();
+    }
     
-    
+    private ManagementComponents _baseProductManagementComponents;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton baseProductRadioButton;
     private javax.swing.JToolBar managementToolBar;
