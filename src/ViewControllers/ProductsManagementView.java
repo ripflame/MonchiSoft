@@ -173,7 +173,7 @@ public class ProductsManagementView extends javax.swing.JFrame implements Action
            setBaseProductManagementComponents();
            _baseProductManagementComponents.displayCaptureView();
         }
-        else {JOptionPane.showMessageDialog(null,"No se ha implementado");}
+        else {JOptionPane.showMessageDialog(null,"No se ha implementado aún");}
    
 }
 
