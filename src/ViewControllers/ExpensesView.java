@@ -194,7 +194,7 @@ public class ExpensesView extends javax.swing.JFrame {
             this.showAllExpenses();
         } else if (selectedRow == -1) {
             
-            MessageDisplayManger.showError(MessageType.NO_CELL_SELECTED, this );
+            MessageDisplayManger.showInformation(MessageType.NO_CELL_SELECTED, this );
         }
     }//GEN-LAST:event_removeButtonActionPerformed
 
@@ -259,7 +259,7 @@ public class ExpensesView extends javax.swing.JFrame {
         DefaultTableModel model = this.createTableModel();
         if (expenses == null) {
             this.expensesTable.setModel(model);
-            MessageDisplayManger.showError(MessageType.NO_EXPENSE_FOUND, this );
+            MessageDisplayManger.showInformation(MessageType.NO_EXPENSE_FOUND, this );
             return;
         }
         
@@ -282,7 +282,7 @@ public class ExpensesView extends javax.swing.JFrame {
         DefaultTableModel model = this.createTableModel();
         if (expenseFound == null) {
             this.expensesTable.setModel(model);
-            MessageDisplayManger.showError(MessageType.NO_SUPPLIER_FOUND, this );
+            MessageDisplayManger.showInformation(MessageType.NO_SUPPLIER_FOUND, this );
             return;
         }
         
