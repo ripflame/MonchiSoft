@@ -162,7 +162,6 @@
     </Component>
     <Component class="java.awt.Button" name="SearchButton">
       <Properties>
-        <Property name="actionCommand" type="java.lang.String" value=""/>
         <Property name="label" type="java.lang.String" value="Buscar"/>
       </Properties>
       <Events>

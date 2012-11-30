@@ -28,12 +28,12 @@ public class FinalProduct  implements java.io.Serializable {
     public void setId(Integer id) {
         this.id = id;
     }
-    public int getBaseProduct() {
+    public int getBaseProductId() {
         return this.baseProductId;
     }
     
-    public void setBaseProduct(int baseProduct) {
-        this.baseProductId = baseProduct;
+    public void setBaseProductId(int baseProductId) {
+        this.baseProductId = baseProductId;
     }
     public double getPrice() {
         return this.price;
