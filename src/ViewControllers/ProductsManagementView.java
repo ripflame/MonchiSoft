@@ -20,24 +20,7 @@ public class ProductsManagementView extends javax.swing.JFrame implements Action
      */
     public ProductsManagementView() {
         initComponents();
-        
-        baseProductRadioButton.setActionCommand("Base Product");
-        toppingRadioButton.setActionCommand("Topping");
-        otherProductRadioButton.setActionCommand("Other Product");
-        
-        toppingRadioButton.addActionListener(this);
-        otherProductRadioButton.addActionListener(this);
-        
-        
-        ButtonGroup productsbuttonGroup = new ButtonGroup();
-        productsbuttonGroup.add(baseProductRadioButton);
-        productsbuttonGroup.add(toppingRadioButton);
-        productsbuttonGroup.add(otherProductRadioButton);
-        
-        baseProductRadioButton.addActionListener(this);
-        toppingRadioButton.addActionListener(this);
-        otherProductRadioButton.addActionListener(this);
-        
+        initButtonGruop();           
     }
 
     /**
@@ -169,18 +152,44 @@ public class ProductsManagementView extends javax.swing.JFrame implements Action
     public void actionPerformed(ActionEvent e) {
         
         String comando = e.getActionCommand();
-        if (comando.equalsIgnoreCase("Base Product")){
+        
+        if (comando.equalsIgnoreCase(BASE_PRODUCT_COMMAND)){
            setBaseProductManagementComponents();
            _baseProductManagementComponents.displayCaptureView();
-        }
-        else {JOptionPane.showMessageDialog(null,"No se ha implementado aún");}
+        } else if (comando.equalsIgnoreCase(OTHER_PRODUCT_COMMAND)){
+            setBaseProductManagementComponents();
+            _baseProductManagementComponents.displayCaptureView();
+        } else if (comando.equalsIgnoreCase(TOPPING_COMMAND)){
+            setBaseProductManagementComponents();
+            _baseProductManagementComponents.displayCaptureView();        
+        } else {JOptionPane.showMessageDialog(null,"No se ha implementado aún");}
    
-}
+    }
 
+    private void initButtonGruop (){    
+        baseProductRadioButton.setActionCommand(BASE_PRODUCT_COMMAND);
+        toppingRadioButton.setActionCommand(OTHER_PRODUCT_COMMAND);
+        otherProductRadioButton.setActionCommand(TOPPING_COMMAND);
+                        
+        ButtonGroup productsbuttonGroup = new ButtonGroup();
+        productsbuttonGroup.add(baseProductRadioButton);
+        productsbuttonGroup.add(toppingRadioButton);
+        productsbuttonGroup.add(otherProductRadioButton);
+        
+        baseProductRadioButton.addActionListener(this);
+        toppingRadioButton.addActionListener(this);
+        otherProductRadioButton.addActionListener(this);
+    
+    }
+    
     public void setBaseProductManagementComponents() {
         this._baseProductManagementComponents = new BaseProductManagementComponents();
     }
     
+    private static final String BASE_PRODUCT_COMMAND = "Base";
+    private static final String OTHER_PRODUCT_COMMAND = "Otro";
+    private static final String TOPPING_COMMAND = "Topping";
+
     private ManagementComponents _baseProductManagementComponents;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton baseProductRadioButton;
