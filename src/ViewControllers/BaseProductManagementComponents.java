@@ -104,6 +104,34 @@ public class BaseProductManagementComponents implements ManagementComponents, Ac
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        
+        String command = e.getActionCommand();
+        
+        if (command.equalsIgnoreCase(NEW_COMMAND)) {
+        } else if (command.equalsIgnoreCase(MODIFY_COMMAND)){
+        } else if (command.equalsIgnoreCase(REMOVE_COMMAND)){
+        } else if (command.equalsIgnoreCase(SHOW_ALL_COMMAND)){
+        } else {
+        } 
+    }
+
+    @Override
+    public void performRemovalProcedures() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void performModificationProcedures() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void performAddingProcedures() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void performSearchingProcedures() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
