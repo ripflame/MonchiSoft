@@ -24,7 +24,7 @@ public class LauncherMonchiSoft {
         ProductsManagement productsManagementGUI = new ProductsManagement ();
         BaseProduct baseProduct = new BaseProduct();
         ProductsController productsController = new ProductsController(productsManagementGUI, baseProduct);
-        productsController.DisplayProductsManagement();
+        productsController.finishAndDisplayProductsManagement();
     }
 
 }
