@@ -49,9 +49,9 @@ public class ProductsController implements ActionListener{
         if (optionSelected.equalsIgnoreCase(m_productsManagementGUI.BASE_PRODUCT_COMMAND)){
             this.m_productsManagementGUI.addActionsListener(m_baseProductManagementComponents);
         } else if (optionSelected.equalsIgnoreCase(m_productsManagementGUI.OTHER_PRODUCT_COMMAND)){
-            m_baseProductManagementComponents.getModelTable();
+            this.m_productsManagementGUI.addActionsListener(m_otherProductManagementComponents);
         } else if (optionSelected.equalsIgnoreCase(m_productsManagementGUI.TOPPING_COMMAND)){
-            m_baseProductManagementComponents.getModelTable();        
+            this.m_productsManagementGUI.addActionsListener(m_toppingManagementComponents);        
         } else {JOptionPane.showMessageDialog(null,"Ha ocurrido un evento que no se ha considerado");}
    
     }
@@ -94,8 +94,8 @@ public class ProductsController implements ActionListener{
     private BaseProductManager m_baseProductManager;
     
     private BaseProductManagementComponents m_baseProductManagementComponents;
-    private ManagementComponents m_otherProductManagementComponents;
-    private ManagementComponents m_toppingManagementComponents;
+    private OtherProductManagementComponents m_otherProductManagementComponents;
+    private ToppingManagementComponents m_toppingManagementComponents;
     private DefaultTableModel m_baseProductTableModel;
     private DefaultTableModel m_toppingTableModel;
     private DefaultTableModel m_otherProductTableModel;
