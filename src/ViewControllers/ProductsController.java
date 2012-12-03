@@ -9,7 +9,6 @@ import Managers.BaseProductManager;
 import Managers.BaseProductManagerImplementation;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -24,23 +23,23 @@ public class ProductsController implements ActionListener{
     ProductsController(ProductsManagement productsManagementGUI, BaseProduct baseProduct) {
         this.m_productsManagementGUI = productsManagementGUI;
         this.m_baseProduct = baseProduct;
-        this.m_baseProductManager = new BaseProductManagerImplementation();
-        
+        this.m_baseProductManager = new BaseProductManagerImplementation();        
     }
 
+    
     //Constructor utilizado en AdministratorView
     public ProductsController() {
         this.m_productsManagementGUI = new ProductsManagement ();
     }
     
     
-    public void DisplayProductsManagement (){
-        m_productsManagementGUI.setVisible(true);
+    public void finishAndDisplayProductsManagement (){
         m_productsManagementGUI.initButtonGroup();
-        addListener();
+        addButtonGroupListener();
+        initManagementComponents();
+        m_productsManagementGUI.setVisible(true);
     }
 
-    
      
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -48,7 +47,7 @@ public class ProductsController implements ActionListener{
         String optionSelected = e.getActionCommand();
         
         if (optionSelected.equalsIgnoreCase(m_productsManagementGUI.BASE_PRODUCT_COMMAND)){
-            //productsTable.setModel(m_baseProductTableModel);
+            this.m_productsManagementGUI.addActionsListener(m_baseProductManagementComponents);
         } else if (optionSelected.equalsIgnoreCase(m_productsManagementGUI.OTHER_PRODUCT_COMMAND)){
             m_baseProductManagementComponents.getModelTable();
         } else if (optionSelected.equalsIgnoreCase(m_productsManagementGUI.TOPPING_COMMAND)){
@@ -57,17 +56,21 @@ public class ProductsController implements ActionListener{
    
     }
     
+    
     private void setBaseProductManagementComponents() {
         this.m_baseProductManagementComponents = new BaseProductManagementComponents();
     }
+    
     
     private void setToppingManagementComponents() {
         this.m_toppingManagementComponents = new ToppingManagementComponents();
     }
     
+    
     private void setOtherProductManagementComponents() {
         this.m_otherProductManagementComponents = new OtherProductManagementComponents();
     }
+    
     
     private void initManagementComponents(){
         setBaseProductManagementComponents();
@@ -76,22 +79,21 @@ public class ProductsController implements ActionListener{
         
         m_baseProductTableModel = m_baseProductManagementComponents.getModelTable();
         m_productsManagementGUI.productsTable.setModel(m_baseProductTableModel);
-   
     }
     
     
-    private void addListener(){
+    private void addButtonGroupListener(){
         m_productsManagementGUI.baseProductRadioButton.addActionListener(this);
         m_productsManagementGUI.toppingRadioButton.addActionListener(this);
         m_productsManagementGUI.otherProductRadioButton.addActionListener(this);
-    
     }
 
+    
     private ProductsManagement m_productsManagementGUI;
     private BaseProduct m_baseProduct;
     private BaseProductManager m_baseProductManager;
     
-    private ManagementComponents m_baseProductManagementComponents;
+    private BaseProductManagementComponents m_baseProductManagementComponents;
     private ManagementComponents m_otherProductManagementComponents;
     private ManagementComponents m_toppingManagementComponents;
     private DefaultTableModel m_baseProductTableModel;
