@@ -5,6 +5,7 @@
 package ViewControllers;
 
 import java.awt.HeadlessException;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -13,14 +14,11 @@ import java.awt.HeadlessException;
 public abstract class ManagementComponents extends javax.swing.JFrame{
 
     public ManagementComponents() throws HeadlessException {
-    }
+            
+   }                      
     
-    
+    //public abstract void 
+    public abstract DefaultTableModel getModelTable ();
     public abstract void displayCaptureView ();
-    public abstract void displayProductsTable ();
     
-        
-    private javax.swing.JTable _productsTable;
-    private javax.swing.JFrame _captureFrame;
-       
 }
