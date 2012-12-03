@@ -4,12 +4,8 @@
  */
 package ViewControllers;
 
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.ButtonGroup;
-import javax.swing.JOptionPane;
-import javax.swing.JRadioButton;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -21,10 +17,7 @@ public class ProductsManagement extends javax.swing.JFrame {
      * Creates new form ProductsView
      */
     public ProductsManagement() {
-        initComponents();
-        initButtonGroup();
-        //initManagementComponents();
-       
+        initComponents(); 
     }
 
     /**
@@ -132,7 +125,7 @@ public class ProductsManagement extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-        public void addActionsListener (ActionListener commandsListener){
+    public void addActionsListener (ActionListener commandsListener){
         this.newButton.addActionListener(commandsListener);
         this.modifyButton.addActionListener(commandsListener);
         this.removeButton.addActionListener(commandsListener);
@@ -147,8 +140,7 @@ public class ProductsManagement extends javax.swing.JFrame {
         ButtonGroup productsButtonGroup = new ButtonGroup();
         productsButtonGroup.add(baseProductRadioButton);
         productsButtonGroup.add(toppingRadioButton);
-        productsButtonGroup.add(otherProductRadioButton);
-        
+        productsButtonGroup.add(otherProductRadioButton);   
     }    
         
     public final String BASE_PRODUCT_COMMAND = "Base";
