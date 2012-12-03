@@ -105,7 +105,7 @@ public class AdministratorView extends javax.swing.JFrame {
 
     private void ProductsModuleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProductsModuleActionPerformed
         ProductsController productsController = new ProductsController();
-        productsController.DisplayProductsManagement();
+        productsController.finishAndDisplayProductsManagement();
         this.dispose();
     }//GEN-LAST:event_ProductsModuleActionPerformed
 
