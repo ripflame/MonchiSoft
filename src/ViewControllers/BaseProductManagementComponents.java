@@ -10,6 +10,8 @@ import Helpers.MessageType;
 import Managers.BaseProductManager;
 import Managers.BaseProductManagerImplementation;
 import java.awt.HeadlessException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -19,7 +21,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Ileana Guadalupe Ontiveros Mena
  */
-public class BaseProductManagementComponents extends ManagementComponents{
+public class BaseProductManagementComponents implements ManagementComponents, ActionListener{
 
     public BaseProductManagementComponents() throws HeadlessException {
         
@@ -59,7 +61,7 @@ public class BaseProductManagementComponents extends ManagementComponents{
         
         if (products == null) {
            
-            MessageDisplayManger.showInformation(MessageType.NO_COSTUMER_FOUND, this );
+            //MessageDisplayManger.showInformation(MessageType.NO_COSTUMER_FOUND);
             return model;
         }
         else{
@@ -98,6 +100,11 @@ public class BaseProductManagementComponents extends ManagementComponents{
         model.setColumnIdentifiers(columnNames);
         
         return model;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
 }
