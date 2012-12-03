@@ -8,21 +8,22 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Ileana Guadalupe Ontiveros Mena
  */
-public class ProductsManagement extends javax.swing.JFrame implements ActionListener{
+public class ProductsManagement extends javax.swing.JFrame {
 
     /**
      * Creates new form ProductsView
      */
     public ProductsManagement() {
         initComponents();
-        initButtonGruop();
-        initManagementComponents();
+        initButtonGroup();
+        //initManagementComponents();
        
     }
 
@@ -131,23 +132,14 @@ public class ProductsManagement extends javax.swing.JFrame implements ActionList
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-   
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        
-        String optionSelected = e.getActionCommand();
-        
-        if (optionSelected.equalsIgnoreCase(BASE_PRODUCT_COMMAND)){
-            //productsTable.setModel(m_baseProductTableModel);
-        } else if (optionSelected.equalsIgnoreCase(OTHER_PRODUCT_COMMAND)){
-            m_baseProductManagementComponents.getModelTable();
-        } else if (optionSelected.equalsIgnoreCase(TOPPING_COMMAND)){
-            m_baseProductManagementComponents.getModelTable();        
-        } else {JOptionPane.showMessageDialog(null,"Ha ocurrido un evento que no se ha considerado");}
-   
+        public void addActionsListener (ActionListener commandsListener){
+        this.newButton.addActionListener(commandsListener);
+        this.modifyButton.addActionListener(commandsListener);
+        this.removeButton.addActionListener(commandsListener);
+        this.showAllButton.addActionListener(commandsListener);
     }
-
-    private void initButtonGruop (){    
+    
+    public void initButtonGroup (){    
         baseProductRadioButton.setActionCommand(BASE_PRODUCT_COMMAND);
         toppingRadioButton.setActionCommand(OTHER_PRODUCT_COMMAND);
         otherProductRadioButton.setActionCommand(TOPPING_COMMAND);
@@ -157,63 +149,24 @@ public class ProductsManagement extends javax.swing.JFrame implements ActionList
         productsButtonGroup.add(toppingRadioButton);
         productsButtonGroup.add(otherProductRadioButton);
         
-        baseProductRadioButton.addActionListener(this);
-        toppingRadioButton.addActionListener(this);
-        otherProductRadioButton.addActionListener(this);
-    }
-    
-    public void addActionsListener (ActionListener commandsListener){
-        this.newButton.addActionListener(commandsListener);
-        this.modifyButton.addActionListener(commandsListener);
-        this.removeButton.addActionListener(commandsListener);
-        this.showAllButton.addActionListener(commandsListener);
-    }
-    
-    private void setBaseProductManagementComponents() {
-        this.m_baseProductManagementComponents = new BaseProductManagementComponents();
-    }
-    
-    private void setToppingManagementComponents() {
-        this.m_toppingManagementComponents = new ToppingManagementComponents();
-    }
-    
-    private void setOtherProductManagementComponents() {
-        this.m_otherProductManagementComponents = new OtherProductManagementComponents();
-    }
-     
-    private void initManagementComponents(){
-        setBaseProductManagementComponents();
-        setToppingManagementComponents();
-        setOtherProductManagementComponents();
+    }    
         
-        m_baseProductTableModel = m_baseProductManagementComponents.getModelTable();
-        productsTable.setModel(m_baseProductTableModel);
-
-        
-    }
-   
-    private static final String BASE_PRODUCT_COMMAND = "Base";
-    private static final String OTHER_PRODUCT_COMMAND = "Otro";
-    private static final String TOPPING_COMMAND = "Topping";
-
-    private ManagementComponents m_baseProductManagementComponents;
-    private ManagementComponents m_otherProductManagementComponents;
-    private ManagementComponents m_toppingManagementComponents;
-    private DefaultTableModel m_baseProductTableModel;
-    private DefaultTableModel m_toppingTableModel;
-    private DefaultTableModel m_otherProductTableModel;
+    public final String BASE_PRODUCT_COMMAND = "Base";
+    public final String OTHER_PRODUCT_COMMAND = "Otro";
+    public final String TOPPING_COMMAND = "Topping";
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JRadioButton baseProductRadioButton;
+    public javax.swing.JRadioButton baseProductRadioButton;
     private javax.swing.JToolBar managementToolBar;
     private javax.swing.JButton modifyButton;
     private javax.swing.JButton newButton;
     private javax.swing.JSeparator optionsSeparator;
-    private javax.swing.JRadioButton otherProductRadioButton;
+    public javax.swing.JRadioButton otherProductRadioButton;
     private javax.swing.ButtonGroup productsButtonGroup;
     private javax.swing.JScrollPane productsScrollPane;
-    private javax.swing.JTable productsTable;
+    public javax.swing.JTable productsTable;
     private javax.swing.JButton removeButton;
     private javax.swing.JButton showAllButton;
-    private javax.swing.JRadioButton toppingRadioButton;
+    public javax.swing.JRadioButton toppingRadioButton;
     // End of variables declaration//GEN-END:variables
 }
