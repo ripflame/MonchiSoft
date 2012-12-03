@@ -4,19 +4,15 @@
  */
 package ViewControllers;
 
-import java.awt.HeadlessException;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Ileana Guadalupe Ontiveros Mena
  */
-public abstract class ManagementComponents extends javax.swing.JFrame{
 
-    public ManagementComponents() throws HeadlessException {
-            
-   }                      
-    
+public interface ManagementComponents {
+     
     //public abstract void 
     public abstract DefaultTableModel getModelTable ();
     public abstract void displayCaptureView ();
