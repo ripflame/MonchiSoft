@@ -104,7 +104,8 @@ public class AdministratorView extends javax.swing.JFrame {
     }//GEN-LAST:event_CustomersModuleActionPerformed
 
     private void ProductsModuleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProductsModuleActionPerformed
-        createAndDisplayProductsManagement ();
+        ProductsController productsController = new ProductsController();
+        productsController.DisplayProductsManagement();
         this.dispose();
     }//GEN-LAST:event_ProductsModuleActionPerformed
 
@@ -117,11 +118,6 @@ public class AdministratorView extends javax.swing.JFrame {
         expensesModule.setVisible(rootPaneCheckingEnabled);
         this.dispose();
     }//GEN-LAST:event_ExpensesModuleActionPerformed
-
-    private void createAndDisplayProductsManagement (){
-        ProductsManagement productsManagementGUI = new ProductsManagement();
-        productsManagementGUI.setVisible(rootPaneCheckingEnabled);
-    }
     
     /**
      * @param args the command line arguments
