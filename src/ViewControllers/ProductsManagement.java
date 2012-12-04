@@ -49,18 +49,21 @@ public class ProductsManagement extends javax.swing.JFrame {
         managementToolBar.setRollover(true);
 
         newButton.setText("Nuevo");
+        newButton.setEnabled(false);
         newButton.setFocusable(false);
         newButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         newButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         managementToolBar.add(newButton);
 
         modifyButton.setText("Modificar");
+        modifyButton.setEnabled(false);
         modifyButton.setFocusable(false);
         modifyButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         modifyButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         managementToolBar.add(modifyButton);
 
         removeButton.setText("Eliminar");
+        removeButton.setEnabled(false);
         removeButton.setFocusable(false);
         removeButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         removeButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -122,6 +125,30 @@ public class ProductsManagement extends javax.swing.JFrame {
         this.newButton.addActionListener(commandsListener);
         this.modifyButton.addActionListener(commandsListener);
         this.removeButton.addActionListener(commandsListener);
+    }
+    
+    public void disableNewButton (){
+        this.newButton.setEnabled(false);
+    }
+    
+    public void disableModifyButton (){
+        this.modifyButton.setEnabled(false);
+    }
+    
+    public void disableRemoveButton (){
+        this.removeButton.setEnabled(false);
+    }
+    
+    public void enableNewButton (){
+        this.newButton.setEnabled(true);
+    }
+    
+    public void enableModifyButton (){
+        this.modifyButton.setEnabled(true);
+    }
+    
+    public void enableRemoveButton (){
+        this.removeButton.setEnabled(true);
     }
     
     public void initButtonGroup (){                           
