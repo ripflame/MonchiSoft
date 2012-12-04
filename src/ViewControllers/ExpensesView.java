@@ -7,11 +7,10 @@ package ViewControllers;
 
 import Entities.Expense;
 import Helpers.MessageDisplayManger;
+import Helpers.MessageType;
 import Managers.ExpenseManager;
 import Managers.ExpenseManagerImplementation;
 import java.sql.Date;
-import java.text.SimpleDateFormat;
-
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -195,7 +194,7 @@ public class ExpensesView extends javax.swing.JFrame {
             this.showAllExpenses();
         } else if (selectedRow == -1) {
             
-            this.showMessage("No seleccionaste ninguna celda.");
+            MessageDisplayManger.showInformation(MessageType.NO_CELL_SELECTED, this );
         }
     }//GEN-LAST:event_removeButtonActionPerformed
 
@@ -205,7 +204,21 @@ public class ExpensesView extends javax.swing.JFrame {
     }//GEN-LAST:event_showAllButtonActionPerformed
 
     private void modifyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyButtonActionPerformed
-        // TODO add your handling code here:
+       int selectedRow = this.expensesTable.getSelectedRow();        
+        if (selectedRow > -1) {
+            int expenseID = Integer.parseInt((String) this.expensesTable.getValueAt(selectedRow, 0));
+            String supplierName = (String) this.expensesTable.getValueAt(selectedRow, 1);
+            String description = (String) this.expensesTable.getValueAt(selectedRow, 2);
+            Double total =  Double.parseDouble((String)this.expensesTable.getValueAt(selectedRow, 3));
+            Date date =  Date.valueOf((String)this.expensesTable.getValueAt(selectedRow,4));
+            Expense selectedExpense = new Expense(date,supplierName,description,total);
+            selectedExpense.setId(expenseID);
+            CaptureExpenseDataView modifyExpenseView = new CaptureExpenseDataView(this, true, selectedExpense);
+            modifyExpenseView.setLocationRelativeTo(this);
+            modifyExpenseView.setVisible(true);
+        } else if (selectedRow == -1) {
+            MessageDisplayManger.showInformation(MessageType.NO_CELL_SELECTED, this );
+        } // TODO add your handling code here:
     }//GEN-LAST:event_modifyButtonActionPerformed
 
     private void searchFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchFieldActionPerformed
@@ -246,7 +259,7 @@ public class ExpensesView extends javax.swing.JFrame {
         DefaultTableModel model = this.createTableModel();
         if (expenses == null) {
             this.expensesTable.setModel(model);
-            this.showMessage("No se encontró ningún cliente.");
+            MessageDisplayManger.showInformation(MessageType.NO_EXPENSE_FOUND, this );
             return;
         }
         
@@ -269,7 +282,7 @@ public class ExpensesView extends javax.swing.JFrame {
         DefaultTableModel model = this.createTableModel();
         if (expenseFound == null) {
             this.expensesTable.setModel(model);
-            this.showMessage("No se encontró ningun provedor.");
+            MessageDisplayManger.showInformation(MessageType.NO_SUPPLIER_FOUND, this );
             return;
         }
         
@@ -293,7 +306,7 @@ public class ExpensesView extends javax.swing.JFrame {
         boolean validData = true;
 
         if (this.searchField.getText().isEmpty()) {
-            this.showError("No escribiste nada en el campo de búsqueda.");
+            MessageDisplayManger.showError(MessageType.SEARCH_FIELD_EMPTY, this );
             validData = false;
         } 
 
