@@ -47,7 +47,6 @@ public class CustomersView extends javax.swing.JFrame {
         searchButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         customersTable = new javax.swing.JTable();
-        backButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gestión de Clientes");
@@ -141,13 +140,6 @@ public class CustomersView extends javax.swing.JFrame {
         jScrollPane1.setViewportView(customersTable);
         customersTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
-        backButton.setText("Regresar");
-        backButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                backButtonActionPerformed(evt);
-            }
-        });
-
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -160,12 +152,9 @@ public class CustomersView extends javax.swing.JFrame {
                         .add(0, 0, Short.MAX_VALUE)
                         .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 430, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(layout.createSequentialGroup()
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(layout.createSequentialGroup()
-                                .add(searchField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 339, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(searchButton))
-                            .add(backButton))
+                        .add(searchField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 339, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(searchButton)
                         .add(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -179,9 +168,7 @@ public class CustomersView extends javax.swing.JFrame {
                     .add(searchButton))
                 .add(18, 18, 18)
                 .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 233, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(backButton)
-                .addContainerGap())
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         pack();
@@ -236,12 +223,6 @@ public class CustomersView extends javax.swing.JFrame {
             MessageDisplayManger.showInformation(MessageType.NO_CELL_SELECTED, this );
         }
     }//GEN-LAST:event_removeButtonActionPerformed
-
-    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
-        AdministratorView administratorView = new AdministratorView();
-        administratorView.setVisible(rootPaneCheckingEnabled);
-        this.dispose();
-    }//GEN-LAST:event_backButtonActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         AdministratorView administratorView = new AdministratorView();
@@ -339,7 +320,6 @@ public class CustomersView extends javax.swing.JFrame {
         this.customersTable.setRowSelectionAllowed(true);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton backButton;
     private javax.swing.JTable customersTable;
     private javax.swing.Box.Filler filler1;
     private javax.swing.ButtonGroup filtroBusqueda;
