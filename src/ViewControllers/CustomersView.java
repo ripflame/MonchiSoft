@@ -305,7 +305,7 @@ public class CustomersView extends javax.swing.JFrame {
             model.addRow(customerData);
         }
         this.customersTable.setModel(model);
-        this.rowSelection();
+        this.rowSelectionProperties();
     }
 
     private void showFoundCustomer(List customerFound) {
@@ -327,10 +327,10 @@ public class CustomersView extends javax.swing.JFrame {
         }
 
         this.customersTable.setModel(model);
-        this.rowSelection();
+        this.rowSelectionProperties();
     }
 
-    private void rowSelection() {
+    private void rowSelectionProperties() {
         this.customersTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         this.customersTable.setCellSelectionEnabled(false);
         this.customersTable.setRowSelectionAllowed(true);
