@@ -15,6 +15,7 @@ public class MessageDisplayManger {
     private static final String EMPTY_FIELDS_STRING = "No todos los campos han sido llenados";
     private static final String INFORMATION_DIALOG_TITLE = "Información";
     private static final String ERROR_DIALOG_TITLE = "Error";
+    private static final String NO_EXPENSE_FOUND = "No se encontró el gasto";
     
     public static void showInformation(MessageType type, Window parentFrame) {
         String dialogMessage = getMessageStringFromType(type);
@@ -52,9 +53,14 @@ public class MessageDisplayManger {
                 
             case NO_SUPPLIER_FOUND:
                 messageString = NO_SUPPLIER_FOUND_STRING;
+                break;
             
             case EMPTY_FIELDS:
                 messageString = EMPTY_FIELDS_STRING;
+                break;
+                
+            case NO_EXPENSE_FOUND:
+                messageString = NO_EXPENSE_FOUND;
                 break;
         }
         
