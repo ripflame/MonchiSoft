@@ -8,11 +8,14 @@ import Managers.BaseProductManager;
 import Entities.BaseProduct;
 import Entities.Customer;
 import Entities.FinalProduct;
+import Entities.OtherProduct;
 import Entities.Topping;
 import Helpers.Size;
 import Managers.BaseProductManagerImplementation;
 import Managers.FinalProductManager;
 import Managers.FinalProductManagerImplementation;
+import Managers.OtherProductManager;
+import Managers.OtherProductManagerImplementation;
 import Managers.ToppingManager;
 import Managers.ToppingManagerImplementation;
 import java.util.ArrayList;
@@ -34,7 +37,6 @@ public class SalesModule extends javax.swing.JFrame {
         initComponents();
         BaseProductManager baseProductManager = new BaseProductManagerImplementation();
         List baseProductsList = baseProductManager.getAll();
-        int i = 0;
         Iterator<BaseProduct> iterator = baseProductsList.iterator();
         while (iterator.hasNext()) {
             BaseProduct currentBase = iterator.next();
@@ -45,23 +47,31 @@ public class SalesModule extends javax.swing.JFrame {
         m_productSizeComboBox.addItem(Size.MEDIUM);
         m_productSizeComboBox.addItem(Size.LARGE);
         
-        ToppingManager toppingManager = new ToppingManagerImplementation();
-        List toppingsList = toppingManager.getAll();
+        //List toppingsList = toppingManager.getAll();
         m_firstToppingComboBox.setVisible(true);
         m_secondToppingComboBox.setVisible(true);
         m_thirdToppingComboBox.setVisible(true);
         m_fourthToppingComboBox.setVisible(false);
         m_fifthToppingComboBox.setVisible(false);
+        ToppingManager toppingManager = new ToppingManagerImplementation();
         List toppingList = toppingManager.getAll();
         Iterator<Topping> toppingIterator = toppingList.iterator();
         while (toppingIterator.hasNext()) {
             Topping currentTopping = toppingIterator.next();
-            m_baseProductComboBox.addItem(currentTopping.getName());
+            //m_baseProductComboBox.addItem(currentTopping.getName());
             m_firstToppingComboBox.addItem(currentTopping.getName());
             m_secondToppingComboBox.addItem(currentTopping.getName());
             m_thirdToppingComboBox.addItem(currentTopping.getName());
             m_fourthToppingComboBox.addItem(currentTopping.getName());
             m_fifthToppingComboBox.addItem(currentTopping.getName());
+        }
+        
+        OtherProductManager otherProductManager = new OtherProductManagerImplementation();
+        List otherProductsList = otherProductManager.getAll();
+        Iterator<OtherProduct> otherProductsIterator = otherProductsList.iterator();
+        while (otherProductsIterator.hasNext()) {
+            OtherProduct currentOtherProduct = otherProductsIterator.next();
+            m_otherProductsComboBox.addItem(currentOtherProduct.getName());
         }
     }
 
@@ -101,6 +111,9 @@ public class SalesModule extends javax.swing.JFrame {
         m_discountCashLabel = new javax.swing.JLabel();
         m_discountCashField = new javax.swing.JTextField();
         m_deleteProductButton = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -157,11 +170,11 @@ public class SalesModule extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Descripción", "Precio"
+                "ID", "Descripción", "Toppings", "Precio"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -213,6 +226,10 @@ public class SalesModule extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Buscar");
+
+        jLabel1.setText("Cliente");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -241,10 +258,6 @@ public class SalesModule extends javax.swing.JFrame {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(layout.createSequentialGroup()
-                                    .addComponent(m_otherProductsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(m_otherProductButton))
-                                .addGroup(layout.createSequentialGroup()
                                     .addComponent(m_baseProductComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                     .addComponent(m_productSizeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -266,7 +279,17 @@ public class SalesModule extends javax.swing.JFrame {
                                             .addComponent(m_baseProductAddButton))
                                         .addGroup(layout.createSequentialGroup()
                                             .addGap(30, 30, 30)
-                                            .addComponent(m_extraTopping))))))
+                                            .addComponent(m_extraTopping))))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(m_otherProductsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(m_otherProductButton)
+                                    .addGap(36, 36, 36)
+                                    .addComponent(jLabel1)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 743, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(m_deleteProductButton)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -293,11 +316,19 @@ public class SalesModule extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(m_baseProductComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(m_productSizeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(12, 12, 12)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(m_otherProductsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(m_searchOtherProduct)
-                    .addComponent(m_otherProductButton))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(m_otherProductsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(m_searchOtherProduct)
+                            .addComponent(m_otherProductButton)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1)
+                            .addComponent(jLabel1))))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -328,23 +359,103 @@ public class SalesModule extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
-    public void addProductToTable(int id){
+    private int addProductToTable(){
         DefaultTableModel tableModel = (DefaultTableModel) m_productTable.getModel();
-        FinalProductManager finalProductManager = new FinalProductManagerImplementation();
-        List finalProductList = finalProductManager.searchById(id);
-        String[] rowToAdd = new String[ROW_ELEMENTS];
-        Iterator<FinalProduct> finalProductIterator = finalProductList.iterator();
-        FinalProduct finalProductToAdd = finalProductIterator.next();
         BaseProductManager baseProductManager = new BaseProductManagerImplementation();
-        List<BaseProduct> baseProductList = baseProductManager.searchById(finalProductToAdd.getBaseProductId());
-        Iterator<BaseProduct> baseProductIterator = baseProductList.iterator();
-        BaseProduct baseProductToAdd = baseProductIterator.next();
-        rowToAdd[0] = baseProductToAdd.getName();
-        rowToAdd[1] = String.valueOf(finalProductToAdd.getPrice());
-        tableModel.addRow(rowToAdd);
-        calculateDiscounts();  
+        String selectedBaseProductName = (String) m_baseProductComboBox.getSelectedItem();
+        List baseProductList = baseProductManager.searchByName(selectedBaseProductName);
+        String[] rowToAdd = new String[ROW_ELEMENTS];
+        BaseProduct baseProductFound = (BaseProduct) baseProductList.get(0);
+        rowToAdd[NAME_COLUMN] = baseProductFound.getName();
+        int baseProductId = baseProductFound.getId();
+        
+        Size selectedSize = (Size) m_productSizeComboBox.getSelectedItem(); 
+        switch(selectedSize){
+            case SMALL :
+                String toppings = 
+                        m_firstToppingComboBox.getSelectedItem() +
+                        SPACE +
+                        m_secondToppingComboBox.getSelectedItem() +
+                        SPACE +
+                        m_thirdToppingComboBox.getSelectedItem();
+                rowToAdd[TOPPINGS_COLUMN] = toppings ;
+                double baseProductPrice = baseProductFound.getSmallPrice();
+                rowToAdd[PRICE_COLUMN] = String.valueOf(baseProductPrice);
+                FinalProduct finalProductToAdd = new FinalProduct(baseProductId, baseProductPrice);
+                FinalProductManager finalProductManager = new FinalProductManagerImplementation();
+                finalProductManager.add(finalProductToAdd);
+                System.out.println(finalProductToAdd.getId());
+                int finalProductId = finalProductToAdd.getId();
+                rowToAdd[ID_COLUMN] = String.valueOf(finalProductId);
+                tableModel.addRow(rowToAdd);
+                calculateDiscounts();
+                return finalProductId;
+            case MEDIUM :
+                toppings = 
+                        m_firstToppingComboBox.getSelectedItem() +
+                        SPACE +
+                        m_secondToppingComboBox.getSelectedItem() +
+                        SPACE +
+                        m_thirdToppingComboBox.getSelectedItem() +
+                        SPACE +
+                        m_fourthToppingComboBox.getSelectedItem();
+                rowToAdd[TOPPINGS_COLUMN] = toppings ;
+                baseProductPrice = baseProductFound.getMediumPrice();
+                rowToAdd[PRICE_COLUMN] = String.valueOf(baseProductPrice);
+                finalProductToAdd = new FinalProduct(baseProductId, baseProductPrice);
+                finalProductManager = new FinalProductManagerImplementation();
+                finalProductManager.add(finalProductToAdd);
+                finalProductId = finalProductToAdd.getId();
+                rowToAdd[ID_COLUMN] = String.valueOf(finalProductId);
+                tableModel.addRow(rowToAdd);
+                calculateDiscounts();
+                return finalProductId;
+            case LARGE :
+                toppings = 
+                        m_firstToppingComboBox.getSelectedItem() +
+                        SPACE +
+                        m_secondToppingComboBox.getSelectedItem() +
+                        SPACE +
+                        m_thirdToppingComboBox.getSelectedItem() +
+                        SPACE +
+                        m_fourthToppingComboBox.getSelectedItem() +
+                        SPACE +
+                        m_fifthToppingComboBox.getSelectedItem();
+                rowToAdd[TOPPINGS_COLUMN] = toppings ;
+                baseProductPrice = baseProductFound.getLargePrice();
+                rowToAdd[PRICE_COLUMN] = String.valueOf(baseProductPrice);
+                finalProductToAdd = new FinalProduct(baseProductId, baseProductPrice);
+                finalProductManager = new FinalProductManagerImplementation();
+                finalProductManager.add(finalProductToAdd);
+                finalProductId = finalProductToAdd.getId();
+                rowToAdd[ID_COLUMN] = String.valueOf(finalProductId);
+                tableModel.addRow(rowToAdd);
+                calculateDiscounts();
+                return finalProductId;
+            default :
+                return 0;
+        }  
     }
     
+    public void addExtraToppingToTable(String toppingName, double toppingPrice, int productId) {
+        int currentProductRow = m_productTable.getRowCount() - 1;
+        
+        String oldToppings = (String) m_productTable.getValueAt(currentProductRow, TOPPINGS_COLUMN);
+        String currentToppings = oldToppings + SPACE + toppingName;
+        m_productTable.setValueAt(currentToppings, currentProductRow, TOPPINGS_COLUMN);
+        
+        double oldPrice = Double.parseDouble((String)m_productTable.getValueAt(currentProductRow, PRICE_COLUMN));
+        double currentPrice = oldPrice + toppingPrice;
+        String stringPrice = String.valueOf(currentPrice);
+        m_productTable.setValueAt(stringPrice, currentProductRow, PRICE_COLUMN);
+        
+        FinalProductManager finalProductManager = new FinalProductManagerImplementation();
+        List<FinalProduct> finalProductFoundList = finalProductManager.searchById(productId);
+        FinalProduct finalProductToModify = finalProductFoundList.get(0);
+        finalProductToModify.setPrice(currentPrice);
+        finalProductManager.modify(finalProductToModify);   
+        calculateDiscounts();
+    }
     
     private void calculateDiscounts(){
         m_subTotalField.setText(String.valueOf(calculateSubTotal()));  
@@ -366,7 +477,6 @@ public class SalesModule extends javax.swing.JFrame {
             }
         }
     }
-    
     
     private void setDiscounts(){
         double saleTotal = Double.parseDouble(m_totalField.getText());
@@ -392,7 +502,6 @@ public class SalesModule extends javax.swing.JFrame {
         m_totalField.setText(String.valueOf(saleTotal));
     }
     
-    
     private double calculateDiscountPercentage(double cashDiscountCuantity){
         double total =((cashDiscountCuantity) * PERCENTAGE) / calculateSubTotal();
         return total; 
@@ -406,15 +515,13 @@ public class SalesModule extends javax.swing.JFrame {
         return saleTotal;
     }
     
-    
-     private double calculateDiscountCash(double currentDiscount){
+    private double calculateDiscountCash(double currentDiscount){
         double subTotal = calculateSubTotal();
         double saleWithDiscount = calculateTotalWithDiscountPercentageField(currentDiscount);
         double cashDiscounted = subTotal - saleWithDiscount;
         return cashDiscounted;
     }
-     
-     
+      
     private double calculateSubTotal(){
         int currentProduct = 0;
         double subTotal = 0;
@@ -462,16 +569,16 @@ public class SalesModule extends javax.swing.JFrame {
 
     
     private void m_baseProductAddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_baseProductAddButtonActionPerformed
-//        Product productToAdd = createProduct();
-//        addProductToTable(productToAdd);
+        addProductToTable();
     }//GEN-LAST:event_m_baseProductAddButtonActionPerformed
 
     
     private void m_extraToppingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_extraToppingActionPerformed
+        int productId = addProductToTable();
         this.setEnabled(false);
 //        Product productToDecorate = createProduct();
-//        ExtraTopping extraToppingWindow = new ExtraTopping(this, productToDecorate);
-//        extraToppingWindow.setVisible(true);
+        ExtraTopping extraToppingWindow = new ExtraTopping(this, productId);
+        extraToppingWindow.setVisible(true);
     }//GEN-LAST:event_m_extraToppingActionPerformed
 
     private void m_completeSaleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_completeSaleButtonActionPerformed
@@ -501,6 +608,10 @@ public class SalesModule extends javax.swing.JFrame {
         if(isMoreThanOneProduct){
             DefaultTableModel tableModel = (DefaultTableModel) m_productTable.getModel();
             int rowToDelete = m_productTable.getSelectedRow();
+            FinalProductManager finalProductManager = new FinalProductManagerImplementation();
+            int productToDeleteId = (Integer) m_productTable.getValueAt(rowToDelete, ID_COLUMN);
+            List<FinalProduct> productToDeleteList = finalProductManager.searchById(productToDeleteId);
+            FinalProduct productToDelete = productToDeleteList.get(0);
             tableModel.removeRow(rowToDelete);
             calculateDiscounts();
         } else {
@@ -524,55 +635,6 @@ public class SalesModule extends javax.swing.JFrame {
         m_totalField.setText(String.valueOf(0));
     }
     
-    
-    private FinalProduct createProduct(){
-      Size selectedSize = (Size) m_productSizeComboBox.getSelectedItem();
-      FinalProductManager finalProductManager = new FinalProductManagerImplementation();
-      BaseProductManager baseProductManager = new BaseProductManagerImplementation();
-      String selectedBaseProduct = m_baseProductComboBox.getSelectedItem().toString();
-        List<BaseProduct> baseProductsList = baseProductManager.searchByName(selectedBaseProduct);
-        Iterator<BaseProduct> baseProductIterator = baseProductsList.iterator();
-        BaseProduct baseProductSelected = baseProductIterator.next();
-        int baseProductId = baseProductSelected.getId();
-        
-            
-            
-//        switch(selectedSize){
-//            case SMALL :
-//                double baseProductPrice = baseProductSelected.getSmallPrice();
-//                FinalProduct finalProduct = new FinalProduct(baseProductId, baseProductPrice);
-//                finalProductManager.add(finalProduct);
-//                return m_baseProductManager.createSmallProduct(
-//                            m_baseProductComboBox.getSelectedItem().toString(),
-//                            m_firstToppingComboBox.getSelectedItem().toString(),
-//                            m_secondToppingComboBox.getSelectedItem().toString(),
-//                            m_thirdToppingComboBox.getSelectedItem().toString()
-//                        );
-//            case MEDIUM :
-//                return m_baseProductManager.createMediumProduct(
-//                            m_baseProductComboBox.getSelectedItem().toString(),
-//                            m_firstToppingComboBox.getSelectedItem().toString(),
-//                            m_secondToppingComboBox.getSelectedItem().toString(),
-//                            m_thirdToppingComboBox.getSelectedItem().toString(),
-//                            m_fourthToppingComboBox.getSelectedItem().toString()
-//                        );
-//            case LARGE :
-//                return m_baseProductManager.createLargeProduct(
-//                            m_baseProductComboBox.getSelectedItem().toString(),
-//                            m_firstToppingComboBox.getSelectedItem().toString(),
-//                            m_secondToppingComboBox.getSelectedItem().toString(),
-//                            m_thirdToppingComboBox.getSelectedItem().toString(),
-//                            m_fourthToppingComboBox.getSelectedItem().toString(),
-//                            m_fifthToppingComboBox.getSelectedItem().toString()
-//                        );
-//            default : 
-//                return null;
-//        }  
-        return null;
-   }
-    
-    
-        
      /**
      * @param args the command line arguments
      */
@@ -610,12 +672,19 @@ public class SalesModule extends javax.swing.JFrame {
     
     private boolean isDiscountInCash;
     private boolean isDiscountInPercentage;
-    private final int PERCENTAGE = 100;
-    private final int PRICE_COLUMN = 1;
-    private final int ROW_ELEMENTS = 2;
+    private static final int PERCENTAGE = 100;
+    private static final int PRICE_COLUMN = 3;
+    private static final int ROW_ELEMENTS = 4;
+    private static final int NAME_COLUMN = 1;
+    private static final int ID_COLUMN = 0;
+    private static final int TOPPINGS_COLUMN = 2;
+    private static final String SPACE = ", ";
     //private BaseProductManager m_baseProductManager;
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel m_TotalLabel;
     private javax.swing.JButton m_baseProductAddButton;
     private javax.swing.JComboBox m_baseProductComboBox;
@@ -643,4 +712,6 @@ public class SalesModule extends javax.swing.JFrame {
     private javax.swing.JTextField m_totalField;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
+
+   
 }

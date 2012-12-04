@@ -4,9 +4,14 @@
  */
 package ViewControllers;
 
-import Managers.BaseProductDataManager;
+//import Managers.BaseProductDataManager;
 import Entities.BaseProduct;
+import Entities.Topping;
+import Managers.ToppingManager;
+import Managers.ToppingManagerImplementation;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import javax.swing.JFrame;
 
 /**
@@ -23,16 +28,17 @@ public class ExtraTopping extends javax.swing.JFrame {
     }
     
     
-    public ExtraTopping(JFrame summonerWindow, Product productInCreation) {
+    public ExtraTopping(JFrame summonerWindow, int productInCreationId) {
         initComponents();
         this.m_summonerWindow = summonerWindow;
-        currentProduct = productInCreation;
+        currentProductId = productInCreationId;
         
-        m_productsDataManager = new ProductsDataManager();
-        ArrayList toppingsList = m_productsDataManager.getToppings();
-        int arrayListIndex = 0;
-        for(arrayListIndex = 0; arrayListIndex < toppingsList.size(); arrayListIndex++){
-            m_extraToppingComboBox.addItem(toppingsList.get(arrayListIndex));
+        ToppingManager toppingManager = new ToppingManagerImplementation();
+        List toppingList = toppingManager.getAll();
+        Iterator<Topping> toppingIterator = toppingList.iterator();
+        while (toppingIterator.hasNext()) {
+            Topping currentTopping = toppingIterator.next();
+            m_extraToppingComboBox.addItem(currentTopping.getName());
         }
         m_extraToppingComboBox.setVisible(true);
     }
@@ -100,14 +106,18 @@ public class ExtraTopping extends javax.swing.JFrame {
 
     private void m_newToppingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_newToppingButtonActionPerformed
         String toppingName = m_extraToppingComboBox.getSelectedItem().toString();
-        m_productsDataManager.addTopping(currentProduct, toppingName);
-        ExtraTopping extraToppingWindow = new ExtraTopping(m_summonerWindow, currentProduct);
+        ToppingManager toppingManager = new ToppingManagerImplementation();
+        List<Topping> toppingFoundList = toppingManager.searchByName(toppingName);
+        Topping toppingFound = toppingFoundList.get(0);
+        double toppingPrice = toppingFound.getPrice();
+        ((SalesModule)m_summonerWindow).addExtraToppingToTable(toppingName, toppingPrice, currentProductId);
+        ExtraTopping extraToppingWindow = new ExtraTopping(m_summonerWindow, currentProductId);
         extraToppingWindow.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_m_newToppingButtonActionPerformed
 
     private void m_productFinishedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_productFinishedButtonActionPerformed
-        ((SalesModule)m_summonerWindow).addProductToTable(currentProduct);
+        
         m_summonerWindow.setEnabled(true);
         this.dispose();
     }//GEN-LAST:event_m_productFinishedButtonActionPerformed
@@ -147,8 +157,8 @@ public class ExtraTopping extends javax.swing.JFrame {
         });
     }
     
-    private Product currentProduct;
-    private ProductsDataManager m_productsDataManager;
+    private int currentProductId;
+    //private ProductsDataManager m_productsDataManager;
     private JFrame m_summonerWindow;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox m_extraToppingComboBox;
