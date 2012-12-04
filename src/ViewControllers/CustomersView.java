@@ -5,10 +5,13 @@
 package ViewControllers;
 
 import Entities.Customer;
+import Entities.Sale;
 import Helpers.MessageDisplayManger;
 import Helpers.MessageType;
 import Managers.CustomerManager;
 import Managers.CustomerManagerImplementation;
+import Managers.SaleManager;
+import Managers.SaleManagerImplementation;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.ListSelectionModel;
@@ -168,35 +171,49 @@ public class CustomersView extends javax.swing.JFrame {
                     .add(searchButton))
                 .add(18, 18, 18)
                 .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 233, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
-        CaptureCustomerDataView addCustomerView = new CaptureCustomerDataView(this, true);
-        addCustomerView.setLocationRelativeTo(this);
-        addCustomerView.setVisible(true);
+        openNewView();
     }//GEN-LAST:event_newButtonActionPerformed
 
     private void modifyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyButtonActionPerformed
-        int selectedRow = this.customersTable.getSelectedRow();        
+        int selectedRow = this.customersTable.getSelectedRow();
         if (selectedRow > -1) {
-            int customerID = Integer.parseInt((String) this.customersTable.getValueAt(selectedRow, 0));
-            String customerName = (String) this.customersTable.getValueAt(selectedRow, 1);
-            Customer selectedCustomer = new Customer(customerName);
-            selectedCustomer.setId(customerID);
-            CaptureCustomerDataView modifyCustomerView = new CaptureCustomerDataView(this, true, selectedCustomer);
-            modifyCustomerView.setLocationRelativeTo(this);
-            modifyCustomerView.setVisible(true);
+            Customer selectedCustomer = getCustomerInformation(selectedRow);
+            openModifyView(selectedCustomer);
         } else if (selectedRow == -1) {
-            MessageDisplayManger.showInformation(MessageType.NO_CELL_SELECTED, this );
+            MessageDisplayManger.showInformation(MessageType.NO_CELL_SELECTED, this);
         }
     }//GEN-LAST:event_modifyButtonActionPerformed
 
+    private Customer getCustomerInformation(int selectedRow) {
+        String customerName = (String) this.customersTable.getValueAt(selectedRow, 1);
+        Customer selectedCustomer = new Customer(customerName);
+        int customerID = Integer.parseInt((String) this.customersTable.getValueAt(selectedRow, 0));
+        selectedCustomer.setId(customerID);
+
+        return selectedCustomer;
+    }
+
+    private void openNewView() {
+        CaptureCustomerDataView addCustomerView = new CaptureCustomerDataView(this, true);
+        addCustomerView.setLocationRelativeTo(this);
+        addCustomerView.setVisible(true);
+    }
+
+    private void openModifyView(Customer selectedCustomer) {
+        CaptureCustomerDataView modifyCustomerView = new CaptureCustomerDataView(this, true, selectedCustomer);
+        modifyCustomerView.setLocationRelativeTo(this);
+        modifyCustomerView.setVisible(true);
+    }
+
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
-        
+
         if (this.validData()) {
             List foundCustomer = this.getCustomer(this.searchField.getText());
             this.showFoundCustomer(foundCustomer);
@@ -209,18 +226,14 @@ public class CustomersView extends javax.swing.JFrame {
     }//GEN-LAST:event_showAllButtonActionPerformed
 
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
-        int selectedRow = this.customersTable.getSelectedRow();        
+        int selectedRow = this.customersTable.getSelectedRow();
         if (selectedRow > -1) {
-            int idCustomer = Integer.parseInt((String) this.customersTable.getValueAt(selectedRow, 0));
-            String customerName = (String) this.customersTable.getValueAt(selectedRow, 1);
-            Customer selectedCustomer = new Customer(customerName);
-            selectedCustomer.setId(idCustomer);
+            Customer selectedCustomer = getCustomerInformation(selectedRow);
             CustomerManager customerManager = new CustomerManagerImplementation();
             customerManager.remove(selectedCustomer);
-            
             this.showAllCustomers();
         } else if (selectedRow == -1) {
-            MessageDisplayManger.showInformation(MessageType.NO_CELL_SELECTED, this );
+            MessageDisplayManger.showInformation(MessageType.NO_CELL_SELECTED, this);
         }
     }//GEN-LAST:event_removeButtonActionPerformed
 
@@ -233,90 +246,93 @@ public class CustomersView extends javax.swing.JFrame {
         boolean validData = true;
 
         if (this.searchField.getText().isEmpty()) {
-            MessageDisplayManger.showError(MessageType.SEARCH_FIELD_EMPTY, this );
+            MessageDisplayManger.showError(MessageType.SEARCH_FIELD_EMPTY, this);
             validData = false;
-        } 
+        }
 
         return validData;
     }
-    
+
     private List getCustomer(String name) {
         CustomerManager customerManager = new CustomerManagerImplementation();
         List foundCustomer = customerManager.searchByName(name);
-        
+
         return foundCustomer;
     }
-    
+
     private List getCustomers() {
         CustomerManager customerManager = new CustomerManagerImplementation();
         List customers = customerManager.getAll();
-        
+
         return customers;
     }
-    
+
     private DefaultTableModel createTableModel() {
         DefaultTableModel model = new DefaultTableModel() {
-          @Override
-          public boolean isCellEditable(int row, int column) {
-              return false;
-          }
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
         };
-        
+
         String[] columnNames = new String[3];
         columnNames[0] = "Id";
         columnNames[1] = "Nombre";
         columnNames[2] = "Visitas";
-        
+
         model.setColumnIdentifiers(columnNames);
-        
+
         return model;
     }
-    
+
     public void showAllCustomers() {
         List customers = this.getCustomers();
         DefaultTableModel model = this.createTableModel();
         if (customers == null) {
             this.customersTable.setModel(model);
-            MessageDisplayManger.showInformation(MessageType.NO_COSTUMER_FOUND, this );
+            MessageDisplayManger.showInformation(MessageType.NO_COSTUMER_FOUND, this);
             return;
         }
-        
-        String[] customerData = new String[2];
+
+        String[] customerData = new String[3];
         Iterator<Customer> iterator = customers.iterator();
         while (iterator.hasNext()) {
-            Customer customer = (Customer)iterator.next();
+            Customer customer = (Customer) iterator.next();
             customerData[0] = Integer.toString(customer.getId());
             customerData[1] = customer.getName();
+            customerData[2] = Integer.toString(this.getVisits(customer));
             model.addRow(customerData);
         }
         this.customersTable.setModel(model);
         this.rowSelection();
     }
-    
-    private void showFoundCustomer(List customerFound) {        
+
+    private void showFoundCustomer(List customerFound) {
         DefaultTableModel model = this.createTableModel();
         if (customerFound == null) {
             this.customersTable.setModel(model);
-            MessageDisplayManger.showInformation(MessageType.NO_COSTUMER_FOUND, this );
+            MessageDisplayManger.showInformation(MessageType.NO_COSTUMER_FOUND, this);
             return;
         }
-        
+
         String[] customerData = new String[3];
         Iterator<Customer> iterator = customerFound.iterator();
         while (iterator.hasNext()) {
-            Customer customer = (Customer)iterator.next();
+            Customer customer = (Customer) iterator.next();
             customerData[0] = Integer.toString(customer.getId());
             customerData[1] = customer.getName();
-            customerData[2] = "";
+            customerData[2] = Integer.toString(this.getVisits(customer));
             model.addRow(customerData);
         }
-        
+
         this.customersTable.setModel(model);
         this.rowSelection();
     }
-    
+
     private void rowSelection() {
         this.customersTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        this.customersTable.setCellSelectionEnabled(false);
         this.customersTable.setRowSelectionAllowed(true);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -332,4 +348,21 @@ public class CustomersView extends javax.swing.JFrame {
     private javax.swing.JTextField searchField;
     private javax.swing.JButton showAllButton;
     // End of variables declaration//GEN-END:variables
+
+    private int getVisits(Customer customer) {
+        SaleManager saleManager = new SaleManagerImplementation();
+        List<Sale> sales = saleManager.getAll();
+        int visitsNumber = 0;
+        
+        Iterator<Sale> iterator = sales.iterator();
+        while (iterator.hasNext()) {
+            Sale sale = iterator.next();
+            if (sale.getCustomerId() == customer.getId()) {
+                visitsNumber++;
+            }
+
+        }
+
+        return visitsNumber;
+    }
 }
