@@ -126,6 +126,7 @@ public class CaptureCustomerDataView extends javax.swing.JDialog {
             CustomerManager customerManager = new CustomerManagerImplementation();
             Customer customer = new Customer(this.nameField.getText());
             customerManager.add(customer);
+            ((CustomersView)this.getParent()).showAllCustomers();
             this.dispose();
         } else {
             MessageDisplayManger.showInformation(MessageType.EMPTY_FIELDS, this );
