@@ -14,7 +14,7 @@ public class ExpenseManagerImplementation extends GenericManagerImplementation<E
     @Override
     public List<Expense> searchById(Integer id) {
         List<Expense> expenses = null;
-        expenses = HQLQueryHelper.execute(QueryConstants.EXPENSE_QUERY_ID + 
+        expenses = HQLQueryHelper.execute(EXPENSE_QUERY_ID + 
                 id + QueryConstants.TERMINATION_CHARACTER);
         
         return expenses;
@@ -26,15 +26,16 @@ public class ExpenseManagerImplementation extends GenericManagerImplementation<E
         
         return expenses;
     }
-    
-    private static final String EXPENSE_QUERY_SUPPLIER = "from Expense e where e.supplier like '";
 
     @Override
     public List<Expense> searchBySupplier(String supplier) {
         List<Expense> expensesList = null;
-        expensesList = HQLQueryHelper.execute(QueryConstants.EXPENSE_QUERY_SUPPLIER
+        expensesList = HQLQueryHelper.execute(EXPENSE_QUERY_SUPPLIER
                 + supplier + QueryConstants.SIMILAR_TERMINATION_CHARACTER);
 
         return expensesList;
     }
+    
+    private static final String EXPENSE_QUERY_ID = "from Expense e where e.id like '";
+    private static final String EXPENSE_QUERY_SUPPLIER = "from Expense e where e.supplier like '";
 }

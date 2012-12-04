@@ -14,7 +14,7 @@ public class SaleManagerImplementation extends GenericManagerImplementation<Sale
     @Override
     public List<Sale> searchById(Integer id) {
         List<Sale> sales = null;
-        sales = HQLQueryHelper.execute(QueryConstants.SALE_QUERY_ID +
+        sales = HQLQueryHelper.execute(SALE_QUERY_ID +
                 id + QueryConstants.TERMINATION_CHARACTER);
         
         return sales;
@@ -27,4 +27,5 @@ public class SaleManagerImplementation extends GenericManagerImplementation<Sale
         return sales;
     }
 
+    private static final String SALE_QUERY_ID = "from Sale s where s.id like '";
 }

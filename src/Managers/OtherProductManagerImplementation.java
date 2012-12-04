@@ -1,8 +1,8 @@
 package Managers;
 
 import Entities.OtherProduct;
-import Helpers.QueryConstants;
 import Helpers.HQLQueryHelper;
+import Helpers.QueryConstants;
 import java.util.List;
 
 /**
@@ -14,7 +14,7 @@ public class OtherProductManagerImplementation extends GenericManagerImplementat
     @Override
     public List<OtherProduct> searchByName(String name) {
         List<OtherProduct> otherProducts = null;
-        otherProducts = HQLQueryHelper.execute(QueryConstants.OTHER_PRODUCT_QUERY_NAME + 
+        otherProducts = HQLQueryHelper.execute(OTHER_PRODUCT_QUERY_NAME + 
                 name + QueryConstants.SIMILAR_TERMINATION_CHARACTER);
         
         return otherProducts;
@@ -23,7 +23,7 @@ public class OtherProductManagerImplementation extends GenericManagerImplementat
     @Override
     public List<OtherProduct> searchById(Integer id) {
         List<OtherProduct> otherProducts = null;
-        otherProducts = HQLQueryHelper.execute(QueryConstants.OTHER_PRODUCT_QUERY_ID + 
+        otherProducts = HQLQueryHelper.execute(OTHER_PRODUCT_QUERY_ID + 
                 id + QueryConstants.TERMINATION_CHARACTER);
         
         return otherProducts;
@@ -36,4 +36,6 @@ public class OtherProductManagerImplementation extends GenericManagerImplementat
         return otherProducts;
     }
 
+    private static final String OTHER_PRODUCT_QUERY_NAME = "from OtherProduct op where op.name like '";
+    private static final String OTHER_PRODUCT_QUERY_ID = "from OtherProduct op where op.id like '";
 }

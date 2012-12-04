@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package Tests;
 
 import Entities.BaseProduct;
@@ -9,6 +5,8 @@ import Entities.Customer;
 import Entities.DailyCashClosing;
 import Entities.Expense;
 import Entities.FinalProduct;
+import Entities.FinalProductToppings;
+import Entities.FinalProductToppingsId;
 import Entities.OtherProduct;
 import Entities.Sale;
 import Entities.Topping;
@@ -22,6 +20,8 @@ import Managers.ExpenseManager;
 import Managers.ExpenseManagerImplementation;
 import Managers.FinalProductManager;
 import Managers.FinalProductManagerImplementation;
+import Managers.FinalProductToppingsManager;
+import Managers.FinalProductToppingsManagerImplementation;
 import Managers.OtherProductManager;
 import Managers.OtherProductManagerImplementation;
 import Managers.SaleManager;
@@ -32,7 +32,9 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- *
+ * Esta clase solo existe para hacer pruebas y no se está aplicando nada de
+ * construcción y evolución.
+ * 
  * @author Gilberto Leon <ripflame@gmail.com>
  */
 public class test {
@@ -111,6 +113,22 @@ public class test {
         while (topsIterator.hasNext()) {
             Topping temp = topsIterator.next();
             System.out.println("Name: " + temp.getName());
+        }
+        
+        FinalProductToppingsManager fptm = new FinalProductToppingsManagerImplementation();
+        
+        FinalProductToppingsId prueba1 = new FinalProductToppingsId(12, 2);
+        FinalProductToppings prueba2 = new FinalProductToppings(prueba1);
+        fptm.add(prueba2);
+        
+        List<FinalProductToppings> products = fptm.getAll();
+        System.out.println("Final product toppings: ");
+        Iterator<FinalProductToppings> fptmIterator = products.iterator();
+        while (fptmIterator.hasNext()) {
+            FinalProductToppings tempFPT = fptmIterator.next();
+            FinalProductToppingsId temp = tempFPT.getId();
+            System.out.println("FPId: " + temp.getFinalProductId());
+            System.out.println("TOPID: " + temp.getToppingId());
         }
     }
 }
