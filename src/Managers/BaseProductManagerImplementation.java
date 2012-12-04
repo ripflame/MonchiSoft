@@ -24,7 +24,7 @@ public class BaseProductManagerImplementation extends GenericManagerImplementati
     @Override
     public List<BaseProduct> searchByExactName(String name) {
         List<BaseProduct> productList = null;
-        productList = HQLQueryHelper.execute(QueryConstants.BASE_PRODUCT_QUERY_NAME + 
+        productList = HQLQueryHelper.execute(BASE_PRODUCT_QUERY_NAME + 
                 name + QueryConstants.TERMINATION_CHARACTER);
         
         return productList;
