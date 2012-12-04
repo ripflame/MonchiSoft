@@ -104,7 +104,9 @@ public class AdministratorView extends javax.swing.JFrame {
     }//GEN-LAST:event_CustomersModuleActionPerformed
 
     private void ProductsModuleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProductsModuleActionPerformed
-        // TODO add your handling code here:
+        ProductsController productsController = new ProductsController();
+        productsController.finishAndDisplayProductsManagement();
+        this.dispose();
     }//GEN-LAST:event_ProductsModuleActionPerformed
 
     private void StatisticsModuleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StatisticsModuleActionPerformed
@@ -116,7 +118,7 @@ public class AdministratorView extends javax.swing.JFrame {
         expensesModule.setVisible(rootPaneCheckingEnabled);
         this.dispose();
     }//GEN-LAST:event_ExpensesModuleActionPerformed
-
+    
     /**
      * @param args the command line arguments
      */
