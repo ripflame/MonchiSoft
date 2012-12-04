@@ -104,8 +104,8 @@ public class AdministratorView extends javax.swing.JFrame {
     }//GEN-LAST:event_CustomersModuleActionPerformed
 
     private void ProductsModuleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProductsModuleActionPerformed
-        ProductsController productsController = new ProductsController();
-        productsController.finishAndDisplayProductsManagement();
+        ProductsManagementController productsController = new ProductsManagementController();
+        productsController.EndCreateAndDisplayProductsManagement();
         this.dispose();
     }//GEN-LAST:event_ProductsModuleActionPerformed
 
@@ -155,6 +155,7 @@ public class AdministratorView extends javax.swing.JFrame {
          */
         java.awt.EventQueue.invokeLater(new Runnable() {
 
+            @Override
             public void run() {
                 new AdministratorView().setVisible(true);
             }
