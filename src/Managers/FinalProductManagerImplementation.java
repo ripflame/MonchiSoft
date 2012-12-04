@@ -14,7 +14,7 @@ public class FinalProductManagerImplementation extends GenericManagerImplementat
     @Override
     public List<FinalProduct> searchById(Integer id) {
         List<FinalProduct> finalProducts = null;
-        finalProducts = HQLQueryHelper.execute(QueryConstants.FINAL_PRODUCT_QUERY_ID +
+        finalProducts = HQLQueryHelper.execute(FINAL_PRODUCT_QUERY_ID +
                 id + QueryConstants.TERMINATION_CHARACTER);
         
         return finalProducts;
@@ -27,4 +27,5 @@ public class FinalProductManagerImplementation extends GenericManagerImplementat
         return finalProducts;
     }
 
+    private static final String FINAL_PRODUCT_QUERY_ID = "from FinalProduct fp where fp.id like '";
 }
