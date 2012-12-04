@@ -8,12 +8,16 @@ import Managers.BaseProductManager;
 import Entities.BaseProduct;
 import Entities.Customer;
 import Entities.FinalProduct;
+import Entities.FinalProductToppings;
+import Entities.FinalProductToppingsId;
 import Entities.OtherProduct;
 import Entities.Topping;
 import Helpers.Size;
 import Managers.BaseProductManagerImplementation;
 import Managers.FinalProductManager;
 import Managers.FinalProductManagerImplementation;
+import Managers.FinalProductToppingsManager;
+import Managers.FinalProductToppingsManagerImplementation;
 import Managers.OtherProductManager;
 import Managers.OtherProductManagerImplementation;
 import Managers.ToppingManager;
@@ -22,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -359,16 +364,13 @@ public class SalesModule extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
-    private int addProductToTable(){
+    private void addProductToTable(FinalProduct finalProductToAdd){
         DefaultTableModel tableModel = (DefaultTableModel) m_productTable.getModel();
-        BaseProductManager baseProductManager = new BaseProductManagerImplementation();
-        String selectedBaseProductName = (String) m_baseProductComboBox.getSelectedItem();
-        List baseProductList = baseProductManager.searchByName(selectedBaseProductName);
         String[] rowToAdd = new String[ROW_ELEMENTS];
-        BaseProduct baseProductFound = (BaseProduct) baseProductList.get(0);
-        rowToAdd[NAME_COLUMN] = baseProductFound.getName();
-        int baseProductId = baseProductFound.getId();
-        
+        BaseProduct selectedBaseProduct = getSelectedBaseProduct();
+        rowToAdd[NAME_COLUMN] = selectedBaseProduct.getName();
+        rowToAdd[ID_COLUMN] = finalProductToAdd.getId().toString();
+        rowToAdd[PRICE_COLUMN] = String.valueOf(finalProductToAdd.getPrice());
         Size selectedSize = (Size) m_productSizeComboBox.getSelectedItem(); 
         switch(selectedSize){
             case SMALL :
@@ -379,17 +381,8 @@ public class SalesModule extends javax.swing.JFrame {
                         SPACE +
                         m_thirdToppingComboBox.getSelectedItem();
                 rowToAdd[TOPPINGS_COLUMN] = toppings ;
-                double baseProductPrice = baseProductFound.getSmallPrice();
-                rowToAdd[PRICE_COLUMN] = String.valueOf(baseProductPrice);
-                FinalProduct finalProductToAdd = new FinalProduct(baseProductId, baseProductPrice);
-                FinalProductManager finalProductManager = new FinalProductManagerImplementation();
-                finalProductManager.add(finalProductToAdd);
-                System.out.println(finalProductToAdd.getId());
-                int finalProductId = finalProductToAdd.getId();
-                rowToAdd[ID_COLUMN] = String.valueOf(finalProductId);
-                tableModel.addRow(rowToAdd);
-                calculateDiscounts();
-                return finalProductId;
+                break;
+                
             case MEDIUM :
                 toppings = 
                         m_firstToppingComboBox.getSelectedItem() +
@@ -400,16 +393,8 @@ public class SalesModule extends javax.swing.JFrame {
                         SPACE +
                         m_fourthToppingComboBox.getSelectedItem();
                 rowToAdd[TOPPINGS_COLUMN] = toppings ;
-                baseProductPrice = baseProductFound.getMediumPrice();
-                rowToAdd[PRICE_COLUMN] = String.valueOf(baseProductPrice);
-                finalProductToAdd = new FinalProduct(baseProductId, baseProductPrice);
-                finalProductManager = new FinalProductManagerImplementation();
-                finalProductManager.add(finalProductToAdd);
-                finalProductId = finalProductToAdd.getId();
-                rowToAdd[ID_COLUMN] = String.valueOf(finalProductId);
-                tableModel.addRow(rowToAdd);
-                calculateDiscounts();
-                return finalProductId;
+                break;
+                
             case LARGE :
                 toppings = 
                         m_firstToppingComboBox.getSelectedItem() +
@@ -422,19 +407,110 @@ public class SalesModule extends javax.swing.JFrame {
                         SPACE +
                         m_fifthToppingComboBox.getSelectedItem();
                 rowToAdd[TOPPINGS_COLUMN] = toppings ;
-                baseProductPrice = baseProductFound.getLargePrice();
-                rowToAdd[PRICE_COLUMN] = String.valueOf(baseProductPrice);
-                finalProductToAdd = new FinalProduct(baseProductId, baseProductPrice);
-                finalProductManager = new FinalProductManagerImplementation();
-                finalProductManager.add(finalProductToAdd);
-                finalProductId = finalProductToAdd.getId();
-                rowToAdd[ID_COLUMN] = String.valueOf(finalProductId);
-                tableModel.addRow(rowToAdd);
-                calculateDiscounts();
-                return finalProductId;
+                
             default :
-                return 0;
+                break;
         }  
+        tableModel.addRow(rowToAdd);
+        calculateDiscounts();
+    }
+    
+    private BaseProduct getSelectedBaseProduct(){
+        BaseProductManager baseProductManager = new BaseProductManagerImplementation();
+        String selectedBaseProductName = (String) m_baseProductComboBox.getSelectedItem();
+        List baseProductList = baseProductManager.searchByName(selectedBaseProductName);
+        BaseProduct baseProductFound = (BaseProduct) baseProductList.get(0);
+        return baseProductFound;
+    }
+    
+    private FinalProduct saveProductToDataBase(){
+        BaseProduct selectedBaseProduct = getSelectedBaseProduct();
+        Size selectedSize = (Size) m_productSizeComboBox.getSelectedItem(); 
+        switch(selectedSize){
+            case SMALL :
+                double baseProductPrice = selectedBaseProduct.getSmallPrice();
+                int baseProductId = selectedBaseProduct.getId();
+                FinalProduct finalProduct = addProductToDataBase(baseProductId, baseProductPrice);
+                int finalProductId = finalProduct.getId();
+                
+                int currentToppingId = searchSelectedToppingId(m_firstToppingComboBox);
+                addToppingToProductInDataBase(finalProductId, currentToppingId);
+                
+                currentToppingId = searchSelectedToppingId(m_secondToppingComboBox);
+                addToppingToProductInDataBase(finalProductId, currentToppingId);
+                
+                currentToppingId = searchSelectedToppingId(m_thirdToppingComboBox);
+                addToppingToProductInDataBase(finalProductId, currentToppingId);
+                return finalProduct;
+                
+            case MEDIUM :
+                baseProductPrice = selectedBaseProduct.getMediumPrice();
+                baseProductId = selectedBaseProduct.getId();
+                finalProduct = addProductToDataBase(baseProductId, baseProductPrice);
+                finalProductId = finalProduct.getId();
+                
+                currentToppingId = searchSelectedToppingId(m_firstToppingComboBox);
+                addToppingToProductInDataBase(finalProductId, currentToppingId);
+                
+                currentToppingId = searchSelectedToppingId(m_secondToppingComboBox);
+                addToppingToProductInDataBase(finalProductId, currentToppingId);
+                
+                currentToppingId = searchSelectedToppingId(m_thirdToppingComboBox);
+                addToppingToProductInDataBase(finalProductId, currentToppingId);
+                
+                currentToppingId = searchSelectedToppingId(m_fourthToppingComboBox);
+                addToppingToProductInDataBase(finalProductId, currentToppingId);
+                return finalProduct;
+                
+            case LARGE :
+                baseProductPrice = selectedBaseProduct.getLargePrice();
+                baseProductId = selectedBaseProduct.getId();
+                finalProduct = addProductToDataBase(baseProductId, baseProductPrice);
+                finalProductId = finalProduct.getId();
+                
+                currentToppingId = searchSelectedToppingId(m_firstToppingComboBox);
+                addToppingToProductInDataBase(finalProductId, currentToppingId);
+                
+                currentToppingId = searchSelectedToppingId(m_secondToppingComboBox);
+                addToppingToProductInDataBase(finalProductId, currentToppingId);
+                
+                currentToppingId = searchSelectedToppingId(m_thirdToppingComboBox);
+                addToppingToProductInDataBase(finalProductId, currentToppingId);
+                
+                currentToppingId = searchSelectedToppingId(m_fourthToppingComboBox);
+                addToppingToProductInDataBase(finalProductId, currentToppingId);
+                
+                currentToppingId = searchSelectedToppingId(m_fifthToppingComboBox);
+                addToppingToProductInDataBase(finalProductId, currentToppingId);
+                return finalProduct;
+                
+            default :
+                return new FinalProduct();
+        }  
+    }
+    
+    private FinalProduct addProductToDataBase(int baseProductId, double baseProductPrice){
+        FinalProduct finalProductToAdd = new FinalProduct(baseProductId, baseProductPrice);
+        FinalProductManager finalProductManager = new FinalProductManagerImplementation();
+        finalProductManager.add(finalProductToAdd);
+        int finalProductId = finalProductToAdd.getId();
+        return finalProductToAdd;
+    }
+    
+    private void addToppingToProductInDataBase(int finalProductId, int toppingId){
+        FinalProductToppingsId finalProductToppingsIdToAdd = new FinalProductToppingsId(finalProductId, toppingId);
+        FinalProductToppings finalProductToppingsToAdd = new FinalProductToppings(finalProductToppingsIdToAdd);
+        FinalProductToppingsManager finalProductToppingsManager = new FinalProductToppingsManagerImplementation();
+        finalProductToppingsManager.add(finalProductToppingsToAdd);
+    }
+    
+    private int searchSelectedToppingId(JComboBox selectedComboBox){
+        String toppingName = (String) selectedComboBox.getSelectedItem();
+        ToppingManager toppingManager = new ToppingManagerImplementation();
+        List<Topping> toppingFoundList = toppingManager.searchByName(toppingName);
+        Topping currentTopping = toppingFoundList.get(0);
+        int toppingId = currentTopping.getId();
+        return toppingId;
     }
     
     public void addExtraToppingToTable(String toppingName, double toppingPrice, int productId) {
@@ -569,15 +645,16 @@ public class SalesModule extends javax.swing.JFrame {
 
     
     private void m_baseProductAddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_baseProductAddButtonActionPerformed
-        addProductToTable();
+        FinalProduct finalProduct = saveProductToDataBase();
+        addProductToTable(finalProduct);
     }//GEN-LAST:event_m_baseProductAddButtonActionPerformed
 
     
     private void m_extraToppingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_extraToppingActionPerformed
-        int productId = addProductToTable();
+        FinalProduct finalProduct = saveProductToDataBase();
+        addProductToTable(finalProduct);
         this.setEnabled(false);
-//        Product productToDecorate = createProduct();
-        ExtraTopping extraToppingWindow = new ExtraTopping(this, productId);
+        ExtraTopping extraToppingWindow = new ExtraTopping(this, finalProduct.getId());
         extraToppingWindow.setVisible(true);
     }//GEN-LAST:event_m_extraToppingActionPerformed
 
