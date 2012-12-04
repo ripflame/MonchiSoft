@@ -53,7 +53,7 @@ public class Sale  implements java.io.Serializable {
         return this.price;
     }
     
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
     public int getCustomerId() {
