@@ -14,6 +14,7 @@ import java.util.List;
 public interface BaseProductManager extends GenericManager<BaseProduct, Integer> {
     
     public List<BaseProduct> searchByName(String name);
+    public List<BaseProduct> searchByExactName(String name);
     public List<BaseProduct> searchById(Integer id);
     public List<BaseProduct> getAll();
     
