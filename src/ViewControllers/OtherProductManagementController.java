@@ -6,6 +6,7 @@ package ViewControllers;
 
 import Entities.OtherProduct;
 import Managers.OtherProductManager;
+import java.util.Iterator;
 import java.util.List;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -36,10 +37,11 @@ public class OtherProductManagementController extends ManagementController{
     
 
     @Override
-    public void displayCaptureView() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void createAndDisplayCaptureWindow() {
+        CaptureProductData captureWindow = new CaptureProductData(this);
+        captureWindow.setVisible(true);
     }
-
+    
     
     @Override
     public void performRemovalProcedures() {
@@ -55,12 +57,15 @@ public class OtherProductManagementController extends ManagementController{
     
     @Override
     public void performAddingProcedures() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
     }
 
     @Override
     public void performDisplayProcedures() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        this.setProductsTableModel();
+        List listOtherProducts = this.getOtherProducts();
+        this.updateTableModel(listOtherProducts);
+        m_productsTable.setModel(m_otherProductTableModel);
     }
     
     
@@ -76,8 +81,30 @@ public class OtherProductManagementController extends ManagementController{
     }
     
     
-    public final String[] OTHER_PRODUCT_COLUMN_TITLES = {"Nombre","Precio"};
+    private List getOtherProducts() {
+        List otherProducts = m_otherProductManager.getAll();
+        return otherProducts;
+    }
     
+    
+    public void updateTableModel (List otherProducts){
+        Iterator<OtherProduct> iterator = otherProducts.iterator();
+	
+        while (iterator.hasNext()) {
+            int columnNum = FIRST;
+            OtherProduct m_otherProduct = (OtherProduct) iterator.next();
+            String otherProductData[] = new String[ELEMENTS_TOTAL];
+            otherProductData[columnNum] = m_otherProduct.getName();
+            otherProductData[++columnNum] = String.valueOf(m_otherProduct.getPrice());
+            this.m_otherProductTableModel.addRow(otherProductData);
+        }
+      
+    }
+
+    
+    private final String[] OTHER_PRODUCT_COLUMN_TITLES = {"Nombre","Precio"};
+    private final int FIRST = 0;
+    private final int ELEMENTS_TOTAL = OTHER_PRODUCT_COLUMN_TITLES.length;
     private static OtherProduct m_otherProduct;
     private static OtherProductManager m_otherProductManager;
     private static JTable m_productsTable;
