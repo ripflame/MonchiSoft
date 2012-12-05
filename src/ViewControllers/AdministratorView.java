@@ -31,7 +31,12 @@ public class AdministratorView extends javax.swing.JFrame {
         StatisticsModule = new javax.swing.JButton();
         ExpensesModule = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         CustomersModule.setText("Clientes");
         CustomersModule.addActionListener(new java.awt.event.ActionListener() {
@@ -117,6 +122,11 @@ public class AdministratorView extends javax.swing.JFrame {
         expensesModule.setVisible(rootPaneCheckingEnabled);
         this.dispose();
     }//GEN-LAST:event_ExpensesModuleActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        Main main = new Main();
+        main.setVisible(rootPaneCheckingEnabled);
+    }//GEN-LAST:event_formWindowClosed
     
     /**
      * @param args the command line arguments
