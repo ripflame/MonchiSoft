@@ -51,12 +51,12 @@ public class CustomersView extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         customersTable = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Gestión de Clientes");
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosed(java.awt.event.WindowEvent evt) {
-                formWindowClosed(evt);
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
             }
         });
 
@@ -237,10 +237,11 @@ public class CustomersView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_removeButtonActionPerformed
 
-    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         AdministratorView administratorView = new AdministratorView();
         administratorView.setVisible(rootPaneCheckingEnabled);
-    }//GEN-LAST:event_formWindowClosed
+        this.dispose();
+    }//GEN-LAST:event_formWindowClosing
 
     private boolean validData() {
         boolean validData = true;
