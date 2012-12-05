@@ -17,6 +17,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -61,7 +65,8 @@ public class ProductsManagementController implements ActionListener{
                 new BaseProductManagerImplementation(); 
         m_baseProductManagementController = 
                 BaseProductManagementController.getInstance(baseProduct, 
-                baseProductManager, m_productsManagementGUI.productsTable);      
+                baseProductManager, m_productsManagementGUI.productsTable, 
+                m_productsManagementGUI.newButton);      
     }
     
     
@@ -89,8 +94,8 @@ public class ProductsManagementController implements ActionListener{
         m_productsManagementGUI.addButtonGroupListener(this);
         m_productsManagementGUI.setVisible(true);
     }
-
     
+     
     private final String BASE_PRODUCT_OPTION = "Producto Base";
     private final String OTHER_PRODUCT_OPTION = "Otro Producto";
     private final String TOPPING_OPTION = "Topping";
@@ -98,5 +103,6 @@ public class ProductsManagementController implements ActionListener{
     private ManagementController m_baseProductManagementController;
     private ManagementController m_otherProductManagementController;
     private ManagementController m_toppingManagementController;
+
 
 }
