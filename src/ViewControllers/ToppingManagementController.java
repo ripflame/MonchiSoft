@@ -7,6 +7,7 @@ package ViewControllers;
 import Entities.Topping;
 import Managers.ToppingManager;
 import java.util.List;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -14,10 +15,23 @@ import javax.swing.table.DefaultTableModel;
  * @author Ileana Guadalupe Ontiveros Mena
  */
 public class ToppingManagementController extends ManagementController{
+    
 
-    public ToppingManagementController(Topping m_topping, ToppingManager m_toppingManager) {
-        this.m_topping = m_topping;
-        this.m_toppingManager = m_toppingManager;
+    private ToppingManagementController() {}
+ 
+    
+    private static class SingletonHolder { 
+        public static final ToppingManagementController INSTANCE = 
+                new ToppingManagementController();
+    }
+ 
+    
+    public static ToppingManagementController getInstance(Topping topping, 
+            ToppingManager toppingManager, JTable productsTable) {
+        m_topping = topping;
+        m_toppingManager = toppingManager;
+        m_productsTable = productsTable;
+        return SingletonHolder.INSTANCE;
     }
       
 
@@ -63,8 +77,10 @@ public class ToppingManagementController extends ManagementController{
     
     public final String[] TOPPING_COLUMN_TITLES = {"Nombre","Precio de Extra"};
     
-    private Topping m_topping;
-    private ToppingManager m_toppingManager;
+    private static Topping m_topping;
+    private static ToppingManager m_toppingManager;
+    private static JTable m_productsTable;
     private DefaultTableModel m_toppingTableModel;
+    
 
 }
