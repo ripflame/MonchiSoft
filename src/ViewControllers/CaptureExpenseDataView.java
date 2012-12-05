@@ -32,31 +32,31 @@ public class CaptureExpenseDataView extends javax.swing.JDialog {
         this.isAddButton = false;
         this.setModifyText();
         this.modifiedExpense = modifiedExpense;
-        this.supplierField.setText(this.modifiedExpense.getSupplier());
-        this.descriptionField.setText(this.modifiedExpense.getDescription());
-        this.totalField.setText(Double.toString(this.modifiedExpense.getTotal()));
-        this.dateField.setDate(this.modifiedExpense.getDate());
+        this.m_supplierField.setText(this.modifiedExpense.getSupplier());
+        this.m_descriptionField.setText(this.modifiedExpense.getDescription());
+        this.m_totalField.setText(Double.toString(this.modifiedExpense.getTotal()));
+        this.m_dateField.setDate(this.modifiedExpense.getDate());
         
     }
    
    private void setAddText() {
         this.setTitle("Agregar");
-        this.saveButton.setText("Agregar");
+        this.m_saveButton.setText("Agregar");
     }
    
    private void setModifyText() {
         this.setTitle("Modificar");
-        this.saveButton.setText("Modificar");
+        this.m_saveButton.setText("Modificar");
     }
    
    private void addExpense() {
-        double total= Double.parseDouble(this.totalField.getText());
+        double total= Double.parseDouble(this.m_totalField.getText());
         if (this.validData()) {
             
             
             ExpenseManager expenseManager = new ExpenseManagerImplementation();
-            Expense expense = new Expense(this.dateField.getDate(), this.supplierField.getText(),
-                                           this.descriptionField.getText(), total
+            Expense expense = new Expense(this.m_dateField.getDate(), this.m_supplierField.getText(),
+                                           this.m_descriptionField.getText(), total
                                           );
             expenseManager.add(expense);
             this.dispose();
@@ -68,14 +68,14 @@ public class CaptureExpenseDataView extends javax.swing.JDialog {
    private void modifyExpense(Expense expense) {
        //java.util.Date utilDate = ;
 
-      double total= Double.parseDouble(this.totalField.getText());
+      double total= Double.parseDouble(this.m_totalField.getText());
         if (this.validData()) {
             Expense modifiedExpense = expense;
             ExpenseManager expenseManager = new ExpenseManagerImplementation();
-            modifiedExpense.setSupplier(this.supplierField.getText());
-            modifiedExpense.setDescription(this.descriptionField.getText());
+            modifiedExpense.setSupplier(this.m_supplierField.getText());
+            modifiedExpense.setDescription(this.m_descriptionField.getText());
             modifiedExpense.setTotal(total);
-            modifiedExpense.setDate(this.dateField.getDate());
+            modifiedExpense.setDate(this.m_dateField.getDate());
             
             expenseManager.modify(modifiedExpense);
             ((ExpensesView)this.getParent()).showAllExpenses();
@@ -95,10 +95,10 @@ public class CaptureExpenseDataView extends javax.swing.JDialog {
    
    private boolean validData() {
         boolean correctData = true;
-        if (this.supplierField.getText().isEmpty()) {
-            if(this.DescriptionLabel.getText().isEmpty())
-                if(this.TotalLabel.getText().isEmpty())
-                    if(this.DateLabel.getText().isEmpty())
+        if (this.m_supplierField.getText().isEmpty()) {
+            if(this.m_descriptionLabel.getText().isEmpty())
+                if(this.m_totalLabel.getText().isEmpty())
+                    if(this.m_dateLabel.getText().isEmpty())
                 
             
             correctData = false;
@@ -117,45 +117,45 @@ public class CaptureExpenseDataView extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        cancelButton = new javax.swing.JButton();
-        saveButton = new javax.swing.JButton();
-        totalField = new javax.swing.JTextField();
-        DateLabel = new javax.swing.JLabel();
-        TotalLabel = new javax.swing.JLabel();
-        DescriptionLabel = new javax.swing.JLabel();
-        supplierLabel = new javax.swing.JLabel();
-        descriptionField = new javax.swing.JTextField();
-        supplierField = new javax.swing.JTextField();
-        dateField = new com.toedter.calendar.JDateChooser();
+        m_cancelButton = new javax.swing.JButton();
+        m_saveButton = new javax.swing.JButton();
+        m_totalField = new javax.swing.JTextField();
+        m_dateLabel = new javax.swing.JLabel();
+        m_totalLabel = new javax.swing.JLabel();
+        m_descriptionLabel = new javax.swing.JLabel();
+        m_supplierLabel = new javax.swing.JLabel();
+        m_descriptionField = new javax.swing.JTextField();
+        m_supplierField = new javax.swing.JTextField();
+        m_dateField = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        cancelButton.setText("Cancelar");
+        m_cancelButton.setText("Cancelar");
 
-        saveButton.setText("Guardar");
-        saveButton.addActionListener(new java.awt.event.ActionListener() {
+        m_saveButton.setText("Guardar");
+        m_saveButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveButtonActionPerformed(evt);
+                m_saveButtonActionPerformed(evt);
             }
         });
 
-        DateLabel.setText("Fecha:");
+        m_dateLabel.setText("Fecha:");
 
-        TotalLabel.setText("Total:");
+        m_totalLabel.setText("Total:");
 
-        DescriptionLabel.setText("Descripción:");
+        m_descriptionLabel.setText("Descripción:");
 
-        supplierLabel.setText("Vendedor:");
+        m_supplierLabel.setText("Vendedor:");
 
-        descriptionField.addActionListener(new java.awt.event.ActionListener() {
+        m_descriptionField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                descriptionFieldActionPerformed(evt);
+                m_descriptionFieldActionPerformed(evt);
             }
         });
 
-        supplierField.addActionListener(new java.awt.event.ActionListener() {
+        m_supplierField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                supplierFieldActionPerformed(evt);
+                m_supplierFieldActionPerformed(evt);
             }
         });
 
@@ -168,22 +168,22 @@ public class CaptureExpenseDataView extends javax.swing.JDialog {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap(27, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(supplierLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(DescriptionLabel)
-                            .addComponent(TotalLabel)
-                            .addComponent(DateLabel))
+                            .addComponent(m_supplierLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(m_descriptionLabel)
+                            .addComponent(m_totalLabel)
+                            .addComponent(m_dateLabel))
                         .addGap(30, 30, 30)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(totalField, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
-                            .addComponent(descriptionField)
-                            .addComponent(supplierField)
-                            .addComponent(dateField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(m_totalField, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
+                            .addComponent(m_descriptionField)
+                            .addComponent(m_supplierField)
+                            .addComponent(m_dateField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(44, 44, 44))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(114, 114, 114)
-                        .addComponent(saveButton)
+                        .addComponent(m_saveButton)
                         .addGap(31, 31, 31)
-                        .addComponent(cancelButton)
+                        .addComponent(m_cancelButton)
                         .addGap(0, 37, Short.MAX_VALUE)))
                 .addGap(41, 41, 41))
         );
@@ -192,48 +192,48 @@ public class CaptureExpenseDataView extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(41, 41, 41)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(supplierLabel)
-                    .addComponent(supplierField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(m_supplierLabel)
+                    .addComponent(m_supplierField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(DescriptionLabel)
-                    .addComponent(descriptionField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(m_descriptionLabel)
+                    .addComponent(m_descriptionField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(TotalLabel)
-                    .addComponent(totalField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(m_totalLabel)
+                    .addComponent(m_totalField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(20, 20, 20)
-                        .addComponent(DateLabel))
+                        .addComponent(m_dateLabel))
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(dateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(m_dateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(saveButton)
-                    .addComponent(cancelButton))
+                    .addComponent(m_saveButton)
+                    .addComponent(m_cancelButton))
                 .addGap(51, 51, 51))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
+    private void m_saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_saveButtonActionPerformed
         if (this.isAddButton) {
             this.addExpense();
         } else {
             this.modifyExpense(this.modifiedExpense);
         }
-    }//GEN-LAST:event_saveButtonActionPerformed
+    }//GEN-LAST:event_m_saveButtonActionPerformed
 
-    private void descriptionFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_descriptionFieldActionPerformed
+    private void m_descriptionFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_descriptionFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_descriptionFieldActionPerformed
+    }//GEN-LAST:event_m_descriptionFieldActionPerformed
 
-    private void supplierFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supplierFieldActionPerformed
+    private void m_supplierFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_supplierFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_supplierFieldActionPerformed
+    }//GEN-LAST:event_m_supplierFieldActionPerformed
 
     
     
@@ -242,15 +242,15 @@ public class CaptureExpenseDataView extends javax.swing.JDialog {
     private Expense modifiedExpense;
     private boolean isAddButton;
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel DateLabel;
-    private javax.swing.JLabel DescriptionLabel;
-    private javax.swing.JLabel TotalLabel;
-    private javax.swing.JButton cancelButton;
-    private com.toedter.calendar.JDateChooser dateField;
-    private javax.swing.JTextField descriptionField;
-    private javax.swing.JButton saveButton;
-    private javax.swing.JTextField supplierField;
-    private javax.swing.JLabel supplierLabel;
-    private javax.swing.JTextField totalField;
+    private javax.swing.JButton m_cancelButton;
+    private com.toedter.calendar.JDateChooser m_dateField;
+    private javax.swing.JLabel m_dateLabel;
+    private javax.swing.JTextField m_descriptionField;
+    private javax.swing.JLabel m_descriptionLabel;
+    private javax.swing.JButton m_saveButton;
+    private javax.swing.JTextField m_supplierField;
+    private javax.swing.JLabel m_supplierLabel;
+    private javax.swing.JTextField m_totalField;
+    private javax.swing.JLabel m_totalLabel;
     // End of variables declaration//GEN-END:variables
 }
