@@ -5,22 +5,29 @@
 package ViewControllers;
 
 import Entities.BaseProduct;
-import Helpers.MessageDisplayManger;
+import Helpers.MessageDisplayManager;
 import Helpers.MessageType;
 import Managers.BaseProductManager;
 import Managers.BaseProductManagerImplementation;
 import java.awt.HeadlessException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Ileana Guadalupe Ontiveros Mena
  */
-public class BaseProductManagementController extends ManagementController{
+public class BaseProductManagementController extends ManagementController {
     
     // Private constructor prevents instantiation from other classes
     private BaseProductManagementController() {}
@@ -35,25 +42,64 @@ public class BaseProductManagementController extends ManagementController{
     }
  
     public static BaseProductManagementController getInstance(BaseProduct baseProduct, 
-            BaseProductManager baseProductManager, JTable productsTable) {
-        //m_baseProduct = baseProduct;
+            BaseProductManager baseProductManager, JTable productsTable, JButton button) {
+        m_baseProduct = baseProduct;
         m_baseProductManager = baseProductManager;
         m_productsTable = productsTable;
+        m_newButton = button;
         return SingletonHolder.INSTANCE;
     }
 
 
     @Override
     public void createAndDisplayCaptureWindow() {
-        CaptureProductData captureWindow = new CaptureProductData(this);
-        captureWindow.setVisible(true);
+        this.m_captureWindow = new CaptureProductData(this);
+        this.m_captureWindow.setTitleLabel(TITLE_LABEL);
+        this.m_captureWindow.setVisible(true);     
     }
 
     
     @Override     
     public void performAddingProcedures() {
+        if (m_captureWindow.m_isAllValidData){
+            String[] baseProductData = getDataCaptured();
+            setBaseProductData(baseProductData);
+            boolean isSucces = false;
+            try {
+                m_baseProductManager.add(m_baseProduct);
+                isSucces = true;
+            } catch (Exception e){} 
+        
+            if (isSucces){
+                m_baseProductTableModel.addRow(baseProductData);
+                this.m_captureWindow.dispose();
+                m_newButton.setEnabled(true);
+            } else {
+                //falta un mensaje de error
+                Logger.getLogger(ManagementController.class.getName()).log(Level.INFO, "Ocurrió un error");
+            }
+        } else {
+            Logger.getLogger(ManagementController.class.getName()).log(Level.INFO, "Hay datos inválidos");
+        }
         
     }
+    
+     private void setBaseProductData (String[] productData){
+        m_baseProduct.setName(productData[0]);
+        m_baseProduct.setSmallPrice(Double.parseDouble(productData[1]));
+        m_baseProduct.setMediumPrice(Double.parseDouble(productData[2]));
+        m_baseProduct.setLargePrice(Double.parseDouble(productData[3]));
+     }
+    
+     private String[] getDataCaptured (){
+        int elementNum = FIRST;
+        String[] data = new String[ELEMENTS_TOTAL];
+        data[elementNum] = this.m_captureWindow.getNameText();
+        data[++elementNum] = this.m_captureWindow.getFirstPriceText();
+        data[++elementNum] = this.m_captureWindow.getSecondPriceText();
+        data[++elementNum] = this.m_captureWindow.getThirdPriceText();          
+        return data;
+    }   
 
     
     @Override    
@@ -110,12 +156,22 @@ public class BaseProductManagementController extends ManagementController{
       
     }
     
-    private final String[] BASE_PRODUCT_COLUMN_TITLES = {"Nombre","Precio: Chico",
-        "Precio: Mediano","Precio: Grande"};
+    
+    private final String NAME_FIELD_LABEL = "Nombre";
+    private final String SMALL_PRICE_FIELD_LABEL = "Precio: Chico";
+    private final String MEDIUM_PRICE_FIELD_LABEL = "Precio: Mediano";
+    private final String LARGE_PRICE_FIELD_LABEL = "Precio: Grande";
+    private final String[] BASE_PRODUCT_COLUMN_TITLES = {
+        NAME_FIELD_LABEL, SMALL_PRICE_FIELD_LABEL,
+        MEDIUM_PRICE_FIELD_LABEL, LARGE_PRICE_FIELD_LABEL};
+    private final String TITLE_LABEL = "Producto base";
     private final int FIRST = 0;
     private final int ELEMENTS_TOTAL = BASE_PRODUCT_COLUMN_TITLES.length;
-    //private static BaseProduct m_baseProduct;
+    private static BaseProduct m_baseProduct;
     private static BaseProductManager m_baseProductManager;
     private static JTable m_productsTable;
+    private static JButton m_newButton;
     private DefaultTableModel m_baseProductTableModel;
+    private CaptureProductData m_captureWindow;
+    
 }
