@@ -17,7 +17,7 @@ public class ProductsManagement extends javax.swing.JFrame {
      * Creates new form ProductsView
      */
     public ProductsManagement() {
-        initComponents(); 
+        initComponents();
     }
 
     /**
@@ -58,6 +58,11 @@ public class ProductsManagement extends javax.swing.JFrame {
         newButton.setFocusable(false);
         newButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         newButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        newButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                newButtonMouseClicked(evt);
+            }
+        });
         managementToolBar.add(newButton);
 
         modifyButton.setText("Modificar");
@@ -88,6 +93,14 @@ public class ProductsManagement extends javax.swing.JFrame {
                 "", "", "", ""
             }
         ));
+        productsTable.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                productsTableFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                productsTableFocusLost(evt);
+            }
+        });
         productsScrollPane.setViewportView(productsTable);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -130,6 +143,21 @@ public class ProductsManagement extends javax.swing.JFrame {
         AdministratorView administratorView = new AdministratorView();
         administratorView.setVisible(rootPaneCheckingEnabled);
     }//GEN-LAST:event_formWindowClosed
+
+    private void productsTableFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_productsTableFocusGained
+        enableModifyButton ();
+        enableRemoveButton ();
+    }//GEN-LAST:event_productsTableFocusGained
+
+    private void productsTableFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_productsTableFocusLost
+        disableModifyButton ();
+        disableRemoveButton ();
+    }//GEN-LAST:event_productsTableFocusLost
+
+    private void newButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_newButtonMouseClicked
+        
+        
+    }//GEN-LAST:event_newButtonMouseClicked
 
     public void addActionsListener (ActionListener commandsListener){
         this.newButton.addActionListener(commandsListener);
@@ -175,18 +203,17 @@ public class ProductsManagement extends javax.swing.JFrame {
     }
     
     
-    
     public String getTextCell (){
     
         return "";
     }
     
-    
+    public CaptureProductData m_captureProductData;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JRadioButton baseProductRadioButton;
     private javax.swing.JToolBar managementToolBar;
     private javax.swing.JButton modifyButton;
-    private javax.swing.JButton newButton;
+    public javax.swing.JButton newButton;
     private javax.swing.JSeparator optionsSeparator;
     public javax.swing.JRadioButton otherProductRadioButton;
     private javax.swing.ButtonGroup productsButtonGroup;
@@ -195,4 +222,5 @@ public class ProductsManagement extends javax.swing.JFrame {
     private javax.swing.JButton removeButton;
     public javax.swing.JRadioButton toppingRadioButton;
     // End of variables declaration//GEN-END:variables
+
 }
