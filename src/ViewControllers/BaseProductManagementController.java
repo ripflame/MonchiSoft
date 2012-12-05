@@ -36,7 +36,7 @@ public class BaseProductManagementController extends ManagementController{
  
     public static BaseProductManagementController getInstance(BaseProduct baseProduct, 
             BaseProductManager baseProductManager, JTable productsTable) {
-        m_baseProduct = baseProduct;
+        //m_baseProduct = baseProduct;
         m_baseProductManager = baseProductManager;
         m_productsTable = productsTable;
         return SingletonHolder.INSTANCE;
@@ -44,38 +44,15 @@ public class BaseProductManagementController extends ManagementController{
 
 
     @Override
-    public void displayCaptureView() {
-        JOptionPane.showMessageDialog(null,"Aquí se mostrará la ventana para "
-                + "capturar productos base");
-    }
-
-    
-    public List getBaseProducts() {
-        List products = m_baseProductManager.getAll();
-        return products;
-    }
-    
-    
-    public void metodo (List productosBase){
-        Iterator<BaseProduct> iterator = productosBase.iterator();
-	
-        while (iterator.hasNext()) {
-            BaseProduct m_baseProduct = (BaseProduct) iterator.next();
-            String baseProductData[] = new String[4];
-            baseProductData[0] = m_baseProduct.getName();
-            baseProductData[1] = String.valueOf(m_baseProduct.getSmallPrice());
-            baseProductData[2] = String.valueOf(m_baseProduct.getMediumPrice());
-            baseProductData[3] = String.valueOf(m_baseProduct.getLargePrice());
-            this.m_baseProductTableModel.addRow(baseProductData);
-        }
-        
-        
+    public void createAndDisplayCaptureWindow() {
+        CaptureProductData captureWindow = new CaptureProductData(this);
+        captureWindow.setVisible(true);
     }
 
     
     @Override     
     public void performAddingProcedures() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
     }
 
     
@@ -94,11 +71,9 @@ public class BaseProductManagementController extends ManagementController{
     @Override
     public void performDisplayProcedures() {
         this.setProductsTableModel();
-        List lista = this.getBaseProducts();
-        this.metodo(lista);
-        this.m_productsTable.setModel(m_baseProductTableModel);
-
-       
+        List listBaseProducts = this.getBaseProducts();
+        this.updateTableModel(listBaseProducts);
+        m_productsTable.setModel(m_baseProductTableModel);
     }
     
     
@@ -113,11 +88,34 @@ public class BaseProductManagementController extends ManagementController{
         m_baseProductTableModel = buildTableModel(BASE_PRODUCT_COLUMN_TITLES);
     }
     
-    public final String[] BASE_PRODUCT_COLUMN_TITLES = {"Nombre","Precio: Chico",
-        "Precio: Mediano","Precio: Grande"}; 
-    private static BaseProduct m_baseProduct;
+    private List getBaseProducts() {
+        List baseProducts = m_baseProductManager.getAll();
+        return baseProducts;
+    }
+    
+    
+    private void updateTableModel (List baseProducts){
+        Iterator<BaseProduct> iterator = baseProducts.iterator();
+	
+        while (iterator.hasNext()) {
+            int columnNum = FIRST;
+            BaseProduct m_baseProduct = (BaseProduct) iterator.next();
+            String baseProductData[] = new String[ELEMENTS_TOTAL];
+            baseProductData[columnNum] = m_baseProduct.getName();
+            baseProductData[++columnNum] = String.valueOf(m_baseProduct.getSmallPrice());
+            baseProductData[++columnNum] = String.valueOf(m_baseProduct.getMediumPrice());
+            baseProductData[++columnNum] = String.valueOf(m_baseProduct.getLargePrice());
+            this.m_baseProductTableModel.addRow(baseProductData);
+        }
+      
+    }
+    
+    private final String[] BASE_PRODUCT_COLUMN_TITLES = {"Nombre","Precio: Chico",
+        "Precio: Mediano","Precio: Grande"};
+    private final int FIRST = 0;
+    private final int ELEMENTS_TOTAL = BASE_PRODUCT_COLUMN_TITLES.length;
+    //private static BaseProduct m_baseProduct;
     private static BaseProductManager m_baseProductManager;
     private static JTable m_productsTable;
     private DefaultTableModel m_baseProductTableModel;
-    
 }
