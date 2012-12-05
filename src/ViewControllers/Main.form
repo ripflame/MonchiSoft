@@ -23,11 +23,11 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace pref="134" max="32767" attributes="0"/>
+              <EmptySpace pref="127" max="32767" attributes="0"/>
               <Component id="m_salesButton" min="-2" pref="83" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="92" max="-2" attributes="0"/>
-              <Component id="m_modulesButton" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="151" max="-2" attributes="0"/>
+              <Component id="m_AdministrationButton" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="116" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -36,7 +36,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace pref="141" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="m_modulesButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="m_AdministrationButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="m_salesButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="180" max="-2" attributes="0"/>
@@ -53,10 +53,13 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="m_salesButtonActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="m_modulesButton">
+    <Component class="javax.swing.JButton" name="m_AdministrationButton">
       <Properties>
-        <Property name="text" type="java.lang.String" value="M&#xf3;dulos"/>
+        <Property name="text" type="java.lang.String" value="Administraci&#xf3;n"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="m_AdministrationButtonActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
