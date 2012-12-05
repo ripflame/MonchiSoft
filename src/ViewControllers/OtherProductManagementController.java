@@ -7,6 +7,7 @@ package ViewControllers;
 import Entities.OtherProduct;
 import Managers.OtherProductManager;
 import java.util.List;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -15,10 +16,22 @@ import javax.swing.table.DefaultTableModel;
  */
 public class OtherProductManagementController extends ManagementController{
     
-    public OtherProductManagementController(OtherProduct m_otherProduct, 
-            OtherProductManager m_otherProductManager) {
-        this.m_otherProduct = m_otherProduct;
-        this.m_otherProductManager = m_otherProductManager;
+    
+    private OtherProductManagementController() {}
+ 
+    
+    private static class SingletonHolder { 
+        public static final OtherProductManagementController INSTANCE = 
+                new OtherProductManagementController();
+    }
+ 
+    
+    public static OtherProductManagementController getInstance(OtherProduct otherProduct, 
+            OtherProductManager otherProductManager, JTable productsTable) {
+        m_otherProduct = otherProduct;
+        m_otherProductManager = otherProductManager;
+        m_productsTable = productsTable;
+        return SingletonHolder.INSTANCE;
     }
     
 
@@ -65,7 +78,8 @@ public class OtherProductManagementController extends ManagementController{
     
     public final String[] OTHER_PRODUCT_COLUMN_TITLES = {"Nombre","Precio"};
     
-    private OtherProduct m_otherProduct;
-    private OtherProductManager m_otherProductManager;
+    private static OtherProduct m_otherProduct;
+    private static OtherProductManager m_otherProductManager;
+    private static JTable m_productsTable;
     private DefaultTableModel m_otherProductTableModel;
 }
