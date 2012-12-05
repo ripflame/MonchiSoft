@@ -11,6 +11,7 @@ import Managers.CustomerManager;
 import Managers.CustomerManagerImplementation;
 import java.util.Iterator;
 import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
@@ -25,8 +26,21 @@ public class CustomersView extends javax.swing.JFrame {
      */
     public CustomersView() {
         initComponents();
+        hideChooserView();
+    }
+    
+    public CustomersView(JFrame parentWindow) {
+        initComponents();
+        m_backButton.setVisible(false);
+        summonerWindow = (SalesModule) parentWindow;
     }
 
+    private void hideChooserView(){
+        m_cancelButton.setVisible(false);
+        m_selectUserButton.setVisible(false);
+        m_backButton.setVisible(true);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -38,16 +52,18 @@ public class CustomersView extends javax.swing.JFrame {
 
         filtroBusqueda = new javax.swing.ButtonGroup();
         jToolBar1 = new javax.swing.JToolBar();
-        newButton = new javax.swing.JButton();
-        modifyButton = new javax.swing.JButton();
-        removeButton = new javax.swing.JButton();
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(180, 0), new java.awt.Dimension(180, 0), new java.awt.Dimension(180, 0));
-        showAllButton = new javax.swing.JButton();
-        searchField = new javax.swing.JTextField();
-        searchButton = new javax.swing.JButton();
+        m_newButton = new javax.swing.JButton();
+        m_modifyButton = new javax.swing.JButton();
+        m_removeButton = new javax.swing.JButton();
+        m_filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(180, 0), new java.awt.Dimension(180, 0), new java.awt.Dimension(180, 0));
+        m_showAllButton = new javax.swing.JButton();
+        m_searchField = new javax.swing.JTextField();
+        m_searchButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        customersTable = new javax.swing.JTable();
-        backButton = new javax.swing.JButton();
+        m_customersTable = new javax.swing.JTable();
+        m_backButton = new javax.swing.JButton();
+        m_selectUserButton = new javax.swing.JButton();
+        m_cancelButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gestión de Clientes");
@@ -61,59 +77,59 @@ public class CustomersView extends javax.swing.JFrame {
         jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);
 
-        newButton.setText("Nuevo");
-        newButton.setFocusable(false);
-        newButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        newButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        newButton.addActionListener(new java.awt.event.ActionListener() {
+        m_newButton.setText("Nuevo");
+        m_newButton.setFocusable(false);
+        m_newButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        m_newButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        m_newButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                newButtonActionPerformed(evt);
+                m_newButtonActionPerformed(evt);
             }
         });
-        jToolBar1.add(newButton);
+        jToolBar1.add(m_newButton);
 
-        modifyButton.setText("Modificar");
-        modifyButton.setFocusable(false);
-        modifyButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        modifyButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        modifyButton.addActionListener(new java.awt.event.ActionListener() {
+        m_modifyButton.setText("Modificar");
+        m_modifyButton.setFocusable(false);
+        m_modifyButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        m_modifyButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        m_modifyButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                modifyButtonActionPerformed(evt);
+                m_modifyButtonActionPerformed(evt);
             }
         });
-        jToolBar1.add(modifyButton);
+        jToolBar1.add(m_modifyButton);
 
-        removeButton.setFocusable(false);
-        removeButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        removeButton.setLabel("Eliminar");
-        removeButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        removeButton.addActionListener(new java.awt.event.ActionListener() {
+        m_removeButton.setFocusable(false);
+        m_removeButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        m_removeButton.setLabel("Eliminar");
+        m_removeButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        m_removeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeButtonActionPerformed(evt);
+                m_removeButtonActionPerformed(evt);
             }
         });
-        jToolBar1.add(removeButton);
-        jToolBar1.add(filler1);
+        jToolBar1.add(m_removeButton);
+        jToolBar1.add(m_filler1);
 
-        showAllButton.setText("Mostrar todos");
-        showAllButton.setFocusable(false);
-        showAllButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        showAllButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        showAllButton.addActionListener(new java.awt.event.ActionListener() {
+        m_showAllButton.setText("Mostrar todos");
+        m_showAllButton.setFocusable(false);
+        m_showAllButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        m_showAllButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        m_showAllButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                showAllButtonActionPerformed(evt);
+                m_showAllButtonActionPerformed(evt);
             }
         });
-        jToolBar1.add(showAllButton);
+        jToolBar1.add(m_showAllButton);
 
-        searchButton.setText("Buscar");
-        searchButton.addActionListener(new java.awt.event.ActionListener() {
+        m_searchButton.setText("Buscar");
+        m_searchButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchButtonActionPerformed(evt);
+                m_searchButtonActionPerformed(evt);
             }
         });
 
-        customersTable.setModel(new javax.swing.table.DefaultTableModel(
+        m_customersTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -136,15 +152,29 @@ public class CustomersView extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        customersTable.setColumnSelectionAllowed(true);
-        customersTable.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(customersTable);
-        customersTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        m_customersTable.setColumnSelectionAllowed(true);
+        m_customersTable.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(m_customersTable);
+        m_customersTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
-        backButton.setText("Regresar");
-        backButton.addActionListener(new java.awt.event.ActionListener() {
+        m_backButton.setText("Regresar");
+        m_backButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                backButtonActionPerformed(evt);
+                m_backButtonActionPerformed(evt);
+            }
+        });
+
+        m_selectUserButton.setText("Seleccionar");
+        m_selectUserButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                m_selectUserButtonActionPerformed(evt);
+            }
+        });
+
+        m_cancelButton.setText("Cancelar");
+        m_cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                m_cancelButtonActionPerformed(evt);
             }
         });
 
@@ -160,13 +190,16 @@ public class CustomersView extends javax.swing.JFrame {
                         .add(0, 0, Short.MAX_VALUE)
                         .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 430, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(layout.createSequentialGroup()
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(layout.createSequentialGroup()
-                                .add(searchField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 339, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(searchButton))
-                            .add(backButton))
-                        .add(0, 0, Short.MAX_VALUE)))
+                        .add(m_searchField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 339, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(m_searchButton)
+                        .add(0, 0, Short.MAX_VALUE))
+                    .add(layout.createSequentialGroup()
+                        .add(m_backButton)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(m_cancelButton)
+                        .add(18, 18, 18)
+                        .add(m_selectUserButton)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -175,29 +208,32 @@ public class CustomersView extends javax.swing.JFrame {
                 .add(jToolBar1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 25, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(18, 18, 18)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(searchField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(searchButton))
+                    .add(m_searchField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(m_searchButton))
                 .add(18, 18, 18)
                 .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 233, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(backButton)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(m_backButton)
+                    .add(m_selectUserButton)
+                    .add(m_cancelButton))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
+    private void m_newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_newButtonActionPerformed
         CaptureCustomerDataView addCustomerView = new CaptureCustomerDataView(this, true);
         addCustomerView.setLocationRelativeTo(this);
         addCustomerView.setVisible(true);
-    }//GEN-LAST:event_newButtonActionPerformed
+    }//GEN-LAST:event_m_newButtonActionPerformed
 
-    private void modifyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyButtonActionPerformed
-        int selectedRow = this.customersTable.getSelectedRow();        
+    private void m_modifyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_modifyButtonActionPerformed
+        int selectedRow = this.m_customersTable.getSelectedRow();        
         if (selectedRow > -1) {
-            int customerID = Integer.parseInt((String) this.customersTable.getValueAt(selectedRow, 0));
-            String customerName = (String) this.customersTable.getValueAt(selectedRow, 1);
+            int customerID = Integer.parseInt((String) this.m_customersTable.getValueAt(selectedRow, 0));
+            String customerName = (String) this.m_customersTable.getValueAt(selectedRow, 1);
             Customer selectedCustomer = new Customer(customerName);
             selectedCustomer.setId(customerID);
             CaptureCustomerDataView modifyCustomerView = new CaptureCustomerDataView(this, true, selectedCustomer);
@@ -206,26 +242,26 @@ public class CustomersView extends javax.swing.JFrame {
         } else if (selectedRow == -1) {
             MessageDisplayManger.showInformation(MessageType.NO_CELL_SELECTED, this );
         }
-    }//GEN-LAST:event_modifyButtonActionPerformed
+    }//GEN-LAST:event_m_modifyButtonActionPerformed
 
-    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+    private void m_searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_searchButtonActionPerformed
         
         if (this.validData()) {
-            List foundCustomer = this.getCustomer(this.searchField.getText());
+            List foundCustomer = this.getCustomer(this.m_searchField.getText());
             this.showFoundCustomer(foundCustomer);
         }
-    }//GEN-LAST:event_searchButtonActionPerformed
+    }//GEN-LAST:event_m_searchButtonActionPerformed
 
-    private void showAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showAllButtonActionPerformed
-        this.searchField.setText("");
+    private void m_showAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_showAllButtonActionPerformed
+        this.m_searchField.setText("");
         this.showAllCustomers();
-    }//GEN-LAST:event_showAllButtonActionPerformed
+    }//GEN-LAST:event_m_showAllButtonActionPerformed
 
-    private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
-        int selectedRow = this.customersTable.getSelectedRow();        
+    private void m_removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_removeButtonActionPerformed
+        int selectedRow = this.m_customersTable.getSelectedRow();        
         if (selectedRow > -1) {
-            int idCustomer = Integer.parseInt((String) this.customersTable.getValueAt(selectedRow, 0));
-            String customerName = (String) this.customersTable.getValueAt(selectedRow, 1);
+            int idCustomer = Integer.parseInt((String) this.m_customersTable.getValueAt(selectedRow, 0));
+            String customerName = (String) this.m_customersTable.getValueAt(selectedRow, 1);
             Customer selectedCustomer = new Customer(customerName);
             selectedCustomer.setId(idCustomer);
             CustomerManager customerManager = new CustomerManagerImplementation();
@@ -235,23 +271,49 @@ public class CustomersView extends javax.swing.JFrame {
         } else if (selectedRow == -1) {
             MessageDisplayManger.showInformation(MessageType.NO_CELL_SELECTED, this );
         }
-    }//GEN-LAST:event_removeButtonActionPerformed
+    }//GEN-LAST:event_m_removeButtonActionPerformed
 
-    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+    private void m_backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_backButtonActionPerformed
         AdministratorView administratorView = new AdministratorView();
         administratorView.setVisible(rootPaneCheckingEnabled);
         this.dispose();
-    }//GEN-LAST:event_backButtonActionPerformed
+    }//GEN-LAST:event_m_backButtonActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        AdministratorView administratorView = new AdministratorView();
-        administratorView.setVisible(rootPaneCheckingEnabled);
+        if(summonerWindow == null){
+            AdministratorView administratorView = new AdministratorView();
+            administratorView.setVisible(rootPaneCheckingEnabled);
+        } else {
+            summonerWindow.setEnabled(true);
+        }
     }//GEN-LAST:event_formWindowClosed
 
+    private void m_cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_cancelButtonActionPerformed
+        summonerWindow.setEnabled(true);
+        this.dispose();
+    }//GEN-LAST:event_m_cancelButtonActionPerformed
+
+    private void m_selectUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_selectUserButtonActionPerformed
+        String customerName = getSelectedCustomerName();
+        summonerWindow.setCustomerName(customerName);
+        summonerWindow.setEnabled(true);
+        this.dispose();
+    }//GEN-LAST:event_m_selectUserButtonActionPerformed
+
+    private String getSelectedCustomerName(){
+        int selectedRow = m_customersTable.getSelectedRow();
+        boolean isSelectedRow = (selectedRow != -1);
+        if(isSelectedRow){
+            String customerName = (String) m_customersTable.getValueAt(selectedRow, NAME_COLUMN);
+            return customerName;
+        }
+        return COUNTER_CLIENT;
+    }
+    
     private boolean validData() {
         boolean validData = true;
 
-        if (this.searchField.getText().isEmpty()) {
+        if (this.m_searchField.getText().isEmpty()) {
             MessageDisplayManger.showError(MessageType.SEARCH_FIELD_EMPTY, this );
             validData = false;
         } 
@@ -295,7 +357,7 @@ public class CustomersView extends javax.swing.JFrame {
         List customers = this.getCustomers();
         DefaultTableModel model = this.createTableModel();
         if (customers == null) {
-            this.customersTable.setModel(model);
+            this.m_customersTable.setModel(model);
             MessageDisplayManger.showInformation(MessageType.NO_COSTUMER_FOUND, this );
             return;
         }
@@ -308,14 +370,14 @@ public class CustomersView extends javax.swing.JFrame {
             customerData[1] = customer.getName();
             model.addRow(customerData);
         }
-        this.customersTable.setModel(model);
+        this.m_customersTable.setModel(model);
         this.rowSelection();
     }
     
     private void showFoundCustomer(List customerFound) {        
         DefaultTableModel model = this.createTableModel();
         if (customerFound == null) {
-            this.customersTable.setModel(model);
+            this.m_customersTable.setModel(model);
             MessageDisplayManger.showInformation(MessageType.NO_COSTUMER_FOUND, this );
             return;
         }
@@ -330,26 +392,33 @@ public class CustomersView extends javax.swing.JFrame {
             model.addRow(customerData);
         }
         
-        this.customersTable.setModel(model);
+        this.m_customersTable.setModel(model);
         this.rowSelection();
     }
     
     private void rowSelection() {
-        this.customersTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        this.customersTable.setRowSelectionAllowed(true);
+        this.m_customersTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        this.m_customersTable.setRowSelectionAllowed(true);
     }
+    
+    
+    private static final String COUNTER_CLIENT= "Mostrador";
+    private static final int NAME_COLUMN = 1;
+    private SalesModule summonerWindow;
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton backButton;
-    private javax.swing.JTable customersTable;
-    private javax.swing.Box.Filler filler1;
     private javax.swing.ButtonGroup filtroBusqueda;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar jToolBar1;
-    private javax.swing.JButton modifyButton;
-    private javax.swing.JButton newButton;
-    private javax.swing.JButton removeButton;
-    private javax.swing.JButton searchButton;
-    private javax.swing.JTextField searchField;
-    private javax.swing.JButton showAllButton;
+    private javax.swing.JButton m_backButton;
+    private javax.swing.JButton m_cancelButton;
+    private javax.swing.JTable m_customersTable;
+    private javax.swing.Box.Filler m_filler1;
+    private javax.swing.JButton m_modifyButton;
+    private javax.swing.JButton m_newButton;
+    private javax.swing.JButton m_removeButton;
+    private javax.swing.JButton m_searchButton;
+    private javax.swing.JTextField m_searchField;
+    private javax.swing.JButton m_selectUserButton;
+    private javax.swing.JButton m_showAllButton;
     // End of variables declaration//GEN-END:variables
 }

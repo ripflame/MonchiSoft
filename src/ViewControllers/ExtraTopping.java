@@ -9,6 +9,7 @@ import Entities.BaseProduct;
 import Entities.Topping;
 import Managers.ToppingManager;
 import Managers.ToppingManagerImplementation;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -56,7 +57,13 @@ public class ExtraTopping extends javax.swing.JFrame {
         m_productFinishedButton = new javax.swing.JButton();
         m_extraToppingComboBox = new javax.swing.JComboBox();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setAlwaysOnTop(true);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         m_newToppingButton.setText("Agregar Topping");
         m_newToppingButton.addActionListener(new java.awt.event.ActionListener() {
@@ -78,49 +85,57 @@ public class ExtraTopping extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(152, Short.MAX_VALUE)
-                .add(m_newToppingButton)
-                .add(18, 18, 18)
-                .add(m_productFinishedButton)
-                .addContainerGap())
             .add(layout.createSequentialGroup()
-                .addContainerGap()
-                .add(m_extraToppingComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .add(10, 10, 10)
+                .add(m_extraToppingComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+            .add(layout.createSequentialGroup()
+                .add(160, 160, 160)
+                .add(m_newToppingButton)
+                .add(10, 10, 10)
+                .add(m_productFinishedButton))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .add(23, 23, 23)
                 .add(m_extraToppingComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(99, 99, 99)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                .add(97, 97, 97)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(m_newToppingButton)
-                    .add(m_productFinishedButton))
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .add(layout.createSequentialGroup()
+                        .add(2, 2, 2)
+                        .add(m_productFinishedButton))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void m_newToppingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_newToppingButtonActionPerformed
+        addExtraTopping();
+        ExtraTopping extraToppingWindow = new ExtraTopping(m_summonerWindow, currentProductId);
+        extraToppingWindow.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_m_newToppingButtonActionPerformed
+
+    private void addExtraTopping(){
         String toppingName = m_extraToppingComboBox.getSelectedItem().toString();
         ToppingManager toppingManager = new ToppingManagerImplementation();
         List<Topping> toppingFoundList = toppingManager.searchByName(toppingName);
         Topping toppingFound = toppingFoundList.get(0);
         double toppingPrice = toppingFound.getPrice();
         ((SalesModule)m_summonerWindow).addExtraToppingToTable(toppingName, toppingPrice, currentProductId);
-        ExtraTopping extraToppingWindow = new ExtraTopping(m_summonerWindow, currentProductId);
-        extraToppingWindow.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_m_newToppingButtonActionPerformed
-
+    }
+    
     private void m_productFinishedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_productFinishedButtonActionPerformed
         
         m_summonerWindow.setEnabled(true);
         this.dispose();
     }//GEN-LAST:event_m_productFinishedButtonActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+       m_summonerWindow.setEnabled(true);
+       this.dispose();
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments
