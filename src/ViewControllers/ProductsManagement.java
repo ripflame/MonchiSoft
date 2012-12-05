@@ -34,7 +34,6 @@ public class ProductsManagement extends javax.swing.JFrame {
         newButton = new javax.swing.JButton();
         modifyButton = new javax.swing.JButton();
         removeButton = new javax.swing.JButton();
-        showAllButton = new javax.swing.JButton();
         optionsSeparator = new javax.swing.JSeparator();
         baseProductRadioButton = new javax.swing.JRadioButton();
         toppingRadioButton = new javax.swing.JRadioButton();
@@ -50,28 +49,25 @@ public class ProductsManagement extends javax.swing.JFrame {
         managementToolBar.setRollover(true);
 
         newButton.setText("Nuevo");
+        newButton.setEnabled(false);
         newButton.setFocusable(false);
         newButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         newButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         managementToolBar.add(newButton);
 
         modifyButton.setText("Modificar");
+        modifyButton.setEnabled(false);
         modifyButton.setFocusable(false);
         modifyButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         modifyButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         managementToolBar.add(modifyButton);
 
         removeButton.setText("Eliminar");
+        removeButton.setEnabled(false);
         removeButton.setFocusable(false);
         removeButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         removeButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         managementToolBar.add(removeButton);
-
-        showAllButton.setText("Mostrar todos");
-        showAllButton.setFocusable(false);
-        showAllButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        showAllButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        managementToolBar.add(showAllButton);
 
         baseProductRadioButton.setText("Producto Base");
 
@@ -129,23 +125,52 @@ public class ProductsManagement extends javax.swing.JFrame {
         this.newButton.addActionListener(commandsListener);
         this.modifyButton.addActionListener(commandsListener);
         this.removeButton.addActionListener(commandsListener);
-        this.showAllButton.addActionListener(commandsListener);
     }
     
-    public void initButtonGroup (){    
-        baseProductRadioButton.setActionCommand(BASE_PRODUCT_COMMAND);
-        toppingRadioButton.setActionCommand(OTHER_PRODUCT_COMMAND);
-        otherProductRadioButton.setActionCommand(TOPPING_COMMAND);
-                        
+    public void disableNewButton (){
+        this.newButton.setEnabled(false);
+    }
+    
+    public void disableModifyButton (){
+        this.modifyButton.setEnabled(false);
+    }
+    
+    public void disableRemoveButton (){
+        this.removeButton.setEnabled(false);
+    }
+    
+    public void enableNewButton (){
+        this.newButton.setEnabled(true);
+    }
+    
+    public void enableModifyButton (){
+        this.modifyButton.setEnabled(true);
+    }
+    
+    public void enableRemoveButton (){
+        this.removeButton.setEnabled(true);
+    }
+    
+    public void initButtonGroup (){                           
         ButtonGroup productsButtonGroup = new ButtonGroup();
         productsButtonGroup.add(baseProductRadioButton);
         productsButtonGroup.add(toppingRadioButton);
         productsButtonGroup.add(otherProductRadioButton);   
-    }    
-        
-    public final String BASE_PRODUCT_COMMAND = "Base";
-    public final String OTHER_PRODUCT_COMMAND = "Otro";
-    public final String TOPPING_COMMAND = "Topping";
+    }
+    
+    public void addButtonGroupListener(ActionListener choiceListener){
+        this.baseProductRadioButton.addActionListener(choiceListener);
+        this.toppingRadioButton.addActionListener(choiceListener);
+        this.otherProductRadioButton.addActionListener(choiceListener);
+    }
+    
+    
+    
+    public String getTextCell (){
+    
+        return "";
+    }
+    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JRadioButton baseProductRadioButton;
@@ -158,7 +183,6 @@ public class ProductsManagement extends javax.swing.JFrame {
     private javax.swing.JScrollPane productsScrollPane;
     public javax.swing.JTable productsTable;
     private javax.swing.JButton removeButton;
-    private javax.swing.JButton showAllButton;
     public javax.swing.JRadioButton toppingRadioButton;
     // End of variables declaration//GEN-END:variables
 }

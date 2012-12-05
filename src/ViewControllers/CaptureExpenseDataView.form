@@ -27,26 +27,25 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace pref="27" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="supplierLabel" alignment="0" min="-2" pref="65" max="-2" attributes="0"/>
-                          <Component id="DescriptionLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="TotalLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="DateLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="m_supplierLabel" alignment="0" min="-2" pref="65" max="-2" attributes="0"/>
+                          <Component id="m_descriptionLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="m_totalLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="m_dateLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="totalField" alignment="0" pref="193" max="32767" attributes="0"/>
-                          <Component id="descriptionField" alignment="0" max="32767" attributes="0"/>
-                          <Component id="supplierField" alignment="0" max="32767" attributes="0"/>
-                          <Component id="dateField" max="32767" attributes="0"/>
+                          <Component id="m_totalField" alignment="0" pref="193" max="32767" attributes="0"/>
+                          <Component id="m_descriptionField" alignment="0" max="32767" attributes="0"/>
+                          <Component id="m_supplierField" alignment="0" max="32767" attributes="0"/>
+                          <Component id="m_dateField" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="114" max="-2" attributes="0"/>
-                      <Component id="saveButton" min="-2" max="-2" attributes="0"/>
+                      <Component id="m_saveButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-                      <Component id="cancelButton" min="-2" max="-2" attributes="0"/>
-
+                      <Component id="m_cancelButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="37" max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -59,33 +58,33 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="supplierLabel" alignment="1" min="-2" max="-2" attributes="0"/>
-                  <Component id="supplierField" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="m_supplierLabel" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="m_supplierField" alignment="1" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="DescriptionLabel" alignment="1" min="-2" max="-2" attributes="0"/>
-                  <Component id="descriptionField" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="m_descriptionLabel" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="m_descriptionField" alignment="1" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="TotalLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="totalField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="m_totalLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="m_totalField" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-                      <Component id="DateLabel" min="-2" max="-2" attributes="0"/>
+                      <Component id="m_dateLabel" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="dateField" min="-2" max="-2" attributes="0"/>
+                      <Component id="m_dateField" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace pref="44" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="saveButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="cancelButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="m_saveButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="m_cancelButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
           </Group>
@@ -93,52 +92,52 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JButton" name="cancelButton">
+    <Component class="javax.swing.JButton" name="m_cancelButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Cancelar"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="saveButton">
+    <Component class="javax.swing.JButton" name="m_saveButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Guardar"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveButtonActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="m_saveButtonActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="totalField">
+    <Component class="javax.swing.JTextField" name="m_totalField">
     </Component>
-    <Component class="javax.swing.JLabel" name="DateLabel">
+    <Component class="javax.swing.JLabel" name="m_dateLabel">
       <Properties>
         <Property name="text" type="java.lang.String" value="Fecha:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="TotalLabel">
+    <Component class="javax.swing.JLabel" name="m_totalLabel">
       <Properties>
         <Property name="text" type="java.lang.String" value="Total:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="DescriptionLabel">
+    <Component class="javax.swing.JLabel" name="m_descriptionLabel">
       <Properties>
         <Property name="text" type="java.lang.String" value="Descripci&#xf3;n:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="supplierLabel">
+    <Component class="javax.swing.JLabel" name="m_supplierLabel">
       <Properties>
         <Property name="text" type="java.lang.String" value="Vendedor:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="descriptionField">
+    <Component class="javax.swing.JTextField" name="m_descriptionField">
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="descriptionFieldActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="m_descriptionFieldActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="supplierField">
+    <Component class="javax.swing.JTextField" name="m_supplierField">
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="supplierFieldActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="m_supplierFieldActionPerformed"/>
       </Events>
     </Component>
-    <Component class="com.toedter.calendar.JDateChooser" name="dateField">
+    <Component class="com.toedter.calendar.JDateChooser" name="m_dateField">
     </Component>
   </SubComponents>
 </Form>

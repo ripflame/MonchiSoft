@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package View;
+package ViewControllers;
 
 /**
  *
@@ -27,7 +27,7 @@ public class Main extends javax.swing.JFrame {
     private void initComponents() {
 
         m_salesButton = new javax.swing.JButton();
-        m_modulesButton = new javax.swing.JButton();
+        m_AdministrationButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -38,25 +38,30 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        m_modulesButton.setText("Módulos");
+        m_AdministrationButton.setText("Administración");
+        m_AdministrationButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                m_AdministrationButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(134, Short.MAX_VALUE)
+                .addContainerGap(127, Short.MAX_VALUE)
                 .addComponent(m_salesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(92, 92, 92)
-                .addComponent(m_modulesButton)
-                .addGap(151, 151, 151))
+                .addComponent(m_AdministrationButton)
+                .addGap(116, 116, 116))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(141, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(m_modulesButton)
+                    .addComponent(m_AdministrationButton)
                     .addComponent(m_salesButton))
                 .addGap(180, 180, 180))
         );
@@ -65,8 +70,16 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void m_salesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_salesButtonActionPerformed
-        // TODO add your handling code here:
+            SalesModule salesModule = new SalesModule();
+            salesModule.setVisible(rootPaneCheckingEnabled);
+            this.dispose();
     }//GEN-LAST:event_m_salesButtonActionPerformed
+
+    private void m_AdministrationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_AdministrationButtonActionPerformed
+            AdministratorView administratorView = new AdministratorView();
+            administratorView.setVisible(rootPaneCheckingEnabled);
+            this.dispose();
+    }//GEN-LAST:event_m_AdministrationButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -103,7 +116,7 @@ public class Main extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton m_modulesButton;
+    private javax.swing.JButton m_AdministrationButton;
     private javax.swing.JButton m_salesButton;
     // End of variables declaration//GEN-END:variables
 }

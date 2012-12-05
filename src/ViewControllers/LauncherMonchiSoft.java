@@ -3,7 +3,6 @@
  * and open the template in the editor.
  */
 package ViewControllers;
-import Entities.*;
 
 /**
  *
@@ -22,9 +21,9 @@ public class LauncherMonchiSoft {
 
     static void initProductsModule(){
         ProductsManagement productsManagementGUI = new ProductsManagement ();
-        BaseProduct baseProduct = new BaseProduct();
-        ProductsController productsController = new ProductsController(productsManagementGUI, baseProduct);
-        productsController.finishAndDisplayProductsManagement();
+        ProductsManagementController productsController = 
+                new ProductsManagementController(productsManagementGUI);
+        productsController.EndCreateAndDisplayProductsManagement();
     }
 
 }

@@ -26,38 +26,44 @@ public class AdministratorView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        CustomersModule = new javax.swing.JButton();
-        ProductsModule = new javax.swing.JButton();
-        StatisticsModule = new javax.swing.JButton();
-        ExpensesModule = new javax.swing.JButton();
+        m_customersModule = new javax.swing.JButton();
+        m_productsModule = new javax.swing.JButton();
+        m_statisticsModule = new javax.swing.JButton();
+        m_expensesModule = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        CustomersModule.setText("Clientes");
-        CustomersModule.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CustomersModuleActionPerformed(evt);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
             }
         });
 
-        ProductsModule.setText("Productos");
-        ProductsModule.addActionListener(new java.awt.event.ActionListener() {
+        m_customersModule.setText("Clientes");
+        m_customersModule.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ProductsModuleActionPerformed(evt);
+                m_customersModuleActionPerformed(evt);
             }
         });
 
-        StatisticsModule.setText("Estadísticas");
-        StatisticsModule.addActionListener(new java.awt.event.ActionListener() {
+        m_productsModule.setText("Productos");
+        m_productsModule.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                StatisticsModuleActionPerformed(evt);
+                m_productsModuleActionPerformed(evt);
             }
         });
 
-        ExpensesModule.setText("Gastos");
-        ExpensesModule.addActionListener(new java.awt.event.ActionListener() {
+        m_statisticsModule.setText("Estadísticas");
+        m_statisticsModule.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ExpensesModuleActionPerformed(evt);
+                m_statisticsModuleActionPerformed(evt);
+            }
+        });
+
+        m_expensesModule.setText("Gastos");
+        m_expensesModule.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                m_expensesModuleActionPerformed(evt);
             }
         });
 
@@ -69,14 +75,14 @@ public class AdministratorView extends javax.swing.JFrame {
                 .add(94, 94, 94)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(layout.createSequentialGroup()
-                        .add(StatisticsModule)
+                        .add(m_statisticsModule)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 87, Short.MAX_VALUE)
-                        .add(ExpensesModule)
+                        .add(m_expensesModule)
                         .add(138, 138, 138))
                     .add(layout.createSequentialGroup()
-                        .add(CustomersModule)
+                        .add(m_customersModule)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .add(ProductsModule)
+                        .add(m_productsModule)
                         .add(126, 126, 126))))
         );
         layout.setVerticalGroup(
@@ -84,40 +90,45 @@ public class AdministratorView extends javax.swing.JFrame {
             .add(layout.createSequentialGroup()
                 .add(62, 62, 62)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(CustomersModule)
-                    .add(ProductsModule))
+                    .add(m_customersModule)
+                    .add(m_productsModule))
                 .add(72, 72, 72)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(StatisticsModule)
-                    .add(ExpensesModule))
+                    .add(m_statisticsModule)
+                    .add(m_expensesModule))
                 .addContainerGap(56, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void CustomersModuleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CustomersModuleActionPerformed
-        CustomersView clientsModule = new CustomersView();
-        clientsModule.setVisible(rootPaneCheckingEnabled);
-        
+    private void m_customersModuleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_customersModuleActionPerformed
+        CustomersView customersView = new CustomersView();
+        customersView.setVisible(rootPaneCheckingEnabled); 
         this.dispose();
-    }//GEN-LAST:event_CustomersModuleActionPerformed
+    }//GEN-LAST:event_m_customersModuleActionPerformed
 
-    private void ProductsModuleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProductsModuleActionPerformed
-        ProductsController productsController = new ProductsController();
-        productsController.finishAndDisplayProductsManagement();
+    private void m_productsModuleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_productsModuleActionPerformed
+        ProductsManagementController productsController = new ProductsManagementController();
+        productsController.EndCreateAndDisplayProductsManagement();
         this.dispose();
-    }//GEN-LAST:event_ProductsModuleActionPerformed
+    }//GEN-LAST:event_m_productsModuleActionPerformed
 
-    private void StatisticsModuleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StatisticsModuleActionPerformed
+    private void m_statisticsModuleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_statisticsModuleActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_StatisticsModuleActionPerformed
+    }//GEN-LAST:event_m_statisticsModuleActionPerformed
 
-    private void ExpensesModuleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExpensesModuleActionPerformed
+    private void m_expensesModuleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_expensesModuleActionPerformed
         ExpensesView expensesModule = new ExpensesView();
         expensesModule.setVisible(rootPaneCheckingEnabled);
         this.dispose();
-    }//GEN-LAST:event_ExpensesModuleActionPerformed
+    }//GEN-LAST:event_m_expensesModuleActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        Main main = new Main();
+        main.setVisible(rootPaneCheckingEnabled);
+        this.dispose();
+    }//GEN-LAST:event_formWindowClosing
     
     /**
      * @param args the command line arguments
@@ -155,15 +166,16 @@ public class AdministratorView extends javax.swing.JFrame {
          */
         java.awt.EventQueue.invokeLater(new Runnable() {
 
+            @Override
             public void run() {
                 new AdministratorView().setVisible(true);
             }
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton CustomersModule;
-    private javax.swing.JButton ExpensesModule;
-    private javax.swing.JButton ProductsModule;
-    private javax.swing.JButton StatisticsModule;
+    private javax.swing.JButton m_customersModule;
+    private javax.swing.JButton m_expensesModule;
+    private javax.swing.JButton m_productsModule;
+    private javax.swing.JButton m_statisticsModule;
     // End of variables declaration//GEN-END:variables
 }

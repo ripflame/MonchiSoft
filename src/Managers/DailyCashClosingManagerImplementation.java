@@ -14,7 +14,7 @@ public class DailyCashClosingManagerImplementation extends GenericManagerImpleme
     @Override
     public List<DailyCashClosing> searchByID(Integer id) {
         List<DailyCashClosing> dailyCashClosings = null;
-        dailyCashClosings = HQLQueryHelper.execute(QueryConstants.DAILY_CASH_CLOSING_QUERY_ID + 
+        dailyCashClosings = HQLQueryHelper.execute(DAILY_CASH_CLOSING_QUERY_ID + 
                 id + QueryConstants.TERMINATION_CHARACTER);
         
         return dailyCashClosings;
@@ -27,4 +27,5 @@ public class DailyCashClosingManagerImplementation extends GenericManagerImpleme
         return dailyCashClosings;
     }
 
+    private static final String DAILY_CASH_CLOSING_QUERY_ID = "from DailyCashClosing dcc where dcc.id like '";
 }

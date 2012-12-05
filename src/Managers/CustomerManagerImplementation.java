@@ -14,7 +14,7 @@ public class CustomerManagerImplementation extends GenericManagerImplementation<
     @Override
     public List<Customer> searchByName(String name) {
         List<Customer> customersList = null;
-        customersList = HQLQueryHelper.execute(QueryConstants.CUSTOMER_QUERY_NAME
+        customersList = HQLQueryHelper.execute(CUSTOMER_QUERY_NAME
                 + name + QueryConstants.SIMILAR_TERMINATION_CHARACTER);
 
         return customersList;
@@ -23,7 +23,7 @@ public class CustomerManagerImplementation extends GenericManagerImplementation<
     @Override
     public List<Customer> searchById(Integer id) {
         List<Customer> customerList = null;
-        customerList = HQLQueryHelper.execute(QueryConstants.CUSTOMER_QUERY_ID
+        customerList = HQLQueryHelper.execute(CUSTOMER_QUERY_ID
                 + id + QueryConstants.TERMINATION_CHARACTER);
 
         return customerList;
@@ -35,4 +35,7 @@ public class CustomerManagerImplementation extends GenericManagerImplementation<
 
         return customers;
     }
+    
+    private static final String CUSTOMER_QUERY_NAME = "from Customer c where c.name like '";
+    private static final String CUSTOMER_QUERY_ID = "from Customer c where c.id like '";
 }
