@@ -4,18 +4,24 @@
  */
 package ViewControllers;
 
+import Helpers.MessageDisplayManager;
+import Helpers.DataCheckerImplementation;
+import Helpers.MessageType;
+import java.awt.event.ActionListener;
+import javax.swing.JTextField;
+
 
 /**
  *
  * @author Ileana Guadalupe Ontiveros Mena
  */
 public class CaptureProductData extends javax.swing.JFrame {
-
     
-    public CaptureProductData(ManagementController managementController) {
+
+    public CaptureProductData(ManagementController captureController) {
         initComponents();
-        saveButton.addActionListener(managementController);
-        cancelButton.addActionListener(managementController);
+        addActionsListener(captureController);
+        m_dataChecker = new DataCheckerImplementation();
     }
 
     /**
@@ -27,15 +33,20 @@ public class CaptureProductData extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jTabbedPane1 = new javax.swing.JTabbedPane();
         titleLabel = new javax.swing.JLabel();
         nameLabel = new javax.swing.JLabel();
-        priceLabel = new javax.swing.JLabel();
+        firstPriceLabel = new javax.swing.JLabel();
         nameText = new javax.swing.JTextField();
-        priceText = new javax.swing.JTextField();
+        firstPriceText = new javax.swing.JTextField();
         saveButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
+        secondPriceLabel = new javax.swing.JLabel();
+        thirdPriceLabel = new javax.swing.JLabel();
+        secondPriceText = new javax.swing.JTextField();
+        thirdPriceText = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Monchisoft - Captura de productos");
         setResizable(false);
 
@@ -45,11 +56,42 @@ public class CaptureProductData extends javax.swing.JFrame {
 
         nameLabel.setText("Nombre:");
 
-        priceLabel.setText("Precio:");
+        firstPriceLabel.setText("Precio:");
+
+        nameText.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                nameTextFocusLost(evt);
+            }
+        });
+
+        firstPriceText.setText("Tamaño chico");
+        firstPriceText.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                firstPriceTextFocusGained(evt);
+            }
+        });
 
         saveButton.setText("Guardar");
 
         cancelButton.setText("Cancelar");
+
+        secondPriceLabel.setText("Precio:");
+
+        thirdPriceLabel.setText("Precio:");
+
+        secondPriceText.setText("Tamaño mediano");
+        secondPriceText.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                secondPriceTextFocusGained(evt);
+            }
+        });
+
+        thirdPriceText.setText("Tamaño grande");
+        thirdPriceText.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                thirdPriceTextFocusGained(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -64,13 +106,21 @@ public class CaptureProductData extends javax.swing.JFrame {
                         .addComponent(saveButton, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE))
                     .addComponent(titleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(nameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(priceLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(nameText)
-                            .addComponent(priceText))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(nameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(firstPriceLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(thirdPriceLabel))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(nameText, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(thirdPriceText, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(firstPriceText, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(secondPriceText, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE))))
+                            .addComponent(secondPriceLabel))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -82,11 +132,19 @@ public class CaptureProductData extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nameLabel)
                     .addComponent(nameText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(firstPriceText)
+                    .addComponent(firstPriceLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(priceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(priceText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
+                    .addComponent(secondPriceLabel)
+                    .addComponent(secondPriceText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(thirdPriceText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(thirdPriceLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(saveButton)
                     .addComponent(cancelButton))
@@ -94,26 +152,125 @@ public class CaptureProductData extends javax.swing.JFrame {
         );
 
         java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds((screenSize.width-286)/2, (screenSize.height-263)/2, 286, 263);
+        setBounds((screenSize.width-286)/2, (screenSize.height-277)/2, 286, 277);
     }// </editor-fold>//GEN-END:initComponents
 
-    public void setNameText(String nombre) {
-        this.nameText.setText(nombre);
-    }
-    
-
-    public void setPriceText(String direccion) {
-        this.priceText.setText(direccion);
-    }
+    private void firstPriceTextFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_firstPriceTextFocusGained
+        this.firstPriceText.setText("");
+    }//GEN-LAST:event_firstPriceTextFocusGained
 
     
+    private void secondPriceTextFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_secondPriceTextFocusGained
+        this.secondPriceText.setText("");
+    }//GEN-LAST:event_secondPriceTextFocusGained
+
+    
+    private void thirdPriceTextFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_thirdPriceTextFocusGained
+        this.thirdPriceText.setText("");
+    }//GEN-LAST:event_thirdPriceTextFocusGained
+
+    
+    private void nameTextFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nameTextFocusLost
+        auditDataText(this.nameText.getText(), "Nombre");
+    }//GEN-LAST:event_nameTextFocusLost
+
+    
+    public void setTitleLabel(String title) {
+        this.titleLabel.setText(title);
+    }
+
+    
+    public String getNameText() {
+        return nameText.getText();
+    }
+
+    
+    public String getFirstPriceText() {
+        return firstPriceText.getText();
+    }
+
+    
+    public void setFirstPriceText(JTextField firstPriceText) {
+        this.firstPriceText = firstPriceText;
+    }
+    
+    
+    public void setNameText(JTextField nameText) {
+        this.nameText = nameText;
+    }
+
+    
+    public String getSecondPriceText() {
+        return secondPriceText.getText();
+    }
+
+    
+    public void disableSecondPriceText() {
+        this.secondPriceText.setEnabled(false);
+    }
+
+    
+    public String getThirdPriceText() {
+        return thirdPriceText.getText();
+    }
+
+    
+    public void disableThirdPriceText() {
+        this.thirdPriceText.setEnabled(false);
+    }
+    
+    
+    private void addActionsListener (ActionListener commandsListener){
+        this.saveButton.addActionListener(commandsListener);
+        this.cancelButton.addActionListener(commandsListener);
+    }
+    
+    private void auditDataText(String dataToAudit, String titleData){
+    if ( !m_dataChecker.isNullString(dataToAudit)){
+            if ( m_dataChecker.isDoubleNum(dataToAudit) | m_dataChecker.isIntegerNum(dataToAudit) ){
+                MessageDisplayManager.showError(MessageType.REQUIRED_TEXT, this);
+                this.nameText.setText(titleData);
+                this.m_isAllValidData = false;
+            } else {
+                this.m_isAllValidData = true;
+            }
+        }else{
+           MessageDisplayManager.showError(MessageType.SEARCH_FIELD_EMPTY, this);
+           this.nameText.setText(titleData);
+           this.m_isAllValidData = false;
+        }
+    }
+    
+    private void auditDataNum (String dataToAudit, String titleData){
+        if ( !m_dataChecker.isNullString(dataToAudit)){
+            if ( m_dataChecker.isDoubleNum(dataToAudit) | m_dataChecker.isIntegerNum(this.getNameText()) ){
+                this.m_isAllValidData = true;
+            } else {
+                MessageDisplayManager.showError(MessageType.REQUIRED_NUM, this);
+                this.nameText.setText(titleData);
+                this.m_isAllValidData = false;
+            }
+        }else{
+           MessageDisplayManager.showError(MessageType.SEARCH_FIELD_EMPTY, this);
+           this.nameText.setText(titleData);
+           this.m_isAllValidData = false;
+        }
+    }
+    
+    public boolean m_isAllValidData = true; 
+    private DataCheckerImplementation m_dataChecker;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
+    private javax.swing.JLabel firstPriceLabel;
+    private javax.swing.JTextField firstPriceText;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel nameLabel;
     private javax.swing.JTextField nameText;
-    private javax.swing.JLabel priceLabel;
-    private javax.swing.JTextField priceText;
     private javax.swing.JButton saveButton;
+    private javax.swing.JLabel secondPriceLabel;
+    private javax.swing.JTextField secondPriceText;
+    private javax.swing.JLabel thirdPriceLabel;
+    private javax.swing.JTextField thirdPriceText;
     private javax.swing.JLabel titleLabel;
     // End of variables declaration//GEN-END:variables
 }
