@@ -31,10 +31,11 @@ public class AdministratorView extends javax.swing.JFrame {
         m_statisticsModule = new javax.swing.JButton();
         m_expensesModule = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosed(java.awt.event.WindowEvent evt) {
-                formWindowClosed(evt);
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
             }
         });
 
@@ -102,8 +103,8 @@ public class AdministratorView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void m_customersModuleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_customersModuleActionPerformed
-        CustomersView clientsModule = new CustomersView();
-        clientsModule.setVisible(rootPaneCheckingEnabled); 
+        CustomersView customersView = new CustomersView();
+        customersView.setVisible(rootPaneCheckingEnabled); 
         this.dispose();
     }//GEN-LAST:event_m_customersModuleActionPerformed
 
@@ -123,10 +124,11 @@ public class AdministratorView extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_m_expensesModuleActionPerformed
 
-    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         Main main = new Main();
         main.setVisible(rootPaneCheckingEnabled);
-    }//GEN-LAST:event_formWindowClosed
+        this.dispose();
+    }//GEN-LAST:event_formWindowClosing
     
     /**
      * @param args the command line arguments
