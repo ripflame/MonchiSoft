@@ -21,14 +21,27 @@ import javax.swing.table.DefaultTableModel;
  * @author Ileana Guadalupe Ontiveros Mena
  */
 public class BaseProductManagementController extends ManagementController{
+    
+    // Private constructor prevents instantiation from other classes
+    private BaseProductManagementController() {}
+ 
+    /**
+    * SingletonHolder is loaded on the first execution of Singleton.getInstance() 
+    * or the first access to SingletonHolder.INSTANCE, not before.
+    */
+    private static class SingletonHolder { 
+        public static final BaseProductManagementController INSTANCE = 
+                new BaseProductManagementController();
+    }
+ 
+    public static BaseProductManagementController getInstance(BaseProduct baseProduct, 
+            BaseProductManager baseProductManager, JTable productsTable) {
+        m_baseProduct = baseProduct;
+        m_baseProductManager = baseProductManager;
+        m_productsTable = productsTable;
+        return SingletonHolder.INSTANCE;
+    }
 
-    public BaseProductManagementController(BaseProduct baseProduct, 
-            BaseProductManager baseProductManager, JTable productsTable) 
-            throws HeadlessException {
-        this.m_baseProduct = baseProduct;
-        this.m_baseProductManager = baseProductManager;
-        this.m_productsTable = productsTable;
-    } 
 
     @Override
     public void displayCaptureView() {
@@ -102,9 +115,9 @@ public class BaseProductManagementController extends ManagementController{
     
     public final String[] BASE_PRODUCT_COLUMN_TITLES = {"Nombre","Precio: Chico",
         "Precio: Mediano","Precio: Grande"}; 
-    private BaseProduct m_baseProduct;
-    private BaseProductManager m_baseProductManager;
-    private JTable m_productsTable;
+    private static BaseProduct m_baseProduct;
+    private static BaseProductManager m_baseProductManager;
+    private static JTable m_productsTable;
     private DefaultTableModel m_baseProductTableModel;
     
 }
