@@ -20,7 +20,7 @@ import javax.swing.table.DefaultTableModel;
 public abstract class ManagementController implements ActionListener {
      
     //public abstract void 
-    public abstract void displayCaptureView ();
+    public abstract void createAndDisplayCaptureWindow();
     public abstract void performAddingProcedures();
     public abstract void performModificationProcedures();
     public abstract void performRemovalProcedures();
@@ -35,12 +35,19 @@ public abstract class ManagementController implements ActionListener {
         String command = e.getActionCommand();
         
         if (command.equalsIgnoreCase(NEW_COMMAND)) {
-            performAddingProcedures();
+            createAndDisplayCaptureWindow();
         } else if (command.equalsIgnoreCase(MODIFY_COMMAND)){
             performModificationProcedures();
         } else if (command.equalsIgnoreCase(REMOVE_COMMAND)){
             performRemovalProcedures();   
-        } else {
+        } else if (command.equalsIgnoreCase(SAVE_COMMAND)){
+            //performAddingProcedures();
+            Logger.getLogger(ManagementController.class.getName()).log(Level.INFO, "Botón Guardar");
+            
+        } else if (command.equalsIgnoreCase(CANCEL_COMMAND)){
+            Logger.getLogger(ManagementController.class.getName()).log(Level.INFO, "Botón Cancelar");
+            
+        } else{
             Logger.getLogger(ManagementController.class.getName()).log(Level.INFO, "Caso no considerado");
         }
     }
@@ -53,5 +60,7 @@ public abstract class ManagementController implements ActionListener {
      
     public final String NEW_COMMAND = "Nuevo";
     public final String MODIFY_COMMAND = "Modificar";
-    public final String REMOVE_COMMAND = "Eliminar"; 
+    public final String REMOVE_COMMAND = "Eliminar";
+    public final String SAVE_COMMAND = "Guardar"; 
+    public final String CANCEL_COMMAND = "Cancelar"; 
 }
