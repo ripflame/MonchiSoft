@@ -44,6 +44,11 @@ public class ProductsManagement extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("MonchiSoft - Gestión de Productos");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         managementToolBar.setFloatable(false);
         managementToolBar.setRollover(true);
@@ -120,6 +125,11 @@ public class ProductsManagement extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        AdministratorView administratorView = new AdministratorView();
+        administratorView.setVisible(rootPaneCheckingEnabled);
+    }//GEN-LAST:event_formWindowClosed
 
     public void addActionsListener (ActionListener commandsListener){
         this.newButton.addActionListener(commandsListener);
