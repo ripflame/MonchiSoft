@@ -5,6 +5,9 @@
 package ViewControllers;
 
 import Entities.OtherProduct;
+import Helpers.DataCheckerImplementation;
+import Helpers.MessageDisplayManager;
+import Helpers.MessageType;
 import Managers.OtherProductManager;
 import java.util.Iterator;
 import java.util.List;
@@ -80,7 +83,30 @@ public class OtherProductManagementController extends ManagementController{
     
     @Override
     public void performAddingProcedures() {
-        
+        String[] otherProductData = new String [ELEMENTS_TOTAL];
+        otherProductData = getAndAuditDataCaptured();
+        if (m_isAllValidData){
+            setOtherProductData(otherProductData);
+            boolean isSucces = false;
+            if ( !exists( m_otherProduct.getName() ) ){
+                try {
+                     m_otherProductManager.add( m_otherProduct );
+                     isSucces = true;
+                }catch(Exception e){
+                    isSucces = false;}
+                
+            if (isSucces){
+                    m_otherProductTableModel.addRow(otherProductData);
+                    m_productsModule.setEnabled(true);
+                    m_captureWindow.dispose();
+                    m_productsModule.enableNewButton();
+                } else {
+                      MessageDisplayManager.showInformation(MessageType.ERROR_DATA_BASE, m_captureWindow);
+                }
+            }
+        } else {
+            MessageDisplayManager.showInformation(MessageType.INVALID_DATA, m_captureWindow);
+        }
     }
 
     @Override
@@ -112,6 +138,38 @@ public class OtherProductManagementController extends ManagementController{
         return otherProducts;
     }
     
+    private String[] getAndAuditDataCaptured (){
+         
+         String name = this.m_captureWindow.getNameText();
+         String price = this.m_captureWindow.getFirstPriceText();
+         
+         this.m_dataChecker = new DataCheckerImplementation();
+         
+         if (m_dataChecker.isNullString ( name )){
+             m_isAllValidData = false;
+             MessageDisplayManager.showInformation(MessageType.EMPTY_FIELDS, m_captureWindow);
+             
+         } else {
+             if ( m_dataChecker.isNum( name ) ){
+                 m_isAllValidData = false;  
+                 MessageDisplayManager.showInformation(MessageType.REQUIRED_TEXT, m_captureWindow);
+             } else {
+                 if (  m_dataChecker.isNum( price ) ) {
+                     m_isAllValidData = true;
+                     } else { 
+                     m_isAllValidData = false;
+                     MessageDisplayManager.showInformation(MessageType.REQUIRED_NUM, m_captureWindow);
+                 }               
+             }
+         }
+         
+         int elementNum = FIRST;
+         String[] data = new String[ELEMENTS_TOTAL];
+         data [elementNum] = name;
+         data [++elementNum] = price;
+        
+         return data;
+    }
     
     public void updateTableModel (List otherProducts){
         Iterator<OtherProduct> iterator = otherProducts.iterator();
@@ -126,6 +184,24 @@ public class OtherProductManagementController extends ManagementController{
         }
       
     }
+    
+    
+    private void setOtherProductData (String[] productData){
+         int dataNum = FIRST;
+         this.m_otherProduct = new OtherProduct();
+         this.m_otherProduct.setName(productData[dataNum]);
+         this.m_otherProduct.setPrice(Double.parseDouble(productData[++dataNum]));
+     }
+    
+    private boolean exists(String textData){
+        List listProducts = m_otherProductManager.searchByExactName(textData);
+        if (listProducts.isEmpty()){
+            return false;            
+        } else {
+            MessageDisplayManager.showInformation(MessageType.PRODUCT_EXISTS, m_captureWindow);
+            return true;
+        }
+    }
 
     private static final String NAME_FIELD_LABEL = "Nombre";
     private static final String PRICE_FIELD_LABEL = "Precio";
@@ -133,10 +209,13 @@ public class OtherProductManagementController extends ManagementController{
     private static final int FIRST = 0;
     private static final int ELEMENTS_TOTAL = OTHER_PRODUCT_COLUMN_TITLES.length;
     private static final String TITLE_LABEL = "Otro tipo de producto";
-    private static OtherProduct m_otherProduct;
+    private OtherProduct m_otherProduct;
     private static OtherProductManager m_otherProductManager;
     private static JTable m_productsTable;
     private DefaultTableModel m_otherProductTableModel;
     private CaptureProductData m_captureWindow;
     private static ProductsManagement m_productsModule;
+    
+    private DataCheckerImplementation m_dataChecker;
+    private boolean m_isAllValidData;
 }
