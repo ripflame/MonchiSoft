@@ -39,22 +39,24 @@ public class ProductsManagementController implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         
+        this.m_productsManagementGUI.removeActionsListener(m_currentListener);
         String optionSelected = e.getActionCommand();
         
         if (optionSelected.equalsIgnoreCase(BASE_PRODUCT_OPTION)){
             initBaseProductManagementController();
-            this.m_productsManagementGUI.addActionsListener(m_baseProductManagementController);
-            m_baseProductManagementController.performDisplayProcedures();
+            this.m_currentListener = this.m_baseProductManagementController;
+            this.m_baseProductManagementController.performDisplayProcedures();
         } else if (optionSelected.equalsIgnoreCase(TOPPING_OPTION)){
             initToppingManagementController();
-            this.m_productsManagementGUI.addActionsListener(m_toppingManagementController);
-            m_toppingManagementController.performDisplayProcedures();
+            m_currentListener = this.m_toppingManagementController;
+            this.m_toppingManagementController.performDisplayProcedures();
         } else if (optionSelected.equalsIgnoreCase(OTHER_PRODUCT_OPTION)){
             initOtherProductManagementController();
-            this.m_productsManagementGUI.addActionsListener(m_otherProductManagementController);
+            this.m_currentListener = this.m_otherProductManagementController;
             this.m_otherProductManagementController.performDisplayProcedures();
         } else {}
-   
+        
+        this.m_productsManagementGUI.addActionsListener(m_currentListener); 
         this.m_productsManagementGUI.enableNewButton();
     }
     
@@ -65,8 +67,7 @@ public class ProductsManagementController implements ActionListener{
                 new BaseProductManagerImplementation(); 
         m_baseProductManagementController = 
                 BaseProductManagementController.getInstance(baseProduct, 
-                baseProductManager, m_productsManagementGUI.productsTable, 
-                m_productsManagementGUI.newButton);      
+                baseProductManager, m_productsManagementGUI);      
     }
     
     
@@ -103,6 +104,7 @@ public class ProductsManagementController implements ActionListener{
     private ManagementController m_baseProductManagementController;
     private ManagementController m_otherProductManagementController;
     private ManagementController m_toppingManagementController;
+    private ActionListener m_currentListener;
 
 
 }
