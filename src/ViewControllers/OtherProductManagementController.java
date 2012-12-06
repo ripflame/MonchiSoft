@@ -53,7 +53,22 @@ public class OtherProductManagementController extends ManagementController{
     
     @Override
     public void performRemovalProcedures() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        int rowSelected = m_productsModule.getSelectedRowNum();
+        Object nameSelected = this.m_otherProductTableModel.getValueAt(rowSelected, 0);
+        List listProducts = m_otherProductManager.searchByExactName(nameSelected.toString());
+        Iterator<OtherProduct> iterator = listProducts.iterator();
+        m_otherProduct = new OtherProduct ();
+        OtherProduct m_otherProduct = (OtherProduct) iterator.next();
+        boolean isSucces = false;
+        try {
+            m_otherProductManager.remove(m_otherProduct);
+            isSucces = true;
+        }catch(Exception e){}
+        if (isSucces) {
+            this.m_otherProductTableModel.removeRow(rowSelected);
+            m_productsModule.disableRemoveButton();
+            m_productsModule.disableModifyButton();
+        }
     }
 
     
