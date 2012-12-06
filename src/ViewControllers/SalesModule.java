@@ -535,7 +535,6 @@ public class SalesModule extends javax.swing.JFrame {
         FinalProduct finalProductToAdd = new FinalProduct(baseProductId, baseProductPrice);
         FinalProductManager finalProductManager = new FinalProductManagerImplementation();
         finalProductManager.add(finalProductToAdd);
-        int finalProductId = finalProductToAdd.getId();
         return finalProductToAdd;
     }
     
@@ -582,6 +581,13 @@ public class SalesModule extends javax.swing.JFrame {
         addToppingToProductInTable(productRow, toppingName); 
         double priceWithNewTopping = addToppingPriceToProductInTable(productRow, toppingPrice);
         modifyProductInDataBase(finalProductId, priceWithNewTopping);   
+        calculateDiscounts();
+    }
+    
+    public void setCashDiscount(double discountCash){
+        isDiscountInCash = true;
+        isDiscountInPercentage = false;
+        m_discountCashField.setText(String.valueOf(discountCash));
         calculateDiscounts();
     }
     
@@ -716,19 +722,22 @@ public class SalesModule extends javax.swing.JFrame {
                 clientName.equalsIgnoreCase(VOID)){
             return 1;
         }
+   
         CustomerManager customerManager = new CustomerManagerImplementation();
         List<Customer> customerFoundList = customerManager.searchByName(clientName);
-        Customer customerFound = customerFoundList.get(0);
-        if(customerFound != null){
+        if(customerFoundList.size() > 0){
+            Customer customerFound = customerFoundList.get(0);
             return customerFound.getId();
+        } else {
+            //not found customer
+            return 0;
         }
-        return 1;
     }
     
     private void m_completeSaleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_completeSaleButtonActionPerformed
         Date currentDate = new Date();
         int selectedCustomerId = getSelectedCustomerId();
-        if(selectedCustomerId != -1){
+        if(selectedCustomerId != 0){
             double saleTotal = Double.valueOf(m_totalField.getText());
             Sale saleToSave = new Sale(currentDate, selectedCustomerId, saleTotal);
             SaleManager saleManager = new SaleManagerImplementation();
