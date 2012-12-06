@@ -20,6 +20,7 @@ public class MessageDisplayManager {
     private static final String REQUIRED_TEXT = "Se requiere dato de texto";
     private static final String ERROR_DATA_BASE = "Error al guardar. Intente de nuevo.";
     private static final String INVALID_DATA = "Se requiere datos válidos.";
+    private static final String PRODUCT_EXISTS = "El producto ya existe.";
     
     public static void showInformation(MessageType type, Window parentFrame) {
         String dialogMessage = getMessageStringFromType(type);
@@ -82,6 +83,10 @@ public class MessageDisplayManager {
             case INVALID_DATA:
                 messageString = INVALID_DATA;
                 break;
+                
+            case PRODUCT_EXISTS:
+                messageString = PRODUCT_EXISTS;
+                break;    
                         
                         
         }
