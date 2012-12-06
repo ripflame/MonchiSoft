@@ -11,5 +11,8 @@
         <column name="sale_id"/>
       </key-property>
     </composite-id>
+    <property name="quantity" type="int">
+      <column name="quantity" not-null="true"/>
+    </property>
   </class>
 </hibernate-mapping>

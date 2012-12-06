@@ -14,6 +14,8 @@ import Entities.OtherProduct;
 import Entities.Sale;
 import Entities.SaleFinalProducts;
 import Entities.SaleFinalProductsId;
+import Entities.SaleOtherProducts;
+import Entities.SaleOtherProductsId;
 import Entities.Topping;
 import Helpers.MessageDisplayManger;
 import Helpers.MessageType;
@@ -31,6 +33,8 @@ import Managers.SaleFinalProductsManager;
 import Managers.SaleFinalProductsManagerImplementation;
 import Managers.SaleManager;
 import Managers.SaleManagerImplementation;
+import Managers.SaleOtherProductsManager;
+import Managers.SaleOtherProductsManagerImplementation;
 import Managers.ToppingManager;
 import Managers.ToppingManagerImplementation;
 import ViewControllers.Main;
@@ -710,7 +714,7 @@ public class SalesModule extends javax.swing.JFrame {
         String clientName = m_customerNameTextField.getText();
         if(clientName.equalsIgnoreCase(CustomersView.COUNTER_CLIENT) || 
                 clientName.equalsIgnoreCase(VOID)){
-            return 0;
+            return 1;
         }
         CustomerManager customerManager = new CustomerManagerImplementation();
         List<Customer> customerFoundList = customerManager.searchByName(clientName);
@@ -718,7 +722,7 @@ public class SalesModule extends javax.swing.JFrame {
         if(customerFound != null){
             return customerFound.getId();
         }
-        return -1;
+        return 1;
     }
     
     private void m_completeSaleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_completeSaleButtonActionPerformed
@@ -729,7 +733,6 @@ public class SalesModule extends javax.swing.JFrame {
             Sale saleToSave = new Sale(currentDate, selectedCustomerId, saleTotal);
             SaleManager saleManager = new SaleManagerImplementation();
             saleManager.add(saleToSave);
-            SaleFinalProductsManager saleFinalProductsManager = new SaleFinalProductsManagerImplementation();
             saveProductsToSale(saleToSave);
         } else {
             MessageDisplayManger.showError(MessageType.NO_CUSTOMER_NAME_FOUND, this); 
@@ -741,9 +744,28 @@ public class SalesModule extends javax.swing.JFrame {
             if(isFinalProduct(row)){
                 addFinalProductToSale(row, saleToSaveProducts.getId());
             } else {
-                //otherProduct
+                addOtherProductToSale(row, saleToSaveProducts.getId());
             }
         }
+        this.dispose();
+        SalesModule salesModule = new SalesModule();
+        salesModule.setVisible(true);
+    }
+    
+    private void addOtherProductToSale(int rowOfProduct, int saleId){
+        int otherProductId = getProductIdFromRow(rowOfProduct);
+        SaleOtherProductsId saleOtherProductsId = new SaleOtherProductsId(otherProductId, saleId);
+        int quantity = 0;
+        String otherProductName = (String) m_productTable.getValueAt(rowOfProduct, NAME_COLUMN);
+        for(int row = 0; row < m_productTable.getRowCount(); row ++){
+            String currentProductName = (String) m_productTable.getValueAt(row, NAME_COLUMN);
+            if(currentProductName.equalsIgnoreCase(otherProductName)){
+                quantity++;
+            }
+        }
+        SaleOtherProducts saleOtherProducts = new SaleOtherProducts(saleOtherProductsId, quantity);
+        SaleOtherProductsManager saleOtherProductsManager = new SaleOtherProductsManagerImplementation();
+        saleOtherProductsManager.add(saleOtherProducts);
     }
     
     private void addFinalProductToSale(int rowOfProduct, int saleId){
