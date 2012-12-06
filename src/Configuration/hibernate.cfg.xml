@@ -17,7 +17,6 @@
     <mapping resource="Entities/Expense.hbm.xml"/>
     <mapping resource="Entities/FinalProductToppings.hbm.xml"/>
     <mapping resource="Entities/SaleFinalProducts.hbm.xml"/>
-    <mapping resource="Entities/SaleFinalProducts.hbm.xml"/>
     <mapping resource="Entities/SaleOtherProducts.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>
