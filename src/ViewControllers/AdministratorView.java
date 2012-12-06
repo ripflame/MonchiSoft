@@ -196,8 +196,8 @@ public class AdministratorView extends javax.swing.JFrame {
     }
 
     private void openStatisticsView() {
-//        StatisticsView statisticView = new StatisticsView();
-//        statisticView.setVisible(rootPaneCheckingEnabled);
-//        this.dispose();
+        StatisticsView statisticView = new StatisticsView();
+        statisticView.setVisible(rootPaneCheckingEnabled);
+        this.dispose();
     }
 }

@@ -222,11 +222,18 @@ public class CaptureProductData extends javax.swing.JFrame {
     }
     
     
-    private void addActionsListener (ActionListener commandsListener){
+    public void changeButton(){
+        this.saveButton.setText(MODIFY_LABEL);
+        this.saveButton.setActionCommand(MODIFY_LABEL);
+    }
+    
+    
+    public void addActionsListener (ActionListener commandsListener){
         this.saveButton.addActionListener(commandsListener);
         this.cancelButton.addActionListener(commandsListener);
     }
  
+    private static final String MODIFY_LABEL = "Guardar/Modificar";
     private static final String NULL_STRING = "";
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
