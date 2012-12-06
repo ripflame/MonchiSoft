@@ -28,4 +28,5 @@ public class DailyCashClosingManagerImplementation extends GenericManagerImpleme
     }
 
     private static final String DAILY_CASH_CLOSING_QUERY_ID = "from DailyCashClosing dcc where dcc.id like '";
+    
 }

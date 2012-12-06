@@ -37,16 +37,26 @@ public class DailyCashClosingView extends javax.swing.JFrame {
     private void initComponents() {
 
         jToolBar1 = new javax.swing.JToolBar();
+        m_dailyCashClosingButton = new javax.swing.JToggleButton();
         m_showAllButton = new javax.swing.JToggleButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         m_dailyCashClosingTable = new javax.swing.JTable();
-        m_dateChooser = new com.toedter.calendar.JDateChooser();
-        m_searchButton = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);
+
+        m_dailyCashClosingButton.setText("Hacer corte de caja");
+        m_dailyCashClosingButton.setFocusable(false);
+        m_dailyCashClosingButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        m_dailyCashClosingButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        m_dailyCashClosingButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                m_dailyCashClosingButtonActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(m_dailyCashClosingButton);
 
         m_showAllButton.setText("Mostrar todos");
         m_showAllButton.setFocusable(false);
@@ -77,15 +87,6 @@ public class DailyCashClosingView extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(m_dailyCashClosingTable);
 
-        m_dateChooser.setDateFormatString("yyyymmdd");
-
-        m_searchButton.setText("Buscar");
-        m_searchButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                m_searchButtonActionPerformed(evt);
-            }
-        });
-
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -93,14 +94,7 @@ public class DailyCashClosingView extends javax.swing.JFrame {
             .add(jToolBar1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(layout.createSequentialGroup()
-                        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(0, 0, Short.MAX_VALUE))
-                    .add(layout.createSequentialGroup()
-                        .add(m_dateChooser, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 196, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .add(m_searchButton)))
+                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -108,10 +102,6 @@ public class DailyCashClosingView extends javax.swing.JFrame {
             .add(layout.createSequentialGroup()
                 .add(jToolBar1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 25, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(m_dateChooser, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(m_searchButton))
-                .add(16, 16, 16)
                 .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 376, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -124,10 +114,14 @@ public class DailyCashClosingView extends javax.swing.JFrame {
         this.showResults();
     }//GEN-LAST:event_m_showAllButtonActionPerformed
 
-    private void m_searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_searchButtonActionPerformed
-        System.out.println("Fecha: " + this.m_dateChooser.getDateFormatString());
-    }//GEN-LAST:event_m_searchButtonActionPerformed
+    private void m_dailyCashClosingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_dailyCashClosingButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_m_dailyCashClosingButtonActionPerformed
 
+    private void makeDailyCashClosing() {
+        
+    }
+    
     private void searchAll() {
         DailyCashClosingManager dailyCashClosingManager = new DailyCashClosingManagerImplementation();
         results = dailyCashClosingManager.getAll();
@@ -225,9 +219,8 @@ public class DailyCashClosingView extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JToggleButton m_dailyCashClosingButton;
     private javax.swing.JTable m_dailyCashClosingTable;
-    private com.toedter.calendar.JDateChooser m_dateChooser;
-    private javax.swing.JToggleButton m_searchButton;
     private javax.swing.JToggleButton m_showAllButton;
     // End of variables declaration//GEN-END:variables
 }
