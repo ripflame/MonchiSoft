@@ -117,8 +117,45 @@ public class ToppingManagementController extends ManagementController{
     }
     
     @Override
-    public void performModificationProcedures() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void buildCaptureModifyWindow(){
+        int rowSelected = this.getRowAndProductSelected();
+        this.m_captureWindow = new CaptureProductData(this);
+        this.m_captureWindow.addActionsListener(this);
+        this.m_captureWindow.changeButton();
+        this.m_captureWindow.setNameText(this.m_topping.getName());
+        this.m_captureWindow.setFirstPriceText(String.valueOf(this.m_topping.getPrice()));
+        this.m_captureWindow.setLocationRelativeTo(m_productsModule);
+        m_productsModule.setEnabled(false);
+        this.m_captureWindow.setTitleLabel(TITLE_LABEL);
+        this.m_captureWindow.setVisible(true);
+    }
+    
+    private int getRowAndProductSelected (){
+        int rowSelected = m_productsModule.getSelectedRowNum();
+        Object nameSelected = this.m_toppingTableModel.getValueAt(rowSelected, 0);
+        List listProducts = m_toppingManager.searchByExactName(nameSelected.toString());
+        Iterator<Topping> iterator = listProducts.iterator();
+        this.m_topping = new Topping ();
+        this.m_topping = (Topping) iterator.next();
+        return rowSelected;
+    } 
+     
+    @Override    
+    public void performModificationProcedures() {      
+        int idProduct = this.m_topping.getId();
+        String[] toppingData = new String [ELEMENTS_TOTAL];
+        toppingData = getAndAuditDataCaptured();
+        if (m_isAllValidData){
+            setToppingData(toppingData);
+            m_toppingManager.modify(m_topping);
+            performDisplayProcedures();
+            m_productsModule.setEnabled(true);
+            m_captureWindow.dispose();
+            m_productsModule.enableNewButton();
+        } else {
+            MessageDisplayManager.showInformation(MessageType.INVALID_DATA, m_captureWindow);
+        }
+          
     }
 
     
