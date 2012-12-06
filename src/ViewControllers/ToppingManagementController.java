@@ -27,19 +27,27 @@ public class ToppingManagementController extends ManagementController{
     }
  
     
-    public static ToppingManagementController getInstance(Topping topping, 
-            ToppingManager toppingManager, JTable productsTable) {
-        m_topping = topping;
+    public static ToppingManagementController getInstance(
+            ToppingManager toppingManager, ProductsManagement productsModule) {
         m_toppingManager = toppingManager;
-        m_productsTable = productsTable;
+        m_productsModule = productsModule;
         return SingletonHolder.INSTANCE;
     }
       
 
     @Override
     public void createAndDisplayCaptureWindow() {
-        CaptureProductData captureWindow = new CaptureProductData(this);
-        captureWindow.setVisible(true);
+        m_productsModule.disableNewButton();
+        this.m_captureWindow = new CaptureProductData(this);
+        this.m_captureWindow.setLocationRelativeTo(m_productsModule);
+        m_productsModule.setEnabled(false);
+        this.m_captureWindow.setTitleLabel(TITLE_LABEL);
+        this.m_captureWindow.setFirstPriceText(EXTRA_PRICE_FIELD_LABEL);
+        this.m_captureWindow.setSecondPriceText(STRING_NULL);
+        this.m_captureWindow.setThirdPriceText(STRING_NULL);
+        this.m_captureWindow.disableSecondPriceText();
+        this.m_captureWindow.disableThirdPriceText();
+        this.m_captureWindow.setVisible(true); 
     }
 
 
@@ -63,17 +71,21 @@ public class ToppingManagementController extends ManagementController{
      
     @Override
     public void performDisplayProcedures() {
+        m_productsTable = m_productsModule.productsTable;
         this.setProductsTableModel();
         List listToppings = this.getToppings();
         this.updateTableModel(listToppings);
         m_productsTable.setModel(m_toppingTableModel);
     }
-
+    
     
     @Override
-    public void performSearchingProcedures() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void closeCaptureWindow(){
+        m_productsModule.setEnabled(true);
+        m_captureWindow.dispose();
+        m_productsModule.enableNewButton();
     }
+
     
     @Override
     public void setProductsTableModel(){       
@@ -101,11 +113,16 @@ public class ToppingManagementController extends ManagementController{
       
     }
     
-    public final String[] TOPPING_COLUMN_TITLES = {"Nombre","Precio de Extra"};
-    private final int FIRST = 0;
-    private final int ELEMENTS_TOTAL = TOPPING_COLUMN_TITLES.length;
+    private static final String NAME_FIELD_LABEL = "Nombre";
+    private static final String EXTRA_PRICE_FIELD_LABEL = "Precio de Extra";
+    public static final String[] TOPPING_COLUMN_TITLES = {NAME_FIELD_LABEL, EXTRA_PRICE_FIELD_LABEL};
+    private static final int FIRST = 0;
+    private static final int ELEMENTS_TOTAL = TOPPING_COLUMN_TITLES.length;
+    private static final String TITLE_LABEL = "Topping";
     private static Topping m_topping;
     private static ToppingManager m_toppingManager;
     private static JTable m_productsTable;
     private DefaultTableModel m_toppingTableModel;
+    private CaptureProductData m_captureWindow;
+    private static ProductsManagement m_productsModule;
 }
