@@ -126,7 +126,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="nameText">
       <Events>
-        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="nameTextFocusLost"/>
+        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="nameTextFocusGained"/>
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="firstPriceText">

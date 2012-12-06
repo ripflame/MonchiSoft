@@ -4,11 +4,7 @@
  */
 package ViewControllers;
 
-import Helpers.MessageDisplayManager;
-import Helpers.DataCheckerImplementation;
-import Helpers.MessageType;
 import java.awt.event.ActionListener;
-import javax.swing.JTextField;
 
 
 /**
@@ -21,7 +17,6 @@ public class CaptureProductData extends javax.swing.JFrame {
     public CaptureProductData(ManagementController captureController) {
         initComponents();
         addActionsListener(captureController);
-        m_dataChecker = new DataCheckerImplementation();
     }
 
     /**
@@ -59,8 +54,8 @@ public class CaptureProductData extends javax.swing.JFrame {
         firstPriceLabel.setText("Precio:");
 
         nameText.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                nameTextFocusLost(evt);
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                nameTextFocusGained(evt);
             }
         });
 
@@ -156,23 +151,20 @@ public class CaptureProductData extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void firstPriceTextFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_firstPriceTextFocusGained
-        this.firstPriceText.setText("");
+        this.setFirstPriceText(NULL_STRING);
     }//GEN-LAST:event_firstPriceTextFocusGained
 
-    
     private void secondPriceTextFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_secondPriceTextFocusGained
-        this.secondPriceText.setText("");
+        this.setSecondPriceText(NULL_STRING);
     }//GEN-LAST:event_secondPriceTextFocusGained
 
-    
     private void thirdPriceTextFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_thirdPriceTextFocusGained
-        this.thirdPriceText.setText("");
+        this.setThirdPriceText(NULL_STRING);
     }//GEN-LAST:event_thirdPriceTextFocusGained
 
-    
-    private void nameTextFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nameTextFocusLost
-        auditDataText(this.nameText.getText(), "Nombre");
-    }//GEN-LAST:event_nameTextFocusLost
+    private void nameTextFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nameTextFocusGained
+        this.setNameText(NULL_STRING);
+    }//GEN-LAST:event_nameTextFocusGained
 
     
     public void setTitleLabel(String title) {
@@ -183,6 +175,11 @@ public class CaptureProductData extends javax.swing.JFrame {
     public String getNameText() {
         return nameText.getText();
     }
+    
+    
+    public void setNameText(String nameData) {
+        this.nameText.setText(nameData);
+    }
 
     
     public String getFirstPriceText() {
@@ -190,18 +187,18 @@ public class CaptureProductData extends javax.swing.JFrame {
     }
 
     
-    public void setFirstPriceText(JTextField firstPriceText) {
-        this.firstPriceText = firstPriceText;
+    public void setFirstPriceText(String firstPriceData) {
+        this.firstPriceText.setText(firstPriceData);
     }
-    
-    
-    public void setNameText(JTextField nameText) {
-        this.nameText = nameText;
-    }
-
+   
     
     public String getSecondPriceText() {
         return secondPriceText.getText();
+    }
+    
+    
+    public void setSecondPriceText(String secondPriceData) {
+        this.secondPriceText.setText(secondPriceData);
     }
 
     
@@ -212,6 +209,11 @@ public class CaptureProductData extends javax.swing.JFrame {
     
     public String getThirdPriceText() {
         return thirdPriceText.getText();
+    }
+    
+    
+    public void setThirdPriceText(String thirdPriceData) {
+        this.thirdPriceText.setText(thirdPriceData);
     }
 
     
@@ -224,41 +226,8 @@ public class CaptureProductData extends javax.swing.JFrame {
         this.saveButton.addActionListener(commandsListener);
         this.cancelButton.addActionListener(commandsListener);
     }
-    
-    private void auditDataText(String dataToAudit, String titleData){
-    if ( !m_dataChecker.isNullString(dataToAudit)){
-            if ( m_dataChecker.isDoubleNum(dataToAudit) | m_dataChecker.isIntegerNum(dataToAudit) ){
-                MessageDisplayManager.showError(MessageType.REQUIRED_TEXT, this);
-                this.nameText.setText(titleData);
-                this.m_isAllValidData = false;
-            } else {
-                this.m_isAllValidData = true;
-            }
-        }else{
-           MessageDisplayManager.showError(MessageType.SEARCH_FIELD_EMPTY, this);
-           this.nameText.setText(titleData);
-           this.m_isAllValidData = false;
-        }
-    }
-    
-    private void auditDataNum (String dataToAudit, String titleData){
-        if ( !m_dataChecker.isNullString(dataToAudit)){
-            if ( m_dataChecker.isDoubleNum(dataToAudit) | m_dataChecker.isIntegerNum(this.getNameText()) ){
-                this.m_isAllValidData = true;
-            } else {
-                MessageDisplayManager.showError(MessageType.REQUIRED_NUM, this);
-                this.nameText.setText(titleData);
-                this.m_isAllValidData = false;
-            }
-        }else{
-           MessageDisplayManager.showError(MessageType.SEARCH_FIELD_EMPTY, this);
-           this.nameText.setText(titleData);
-           this.m_isAllValidData = false;
-        }
-    }
-    
-    public boolean m_isAllValidData = true; 
-    private DataCheckerImplementation m_dataChecker;
+ 
+    private static final String NULL_STRING = "";
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
     private javax.swing.JLabel firstPriceLabel;
