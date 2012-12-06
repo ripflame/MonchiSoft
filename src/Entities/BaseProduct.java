@@ -16,6 +16,11 @@ public class BaseProduct  implements java.io.Serializable {
      private double largePrice;
 
     public BaseProduct() {
+        this.id = 0;
+        this.name = "";
+        this.smallPrice = 0;
+        this.mediumPrice = 0;
+        this.largePrice = 0;
     }
 
     public BaseProduct(String name, double smallPrice, double mediumPrice, double largePrice) {
