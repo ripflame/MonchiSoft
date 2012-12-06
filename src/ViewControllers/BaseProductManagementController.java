@@ -78,21 +78,53 @@ public class BaseProductManagementController extends ManagementController {
         }
     }
     
+    @Override
+    public void buildCaptureModifyWindow(){
+        int rowSelected = this.getRowAndProductSelected();
+        this.m_captureWindow = new CaptureProductData(this);
+        this.m_captureWindow.addActionsListener(this);
+        this.m_captureWindow.changeButton();
+        this.m_captureWindow.setNameText(this.m_baseProduct.getName());
+        this.m_captureWindow.setFirstPriceText(String.valueOf(this.m_baseProduct.getSmallPrice()));
+        this.m_captureWindow.setSecondPriceText(String.valueOf(this.m_baseProduct.getMediumPrice()));
+        this.m_captureWindow.setThirdPriceText(String.valueOf(this.m_baseProduct.getLargePrice()));
+        this.m_captureWindow.setLocationRelativeTo(m_productsModule);
+        m_productsModule.setEnabled(false);
+        this.m_captureWindow.setTitleLabel(TITLE_LABEL);
+        this.m_captureWindow.setVisible(true);
+    }
     
     @Override    
-    public void performModificationProcedures() {
-        
+    public void performModificationProcedures() {      
+        int idProduct = this.m_baseProduct.getId();
+        String[] baseProductData = new String [ELEMENTS_TOTAL];
+        baseProductData = getAndAuditDataCaptured();
+        if (m_isAllValidData){
+            setBaseProductData(baseProductData);
+            m_baseProductManager.modify(m_baseProduct);
+            performDisplayProcedures();
+            m_productsModule.setEnabled(true);
+            m_captureWindow.dispose();
+            m_productsModule.enableNewButton();
+        } else {
+            MessageDisplayManager.showInformation(MessageType.INVALID_DATA, m_captureWindow);
+        }
+          
     }
 
-    
-    @Override
-    public void performRemovalProcedures() {
+    private int getRowAndProductSelected (){
         int rowSelected = m_productsModule.getSelectedRowNum();
         Object nameSelected = this.m_baseProductTableModel.getValueAt(rowSelected, 0);
         List listProducts = m_baseProductManager.searchByExactName(nameSelected.toString());
         Iterator<BaseProduct> iterator = listProducts.iterator();
-        m_baseProduct = new BaseProduct ();
-        BaseProduct m_baseProduct = (BaseProduct) iterator.next();
+        this.m_baseProduct = new BaseProduct ();
+        this.m_baseProduct = (BaseProduct) iterator.next();
+        return rowSelected;
+    }
+    
+    @Override
+    public void performRemovalProcedures() {
+        int rowSelected = this.getRowAndProductSelected();
         boolean isSucces = false;
         try {
             m_baseProductManager.remove(m_baseProduct);
