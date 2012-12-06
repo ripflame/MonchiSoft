@@ -58,11 +58,6 @@ public class ProductsManagement extends javax.swing.JFrame {
         newButton.setFocusable(false);
         newButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         newButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        newButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                newButtonMouseClicked(evt);
-            }
-        });
         managementToolBar.add(newButton);
 
         modifyButton.setText("Modificar");
@@ -154,15 +149,16 @@ public class ProductsManagement extends javax.swing.JFrame {
         disableRemoveButton ();
     }//GEN-LAST:event_productsTableFocusLost
 
-    private void newButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_newButtonMouseClicked
-        
-        
-    }//GEN-LAST:event_newButtonMouseClicked
-
     public void addActionsListener (ActionListener commandsListener){
         this.newButton.addActionListener(commandsListener);
         this.modifyButton.addActionListener(commandsListener);
         this.removeButton.addActionListener(commandsListener);
+    }
+    
+    public void removeActionsListener (ActionListener commandsListener){
+        this.newButton.removeActionListener(commandsListener);
+        this.modifyButton.removeActionListener(commandsListener);
+        this.removeButton.removeActionListener(commandsListener);
     }
     
     public void disableNewButton (){
