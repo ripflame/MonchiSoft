@@ -4,11 +4,15 @@
  */
 package ViewControllers;
 
-import Entities.DailyCashClosing;
-import Helpers.MessageDisplayManager;
+import Entities.Customer;
+import Entities.Sale;
+import Helpers.MessageDisplayManger;
 import Helpers.MessageType;
-import Managers.DailyCashClosingManager;
-import Managers.DailyCashClosingManagerImplementation;
+import Managers.SaleManager;
+import Managers.SaleManagerImplementation;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.ListSelectionModel;
@@ -16,7 +20,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Gilberto Leon <ripflame@gmail.com>
+ * @author Asus
  */
 public class DailyCashClosingView extends javax.swing.JFrame {
 
@@ -36,113 +40,142 @@ public class DailyCashClosingView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jToolBar1 = new javax.swing.JToolBar();
-        m_dailyCashClosingButton = new javax.swing.JToggleButton();
-        m_showAllButton = new javax.swing.JToggleButton();
+        m_dateChooser = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
         m_dailyCashClosingTable = new javax.swing.JTable();
+        m_searchButton = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        m_totalLabel = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jToolBar1.setFloatable(false);
-        jToolBar1.setRollover(true);
-
-        m_dailyCashClosingButton.setText("Hacer corte de caja");
-        m_dailyCashClosingButton.setFocusable(false);
-        m_dailyCashClosingButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        m_dailyCashClosingButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        m_dailyCashClosingButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                m_dailyCashClosingButtonActionPerformed(evt);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
             }
         });
-        jToolBar1.add(m_dailyCashClosingButton);
-
-        m_showAllButton.setText("Mostrar todos");
-        m_showAllButton.setFocusable(false);
-        m_showAllButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        m_showAllButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        m_showAllButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                m_showAllButtonActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(m_showAllButton);
 
         m_dailyCashClosingTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Id", "Fecha", "Total"
+                "Id", "Fecha", "Cliente", "Total"
             }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
+        ));
+        jScrollPane1.setViewportView(m_dailyCashClosingTable);
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+        m_searchButton.setText("Buscar");
+        m_searchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                m_searchButtonActionPerformed(evt);
             }
         });
-        jScrollPane1.setViewportView(m_dailyCashClosingTable);
+
+        jLabel1.setText("Ventas del día");
+
+        jLabel2.setText("Total:");
+
+        m_totalLabel.setText("0.0");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jToolBar1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
+                    .add(layout.createSequentialGroup()
+                        .add(m_dateChooser, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 170, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(m_searchButton))
+                    .add(layout.createSequentialGroup()
+                        .add(jLabel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 122, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(jLabel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 47, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(m_totalLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 100, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .add(jToolBar1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 25, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 376, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(m_dateChooser, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(m_searchButton))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 21, Short.MAX_VALUE)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel1)
+                    .add(jLabel2)
+                    .add(m_totalLabel))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 253, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void m_showAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_showAllButtonActionPerformed
-        this.searchAll();
-        this.showResults();
-    }//GEN-LAST:event_m_showAllButtonActionPerformed
+    private void m_searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_searchButtonActionPerformed
+        Date date = m_dateChooser.getDate();
+        String dateString = convertCalendarDateToString(date);
+        SaleManager saleManager = new SaleManagerImplementation();
+        List<Sale> salesList = saleManager.getAll();
+        Iterator<Sale> saleIterator = salesList.iterator();
+        List<Sale> salesInDate = new ArrayList<Sale>();
+        while(saleIterator.hasNext()){
+            Sale currentSale = saleIterator.next();
+            Date dateSale = currentSale.getDate();
+            String convertUtilDateToString = convertUtilDateToString(dateSale);
+            if(convertUtilDateToString.equalsIgnoreCase(dateString)){
+                salesInDate.add(currentSale); 
+            }
+        }
+        createTable(salesInDate);
+        m_totalLabel.setText(calculateTotal());
+    }//GEN-LAST:event_m_searchButtonActionPerformed
 
-    private void m_dailyCashClosingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_dailyCashClosingButtonActionPerformed
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         // TODO add your handling code here:
-    }//GEN-LAST:event_m_dailyCashClosingButtonActionPerformed
+    }//GEN-LAST:event_formWindowClosed
 
-    private void makeDailyCashClosing() {
-        
-    }
-    
-    private void searchAll() {
-        DailyCashClosingManager dailyCashClosingManager = new DailyCashClosingManagerImplementation();
-        results = dailyCashClosingManager.getAll();
-    }
-    
-    private void showResults() {
-        DefaultTableModel model = this.createTableModel();
-        if (this.results == null) {
-            this.m_dailyCashClosingTable.setModel(model);
-            MessageDisplayManager.showInformation(MessageType.NO_DAILY_CASH_CLOSINGS_FOUND, this);
-            return;
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        AdministratorView administratorView = new AdministratorView();
+        administratorView.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_formWindowClosing
+
+    private String calculateTotal() {
+        double total = 0;
+        for (int i = 0; i < m_dailyCashClosingTable.getRowCount(); i++) {
+            total += Double.parseDouble((String)m_dailyCashClosingTable.getValueAt(i, 3));
         }
         
-        String[] dailyCashClosingData = new String[3];
-        Iterator<DailyCashClosing> iterator = this.results.iterator();
+        return Double.toString(total);
+    }
+    
+    private void createTable(List sales){
+        DefaultTableModel model = this.createTableModel();
+        if (sales == null) {
+            this.m_dailyCashClosingTable.setModel(model);
+            MessageDisplayManger.showInformation(MessageType.NO_COSTUMER_FOUND, this);
+            return;
+        }
+
+        String[] customerData = new String[4];
+        Iterator<Sale> iterator = sales.iterator();
         while (iterator.hasNext()) {
-            DailyCashClosing dailyCashClosing = iterator.next();
-            dailyCashClosingData[COLUMN_ID_POSITION] = Integer.toString(dailyCashClosing.getId());
-            dailyCashClosingData[COLUMN_DATE_POSITION] = dailyCashClosing.getDateEnd().toString();
-            dailyCashClosingData[COLUMN_TOTAL_POSITION] = Double.toString(dailyCashClosing.getTotal());
-            model.addRow(dailyCashClosingData);
+            Sale sale = (Sale) iterator.next();
+            customerData[COLUMN_ID_POSITION] = Integer.toString(sale.getId());
+            customerData[COLUMN_DATE_POSITION] = sale.getDate().toString();
+            customerData[COLUMN_CUSTOMER_POSITION] = Integer.toString(sale.getCustomerId());
+            customerData[COLUMN_TOTAL_POSITION] = Double.toString(sale.getTotal());
+            model.addRow(customerData);
         }
         this.m_dailyCashClosingTable.setModel(model);
         this.rowSelectionProperties();
@@ -162,17 +195,40 @@ public class DailyCashClosingView extends javax.swing.JFrame {
                 return false;
             }
         };
-        
-        String[] columnNames = new String[3];
+
+        String[] columnNames = new String[4];
         columnNames[COLUMN_ID_POSITION] = ID;
         columnNames[COLUMN_DATE_POSITION] = DATE;
+        columnNames[COLUMN_CUSTOMER_POSITION] = CUSTOMER;
         columnNames[COLUMN_TOTAL_POSITION] = TOTAL;
-        
+
         model.setColumnIdentifiers(columnNames);
-        
+
         return model;
     }
     
+    private String convertUtilDateToString(Date date){
+        String stringDate = date.toString();
+        String[] splittedString = stringDate.split(SPACE_BAR);
+        String datePartOfString = splittedString[0];
+        return datePartOfString;
+        
+    }
+    
+    private String convertCalendarDateToString(Date date){
+        String year = String.valueOf(date.getYear() + YEAR_CONSTANT);
+        String dateString = year + SPACE;
+        dateString = dateString + String.valueOf(date.getMonth() + MONTH_CONVERTER) + SPACE;
+        Calendar calendar = m_dateChooser.getCalendar();
+        int daySelected = calendar.get(DAY_FIELD);
+        if(daySelected <= FIRST_9_NUMBERS){
+            dateString = dateString + ZERO + String.valueOf(daySelected);
+        } else {
+            dateString = dateString + String.valueOf(daySelected);
+        }
+        
+        return dateString;
+    }
     /**
      * @param args the command line arguments
      */
@@ -208,19 +264,29 @@ public class DailyCashClosingView extends javax.swing.JFrame {
         });
     }
     
+    
+    private final static String SPACE_BAR = " ";
+    private final static String ZERO = "0";
+    private final static int MONTH_CONVERTER = 1;
+    private final static int DAY_FIELD = 5;
+    private final static int FIRST_9_NUMBERS = 9;
+    private final static int YEAR_CONSTANT = 1900;
+    private final static String SPACE = "-";
     private static final int COLUMN_ID_POSITION = 0;
     private static final int COLUMN_DATE_POSITION = 1;
-    private static final int COLUMN_TOTAL_POSITION = 2;
+    private static final int COLUMN_CUSTOMER_POSITION = 2;
+    private static final int COLUMN_TOTAL_POSITION = 3;
     private static final String ID = "Id";
     private static final String DATE = "Fecha";
+    private static final String CUSTOMER = "Cliente";
     private static final String TOTAL = "Total";
-    
-    private List<DailyCashClosing> results;
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JToolBar jToolBar1;
-    private javax.swing.JToggleButton m_dailyCashClosingButton;
     private javax.swing.JTable m_dailyCashClosingTable;
-    private javax.swing.JToggleButton m_showAllButton;
+    private com.toedter.calendar.JDateChooser m_dateChooser;
+    private javax.swing.JButton m_searchButton;
+    private javax.swing.JLabel m_totalLabel;
     // End of variables declaration//GEN-END:variables
 }

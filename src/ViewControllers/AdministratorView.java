@@ -30,6 +30,7 @@ public class AdministratorView extends javax.swing.JFrame {
         m_productsModule = new javax.swing.JButton();
         m_statisticsModule = new javax.swing.JButton();
         m_expensesModule = new javax.swing.JButton();
+        m_dailyCashClosingButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setResizable(false);
@@ -67,36 +68,41 @@ public class AdministratorView extends javax.swing.JFrame {
             }
         });
 
+        m_dailyCashClosingButton.setText("Corte de caja");
+        m_dailyCashClosingButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                m_dailyCashClosingButtonActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .add(94, 94, 94)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(layout.createSequentialGroup()
-                        .add(m_statisticsModule)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 87, Short.MAX_VALUE)
-                        .add(m_expensesModule)
-                        .add(138, 138, 138))
-                    .add(layout.createSequentialGroup()
-                        .add(m_customersModule)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .add(m_productsModule)
-                        .add(126, 126, 126))))
+                .addContainerGap()
+                .add(m_customersModule)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(m_productsModule)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(m_expensesModule)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(m_dailyCashClosingButton)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(m_statisticsModule)
+                .add(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .add(62, 62, 62)
+                .add(17, 17, 17)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(m_customersModule)
-                    .add(m_productsModule))
-                .add(72, 72, 72)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(m_statisticsModule)
-                    .add(m_expensesModule))
-                .addContainerGap(56, Short.MAX_VALUE))
+                    .add(m_productsModule)
+                    .add(m_expensesModule)
+                    .add(m_dailyCashClosingButton)
+                    .add(m_statisticsModule))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         pack();
@@ -121,6 +127,12 @@ public class AdministratorView extends javax.swing.JFrame {
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         openMainView();
     }//GEN-LAST:event_formWindowClosing
+
+    private void m_dailyCashClosingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_dailyCashClosingButtonActionPerformed
+        DailyCashClosingView dailyCashClosingView = new DailyCashClosingView();
+        dailyCashClosingView.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_m_dailyCashClosingButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -166,6 +178,7 @@ public class AdministratorView extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton m_customersModule;
+    private javax.swing.JButton m_dailyCashClosingButton;
     private javax.swing.JButton m_expensesModule;
     private javax.swing.JButton m_productsModule;
     private javax.swing.JButton m_statisticsModule;
