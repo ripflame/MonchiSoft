@@ -4,6 +4,10 @@
  */
 package Helpers;
 
+import ViewControllers.ManagementController;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Ileana
@@ -15,7 +19,9 @@ public class DataCheckerImplementation implements DataChecker{
     
     
     
+    @Override
     public boolean isNullString(String textData) {
+
         if (textData.isEmpty()) {
             return true;
         } else {
@@ -23,6 +29,7 @@ public class DataCheckerImplementation implements DataChecker{
         }
     }
     
+    @Override
     public boolean isDoubleNum (String textData){
         try {
             Double.parseDouble(textData);
@@ -32,6 +39,7 @@ public class DataCheckerImplementation implements DataChecker{
         }
     }
     
+    @Override
     public boolean isIntegerNum (String textData){
         try {
             Integer.parseInt(textData);
@@ -39,6 +47,14 @@ public class DataCheckerImplementation implements DataChecker{
         }catch(Exception e){
             return false;
         }
-    } 
+    }
+    
+    public boolean isNum (String textData){
+        if ( isDoubleNum ( textData ) | isIntegerNum( textData ) ){
+            return true;
+        } else {
+            return false;
+        }
+    }
     
 }
