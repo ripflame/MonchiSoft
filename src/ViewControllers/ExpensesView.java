@@ -1,7 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package ViewControllers;
 
 
@@ -13,7 +10,6 @@ import Managers.ExpenseManagerImplementation;
 import java.sql.Date;
 import java.util.Iterator;
 import java.util.List;
-import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
@@ -28,7 +24,6 @@ public class ExpensesView extends javax.swing.JFrame {
      */
     public ExpensesView() {
         initComponents();
-        //setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -41,25 +36,26 @@ public class ExpensesView extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        expensesTable = new javax.swing.JTable();
+        m_expensesTable = new javax.swing.JTable();
         jToolBar1 = new javax.swing.JToolBar();
-        newButton = new javax.swing.JButton();
-        removeButton = new javax.swing.JButton();
-        modifyButton = new javax.swing.JButton();
+        m_newButton = new javax.swing.JButton();
+        m_removeButton = new javax.swing.JButton();
+        m_modifyButton = new javax.swing.JButton();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(180, 0), new java.awt.Dimension(180, 0), new java.awt.Dimension(180, 0));
-        showAllButton = new javax.swing.JButton();
-        searchField = new java.awt.TextField();
-        SearchButton = new java.awt.Button();
+        m_showAllButton = new javax.swing.JButton();
+        m_searchField = new java.awt.TextField();
+        m_searchButton = new java.awt.Button();
         jMenuBar1 = new javax.swing.JMenuBar();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Gestor de gastos");
         addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent evt) {
-                formWindowClosing(evt);
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
             }
         });
 
-        expensesTable.setModel(new javax.swing.table.DefaultTableModel(
+        m_expensesTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -75,66 +71,66 @@ public class ExpensesView extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(expensesTable);
+        jScrollPane1.setViewportView(m_expensesTable);
 
         jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);
 
-        newButton.setText("Nuevo");
-        newButton.setFocusable(false);
-        newButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        newButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        newButton.addActionListener(new java.awt.event.ActionListener() {
+        m_newButton.setText("Nuevo");
+        m_newButton.setFocusable(false);
+        m_newButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        m_newButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        m_newButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                newButtonActionPerformed(evt);
+                m_newButtonActionPerformed(evt);
             }
         });
-        jToolBar1.add(newButton);
+        jToolBar1.add(m_newButton);
 
-        removeButton.setFocusable(false);
-        removeButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        removeButton.setLabel("Eliminar");
-        removeButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        removeButton.addActionListener(new java.awt.event.ActionListener() {
+        m_removeButton.setFocusable(false);
+        m_removeButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        m_removeButton.setLabel("Eliminar");
+        m_removeButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        m_removeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeButtonActionPerformed(evt);
+                m_removeButtonActionPerformed(evt);
             }
         });
-        jToolBar1.add(removeButton);
+        jToolBar1.add(m_removeButton);
 
-        modifyButton.setText("Modificar");
-        modifyButton.setFocusable(false);
-        modifyButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        modifyButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        modifyButton.addActionListener(new java.awt.event.ActionListener() {
+        m_modifyButton.setText("Modificar");
+        m_modifyButton.setFocusable(false);
+        m_modifyButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        m_modifyButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        m_modifyButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                modifyButtonActionPerformed(evt);
+                m_modifyButtonActionPerformed(evt);
             }
         });
-        jToolBar1.add(modifyButton);
+        jToolBar1.add(m_modifyButton);
         jToolBar1.add(filler1);
 
-        showAllButton.setText("Mostrar todos");
-        showAllButton.setFocusable(false);
-        showAllButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        showAllButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        showAllButton.addActionListener(new java.awt.event.ActionListener() {
+        m_showAllButton.setText("Mostrar todos");
+        m_showAllButton.setFocusable(false);
+        m_showAllButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        m_showAllButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        m_showAllButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                showAllButtonActionPerformed(evt);
+                m_showAllButtonActionPerformed(evt);
             }
         });
-        jToolBar1.add(showAllButton);
+        jToolBar1.add(m_showAllButton);
 
-        searchField.addActionListener(new java.awt.event.ActionListener() {
+        m_searchField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchFieldActionPerformed(evt);
+                m_searchFieldActionPerformed(evt);
             }
         });
 
-        SearchButton.setLabel("Buscar");
-        SearchButton.addActionListener(new java.awt.event.ActionListener() {
+        m_searchButton.setLabel("Buscar");
+        m_searchButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SearchButtonActionPerformed(evt);
+                m_searchButtonActionPerformed(evt);
             }
         });
         setJMenuBar(jMenuBar1);
@@ -148,9 +144,9 @@ public class ExpensesView extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(searchField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(m_searchField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
-                        .addComponent(SearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(m_searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(9, 9, 9))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
@@ -161,8 +157,8 @@ public class ExpensesView extends javax.swing.JFrame {
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(SearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(m_searchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(m_searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(32, 32, 32)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
                 .addContainerGap())
@@ -171,72 +167,83 @@ public class ExpensesView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
-        CaptureExpenseDataView addExpenseView = new CaptureExpenseDataView(this, true);
-        addExpenseView.setLocationRelativeTo(this);
-        addExpenseView.setVisible(true);
-    }//GEN-LAST:event_newButtonActionPerformed
+     public void showAllExpenses() {
+        List expenses = this.getExpenses();
+        DefaultTableModel model = this.createTableModel();
+        if (expenses == null) {
+            this.m_expensesTable.setModel(model);
+            MessageDisplayManger.showInformation(MessageType.NO_EXPENSE_FOUND, this );
+            return;
+        }
+        Iterator<Expense> iterator = expenses.iterator();
+        this.showDataTable(iterator, model, expenses);
+        this.m_expensesTable.setModel(model);
+        this.rowSelection();
+ 
+    }
+     
+     
+    private void m_newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_newButtonActionPerformed
+       this.openNewView();
+    }//GEN-LAST:event_m_newButtonActionPerformed
 
-    private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
-        
-        int selectedRow = this.expensesTable.getSelectedRow(); 
+    
+    private void m_removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_removeButtonActionPerformed
+        int selectedRow = this.m_expensesTable.getSelectedRow(); 
         if (selectedRow > -1) {
-            int idExpense = Integer.parseInt((String) this.expensesTable.getValueAt(selectedRow, 0));
-            String expenseSupplier = (String) this.expensesTable.getValueAt(selectedRow, 1);
-            String expenseDescription = (String) this.expensesTable.getValueAt(selectedRow, 2);
-            Double expenseTotal = Double.parseDouble((String)this.expensesTable.getValueAt(selectedRow, 3));
-            Date expenseDate = Date.valueOf((String) this.expensesTable.getValueAt(selectedRow, 4));
-            Expense selectedExpense = new Expense(expenseDate, expenseSupplier, expenseDescription, expenseTotal);
-            selectedExpense.setId(idExpense);
+            Expense selectedExpense = this.selectedExpenseTable(selectedRow);
             ExpenseManager expenseManager = new ExpenseManagerImplementation();
             expenseManager.remove(selectedExpense);
             this.showAllExpenses();
-        } else if (selectedRow == -1) {
-            
+        } else if (selectedRow == -1) { 
             MessageDisplayManger.showInformation(MessageType.NO_CELL_SELECTED, this );
         }
-    }//GEN-LAST:event_removeButtonActionPerformed
+    }//GEN-LAST:event_m_removeButtonActionPerformed
 
-    private void showAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showAllButtonActionPerformed
-        this.searchField.setText("");
+    
+    private void m_showAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_showAllButtonActionPerformed
+        this.m_searchField.setText("");
         this.showAllExpenses();
-    }//GEN-LAST:event_showAllButtonActionPerformed
+    }//GEN-LAST:event_m_showAllButtonActionPerformed
 
-    private void modifyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyButtonActionPerformed
-       int selectedRow = this.expensesTable.getSelectedRow();        
-        if (selectedRow > -1) {
-            int expenseID = Integer.parseInt((String) this.expensesTable.getValueAt(selectedRow, 0));
-            String supplierName = (String) this.expensesTable.getValueAt(selectedRow, 1);
-            String description = (String) this.expensesTable.getValueAt(selectedRow, 2);
-            Double total =  Double.parseDouble((String)this.expensesTable.getValueAt(selectedRow, 3));
-            Date date =  Date.valueOf((String)this.expensesTable.getValueAt(selectedRow,4));
-            Expense selectedExpense = new Expense(date,supplierName,description,total);
-            selectedExpense.setId(expenseID);
+    
+    private void m_modifyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_modifyButtonActionPerformed
+       int selectedRow = this.m_expensesTable.getSelectedRow();        
+       if(selectedRow > -1){
+       Expense selectedExpense = this.selectedExpenseTable(selectedRow);
             CaptureExpenseDataView modifyExpenseView = new CaptureExpenseDataView(this, true, selectedExpense);
             modifyExpenseView.setLocationRelativeTo(this);
             modifyExpenseView.setVisible(true);
-        } else if (selectedRow == -1) {
-            MessageDisplayManger.showInformation(MessageType.NO_CELL_SELECTED, this );
-        } // TODO add your handling code here:
-    }//GEN-LAST:event_modifyButtonActionPerformed
+       }else if (selectedRow == -1) {
+           if(selectedRow == -1)MessageDisplayManger.showInformation(MessageType.NO_CELL_SELECTED, this );
+       } 
+    }//GEN-LAST:event_m_modifyButtonActionPerformed
 
-    private void searchFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchFieldActionPerformed
-         
-    }//GEN-LAST:event_searchFieldActionPerformed
+    
+    private void m_searchFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_searchFieldActionPerformed
+      
+    }//GEN-LAST:event_m_searchFieldActionPerformed
 
-    private void SearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchButtonActionPerformed
+    
+    private void m_searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_searchButtonActionPerformed
        if (this.validData()) {
-            List<Expense> foundExpense = this.getExpense(this.searchField.getText());
+            List<Expense> foundExpense = this.getExpense(this.m_searchField.getText());
             this.showFoundExpense(foundExpense);
         }
-    }//GEN-LAST:event_SearchButtonActionPerformed
+    }//GEN-LAST:event_m_searchButtonActionPerformed
 
-    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+    
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+
         AdministratorView administratorView = new AdministratorView();
         administratorView.setVisible(rootPaneCheckingEnabled);
-        this.dispose();
-    }//GEN-LAST:event_formWindowClosing
+    }//GEN-LAST:event_formWindowClosed
 
+    private void openNewView(){
+        CaptureExpenseDataView addExpenseView = new CaptureExpenseDataView(this, true);
+        addExpenseView.setLocationRelativeTo(this);
+        addExpenseView.setVisible(true);
+    }
     
     private List getExpense(String supplier) {
         ExpenseManager expenseManager = new ExpenseManagerImplementation();
@@ -245,6 +252,7 @@ public class ExpensesView extends javax.swing.JFrame {
         return foundExpense;
     }
     
+    
     private List getExpenses() {
         ExpenseManager expenseManager = new ExpenseManagerImplementation();
         List<Expense> expenses = expenseManager.getAll();
@@ -252,50 +260,17 @@ public class ExpensesView extends javax.swing.JFrame {
         return expenses;
     }
     
-    public void showAllExpenses() {
-        List expenses = this.getExpenses();
-        DefaultTableModel model = this.createTableModel();
-        if (expenses == null) {
-            this.expensesTable.setModel(model);
-            MessageDisplayManger.showInformation(MessageType.NO_EXPENSE_FOUND, this );
-            return;
-        }
-        
-        String[] expenseData = new String[5];
-        Iterator<Expense> iterator = expenses.iterator();
-        while (iterator.hasNext()) {
-            Expense expense = (Expense)iterator.next();
-            expenseData[0] = Integer.toString(expense.getId());
-            expenseData[1] = expense.getSupplier();
-            expenseData[2] = expense.getDescription();
-            expenseData[3] = Double.toString(expense.getTotal());
-            expenseData[4] = expense.getDate().toString();
-            model.addRow(expenseData);
-        }
-        this.expensesTable.setModel(model);
-        this.rowSelection();
-    }
     
     private void showFoundExpense(List expenseFound) {        
         DefaultTableModel model = this.createTableModel();
         if (expenseFound == null) {
-            this.expensesTable.setModel(model);
+            this.m_expensesTable.setModel(model);
             MessageDisplayManger.showInformation(MessageType.NO_SUPPLIER_FOUND, this );
             return;
         }
-        
-        String[] expenseData = new String[5];
         Iterator<Expense> iterator = expenseFound.iterator();
-        while (iterator.hasNext()) {
-            Expense expense = (Expense)iterator.next();
-            expenseData[0] = Integer.toString(expense.getId());
-            expenseData[1] = expense.getSupplier();
-            expenseData[2] = expense.getDescription();
-            expenseData[3] = Double.toString(expense.getTotal());
-            expenseData[4] = expense.getDate().toString();
-            model.addRow(expenseData);
-        }
-        this.expensesTable.setModel(model);
+        this.showDataTable(iterator, model, expenseFound);
+        this.m_expensesTable.setModel(model);
         this.rowSelection();
     }
     
@@ -303,13 +278,14 @@ public class ExpensesView extends javax.swing.JFrame {
     private boolean validData() {
         boolean validData = true;
 
-        if (this.searchField.getText().isEmpty()) {
+        if (this.m_searchField.getText().isEmpty()) {
             MessageDisplayManger.showError(MessageType.SEARCH_FIELD_EMPTY, this );
             validData = false;
         } 
 
         return validData;
     }
+    
     
     private DefaultTableModel createTableModel() {
         DefaultTableModel model = new DefaultTableModel() {
@@ -318,7 +294,6 @@ public class ExpensesView extends javax.swing.JFrame {
               return false;
           }
         };
-        
         String[] columnNames = new String[5];
         columnNames[0] = "Id";
         columnNames[1] = "Vendedor";
@@ -331,78 +306,55 @@ public class ExpensesView extends javax.swing.JFrame {
         return model;
     }
     
-     private void showMessage(String mensaje) {
-        JOptionPane.showConfirmDialog(this,
-                mensaje,
-                "Oops!",
-                JOptionPane.DEFAULT_OPTION,
-                JOptionPane.INFORMATION_MESSAGE);
-    }
-    
-    private void showError(String mensajeError) {
-        JOptionPane.showConfirmDialog(this,
-                mensajeError,
-                "Error",
-                JOptionPane.DEFAULT_OPTION,
-                JOptionPane.ERROR_MESSAGE);
-    }
     
     private void rowSelection() {
-        this.expensesTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        this.expensesTable.setRowSelectionAllowed(true);
+        this.m_expensesTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        this.m_expensesTable.setRowSelectionAllowed(true);
     }
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /*
-         * Set the Nimbus look and feel
-         */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /*
-         * If Nimbus (introduced in Java SE 6) is not available, stay with the
-         * default look and feel. For details see
-         * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ExpensesView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ExpensesView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ExpensesView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ExpensesView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /*
-         * Create and display the form
-         */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-
-            public void run() {
-                new ExpensesView().setVisible(true);
-            }
-        });
+    
+    private void showDataTable(Iterator<Expense> iterator, DefaultTableModel model, List expenseFound){
+        String[] expenseData = new String[5];
+        iterator = expenseFound.iterator();
+        while (iterator.hasNext()) {
+            Expense expense = (Expense)iterator.next();
+            expenseData[0] = Integer.toString(expense.getId());
+            expenseData[1] = expense.getSupplier();
+            expenseData[2] = expense.getDescription();
+            expenseData[3] = Double.toString(expense.getTotal());
+            expenseData[4] = expense.getDate().toString();
+            model.addRow(expenseData);
+        }      
     }
+    
+    private Expense selectedExpenseTable(int selectedRow){
+            int idExpense = Integer.parseInt((String) this.m_expensesTable.getValueAt(selectedRow, 0));
+            String expenseSupplier = (String) this.m_expensesTable.getValueAt(selectedRow, 1);
+            String expenseDescription = (String) this.m_expensesTable.getValueAt(selectedRow, 2);
+            Double expenseTotal = Double.parseDouble((String)this.m_expensesTable.getValueAt(selectedRow, 3));
+            Date expenseDate = Date.valueOf((String) this.m_expensesTable.getValueAt(selectedRow, 4));
+            Expense selectedExpense = new Expense(expenseDate, 
+                                                  expenseSupplier, 
+                                                  expenseDescription, 
+                                                  expenseTotal
+                                                 );
+            selectedExpense.setId(idExpense);
+            return selectedExpense; 
+         
+        
+   }
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private java.awt.Button SearchButton;
-    private javax.swing.JTable expensesTable;
     private javax.swing.Box.Filler filler1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar jToolBar1;
-    private javax.swing.JButton modifyButton;
-    private javax.swing.JButton newButton;
-    private javax.swing.JButton removeButton;
-    private java.awt.TextField searchField;
-    private javax.swing.JButton showAllButton;
+    private javax.swing.JTable m_expensesTable;
+    private javax.swing.JButton m_modifyButton;
+    private javax.swing.JButton m_newButton;
+    private javax.swing.JButton m_removeButton;
+    private java.awt.Button m_searchButton;
+    private java.awt.TextField m_searchField;
+    private javax.swing.JButton m_showAllButton;
     // End of variables declaration//GEN-END:variables
 }
