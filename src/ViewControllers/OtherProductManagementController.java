@@ -38,8 +38,11 @@ public class OtherProductManagementController extends ManagementController{
 
     @Override
     public void createAndDisplayCaptureWindow() {
-        CaptureProductData captureWindow = new CaptureProductData(this);
-        captureWindow.setVisible(true);
+        this.m_captureWindow = new CaptureProductData(this);
+        this.m_captureWindow.setTitleLabel(TITLE_LABEL);
+        this.m_captureWindow.disableSecondPriceText();
+        this.m_captureWindow.disableSecondPriceText();
+        this.m_captureWindow.setVisible(true);     
     }
     
     
@@ -105,8 +108,10 @@ public class OtherProductManagementController extends ManagementController{
     private final String[] OTHER_PRODUCT_COLUMN_TITLES = {"Nombre","Precio"};
     private final int FIRST = 0;
     private final int ELEMENTS_TOTAL = OTHER_PRODUCT_COLUMN_TITLES.length;
+    private final String TITLE_LABEL = "Otro tipo de producto";
     private static OtherProduct m_otherProduct;
     private static OtherProductManager m_otherProductManager;
     private static JTable m_productsTable;
     private DefaultTableModel m_otherProductTableModel;
+    private CaptureProductData m_captureWindow;
 }
