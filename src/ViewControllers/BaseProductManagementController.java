@@ -5,22 +5,16 @@
 package ViewControllers;
 
 import Entities.BaseProduct;
+import Helpers.DataCheckerImplementation;
 import Helpers.MessageDisplayManager;
 import Helpers.MessageType;
 import Managers.BaseProductManager;
-import Managers.BaseProductManagerImplementation;
-import java.awt.HeadlessException;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -42,18 +36,22 @@ public class BaseProductManagementController extends ManagementController {
     }
  
     public static BaseProductManagementController getInstance(BaseProduct baseProduct, 
-            BaseProductManager baseProductManager, JTable productsTable, JButton button) {
+            BaseProductManager baseProductManager, ProductsManagement productsModule) {
         m_baseProduct = baseProduct;
         m_baseProductManager = baseProductManager;
-        m_productsTable = productsTable;
-        m_newButton = button;
+        m_productsModule = productsModule;
+        m_productsTable = productsModule.productsTable;
+        m_newButton = productsModule.newButton;
         return SingletonHolder.INSTANCE;
     }
 
 
     @Override
     public void createAndDisplayCaptureWindow() {
+        m_newButton.setEnabled(false);
         this.m_captureWindow = new CaptureProductData(this);
+        this.m_captureWindow.setLocationRelativeTo(m_productsModule);
+        this.m_productsModule.setEnabled(false);
         this.m_captureWindow.setTitleLabel(TITLE_LABEL);
         this.m_captureWindow.setVisible(true);     
     }
@@ -61,8 +59,9 @@ public class BaseProductManagementController extends ManagementController {
     
     @Override     
     public void performAddingProcedures() {
-        if (m_captureWindow.m_isAllValidData){
-            String[] baseProductData = getDataCaptured();
+        String[] baseProductData = new String [ELEMENTS_TOTAL];
+        baseProductData = getAndAuditDataCaptured();
+        if (m_isAllValidData){
             setBaseProductData(baseProductData);
             boolean isSucces = false;
             try {
@@ -72,36 +71,66 @@ public class BaseProductManagementController extends ManagementController {
         
             if (isSucces){
                 m_baseProductTableModel.addRow(baseProductData);
-                this.m_captureWindow.dispose();
-                m_newButton.setEnabled(true);
+                m_productsModule.setEnabled(true);
+                m_captureWindow.dispose();
+                m_productsModule.enableNewButton();
             } else {
-                //falta un mensaje de error
-                Logger.getLogger(ManagementController.class.getName()).log(Level.INFO, "Ocurrió un error");
+                MessageDisplayManager.showInformation(MessageType.ERROR_DATA_BASE, m_captureWindow);
             }
         } else {
-            Logger.getLogger(ManagementController.class.getName()).log(Level.INFO, "Hay datos inválidos");
+            MessageDisplayManager.showInformation(MessageType.INVALID_DATA, m_captureWindow);
         }
         
     }
     
      private void setBaseProductData (String[] productData){
-        m_baseProduct.setName(productData[0]);
-        m_baseProduct.setSmallPrice(Double.parseDouble(productData[1]));
-        m_baseProduct.setMediumPrice(Double.parseDouble(productData[2]));
-        m_baseProduct.setLargePrice(Double.parseDouble(productData[3]));
+         int dataNum = FIRST;
+         m_baseProduct.setName(productData[dataNum]);
+         m_baseProduct.setSmallPrice(Double.parseDouble(productData[++dataNum]));
+         m_baseProduct.setMediumPrice(Double.parseDouble(productData[++dataNum]));
+         m_baseProduct.setLargePrice(Double.parseDouble(productData[++dataNum]));
      }
     
-     private String[] getDataCaptured (){
-        int elementNum = FIRST;
-        String[] data = new String[ELEMENTS_TOTAL];
-        data[elementNum] = this.m_captureWindow.getNameText();
-        data[++elementNum] = this.m_captureWindow.getFirstPriceText();
-        data[++elementNum] = this.m_captureWindow.getSecondPriceText();
-        data[++elementNum] = this.m_captureWindow.getThirdPriceText();          
-        return data;
+     private String[] getAndAuditDataCaptured (){
+         
+         String name = this.m_captureWindow.getNameText();
+         String smallPrice = this.m_captureWindow.getFirstPriceText();
+         String mediumPrice = this.m_captureWindow.getSecondPriceText();
+         String largePrice = this.m_captureWindow.getThirdPriceText();
+         
+         this.m_dataChecker = new DataCheckerImplementation();
+         
+         if (m_dataChecker.isNullString ( name )){
+             m_isAllValidData = false;
+             MessageDisplayManager.showInformation(MessageType.EMPTY_FIELDS, m_captureWindow);
+             
+         } else {
+             if ( m_dataChecker.isNum( name ) ){
+                 m_isAllValidData = false;  
+                 MessageDisplayManager.showInformation(MessageType.REQUIRED_TEXT, m_captureWindow);
+             } else {
+                 if (  m_dataChecker.isNum( smallPrice ) & 
+                       m_dataChecker.isNum( mediumPrice ) &
+                       m_dataChecker.isNum( largePrice ) ) {
+                     m_isAllValidData = true;
+                     } else { 
+                     m_isAllValidData = false;
+                     MessageDisplayManager.showInformation(MessageType.REQUIRED_NUM, m_captureWindow);
+                 }               
+             }
+         }
+             
+         int elementNum = FIRST;
+         String[] data = new String[ELEMENTS_TOTAL];
+         data [elementNum] = name;
+         data [++elementNum] = smallPrice;
+         data [++elementNum] = mediumPrice;
+         data [++elementNum] = largePrice;
+        
+         return data;
     }   
 
-    
+     
     @Override    
     public void performModificationProcedures() {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -156,7 +185,7 @@ public class BaseProductManagementController extends ManagementController {
       
     }
     
-    
+    /*CONSTANTES NOMBRADAS*/
     private final String NAME_FIELD_LABEL = "Nombre";
     private final String SMALL_PRICE_FIELD_LABEL = "Precio: Chico";
     private final String MEDIUM_PRICE_FIELD_LABEL = "Precio: Mediano";
@@ -167,11 +196,16 @@ public class BaseProductManagementController extends ManagementController {
     private final String TITLE_LABEL = "Producto base";
     private final int FIRST = 0;
     private final int ELEMENTS_TOTAL = BASE_PRODUCT_COLUMN_TITLES.length;
+    
+    /*VARIABLES POR REFERENCIA*/
     private static BaseProduct m_baseProduct;
     private static BaseProductManager m_baseProductManager;
     private static JTable m_productsTable;
     private static JButton m_newButton;
+    private static ProductsManagement m_productsModule;
     private DefaultTableModel m_baseProductTableModel;
     private CaptureProductData m_captureWindow;
     
+    private DataCheckerImplementation m_dataChecker;
+    private boolean m_isAllValidData;
 }
