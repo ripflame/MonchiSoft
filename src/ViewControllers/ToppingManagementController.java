@@ -127,6 +127,9 @@ public class ToppingManagementController extends ManagementController{
         this.m_captureWindow.setLocationRelativeTo(m_productsModule);
         m_productsModule.setEnabled(false);
         this.m_captureWindow.setTitleLabel(TITLE_LABEL);
+        this.m_captureWindow.setFirstPriceText(EXTRA_PRICE_FIELD_LABEL);
+        this.m_captureWindow.setSecondPriceText(STRING_NULL);
+        this.m_captureWindow.setThirdPriceText(STRING_NULL);
         this.m_captureWindow.setVisible(true);
     }
     
