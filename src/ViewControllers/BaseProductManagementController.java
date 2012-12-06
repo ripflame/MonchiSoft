@@ -87,7 +87,7 @@ public class BaseProductManagementController extends ManagementController {
     
     @Override
     public void performRemovalProcedures() {
-        int rowSelected = this.m_productsModule.getSelectedRowNum();
+        int rowSelected = m_productsModule.getSelectedRowNum();
         Object nameSelected = this.m_baseProductTableModel.getValueAt(rowSelected, 0);
         List listProducts = m_baseProductManager.searchByExactName(nameSelected.toString());
         Iterator<BaseProduct> iterator = listProducts.iterator();
