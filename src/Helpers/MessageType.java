@@ -16,5 +16,9 @@ public enum MessageType {
     EMPTY_FIELDS,
     NO_EXPENSE_FOUND,
     NO_CUSTOMER_NAME_FOUND,
-    
+    REQUIRED_TEXT,
+    REQUIRED_NUM,
+    ERROR_DATA_BASE,
+    INVALID_DATA,
+    PRODUCT_EXISTS
 }

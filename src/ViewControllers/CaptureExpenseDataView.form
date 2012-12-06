@@ -23,33 +23,28 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="27" max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="m_supplierLabel" alignment="0" min="-2" pref="65" max="-2" attributes="0"/>
-                          <Component id="m_descriptionLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="m_totalLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="m_dateLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="m_totalField" alignment="0" pref="193" max="32767" attributes="0"/>
-                          <Component id="m_descriptionField" alignment="0" max="32767" attributes="0"/>
-                          <Component id="m_supplierField" alignment="0" max="32767" attributes="0"/>
-                          <Component id="m_dateField" max="32767" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="114" max="-2" attributes="0"/>
-                      <Component id="m_saveButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+                  <Component id="m_supplierLabel" alignment="0" min="-2" pref="65" max="-2" attributes="0"/>
+                  <Component id="m_descriptionLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="m_totalLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="m_dateLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Group type="102" attributes="0">
                       <Component id="m_cancelButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="37" max="32767" attributes="0"/>
+                      <EmptySpace pref="59" max="32767" attributes="0"/>
+                      <Component id="m_saveButton" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="m_totalField" alignment="0" pref="193" max="32767" attributes="0"/>
+                      <Component id="m_descriptionField" alignment="0" max="32767" attributes="0"/>
+                      <Component id="m_supplierField" alignment="0" max="32767" attributes="0"/>
+                      <Component id="m_dateField" max="32767" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="85" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -96,6 +91,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Cancelar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="m_cancelButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="m_saveButton">
       <Properties>
