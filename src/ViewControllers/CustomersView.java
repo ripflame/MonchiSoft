@@ -37,10 +37,9 @@ public class CustomersView extends javax.swing.JFrame {
         summonerWindow = (SalesModule) parentWindow;
     }
 
-    private void hideChooserView() {
-//        m_cancelButton.setVisible(false);
-//        m_selectUserButton.setVisible(false);
-//        m_backButton.setVisible(true);
+    private void hideChooserView(){
+        m_cancelButton.setVisible(false);
+        m_selectUserButton.setVisible(false);
     }
 
     /**
@@ -400,7 +399,8 @@ public class CustomersView extends javax.swing.JFrame {
         this.m_customersTable.setCellSelectionEnabled(false);
         this.m_customersTable.setRowSelectionAllowed(true);
     }
-    private static final String COUNTER_CLIENT = "Mostrador";
+    
+    public static final String COUNTER_CLIENT= "Mostrador";
     private static final int NAME_COLUMN = 1;
     private SalesModule summonerWindow;
     private int COLUMN_ID_POSITION = 0;

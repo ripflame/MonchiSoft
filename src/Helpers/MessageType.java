@@ -14,5 +14,7 @@ public enum MessageType {
     NO_COSTUMER_FOUND,
     NO_SUPPLIER_FOUND,
     EMPTY_FIELDS,
-    NO_EXPENSE_FOUND
+    NO_EXPENSE_FOUND,
+    NO_CUSTOMER_NAME_FOUND,
+    
 }
