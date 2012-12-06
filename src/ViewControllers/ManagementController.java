@@ -4,6 +4,9 @@
  */
 package ViewControllers;
 
+import Helpers.DataCheckerImplementation;
+import Helpers.MessageDisplayManager;
+import Helpers.MessageType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -56,10 +59,44 @@ public abstract class ManagementController implements ActionListener {
         return model;
     }
     
+    
+    private void auditDataText(String dataToAudit){
+    m_dataChecker = new DataCheckerImplementation();    
+    if ( !m_dataChecker.isNullString(dataToAudit)){
+            if ( m_dataChecker.isDoubleNum(dataToAudit) | m_dataChecker.isIntegerNum(dataToAudit) ){
+                //MessageDisplayManager.showError(MessageType.REQUIRED_TEXT, this);
+                this.m_isAllValidData = false;
+            } else {
+                this.m_isAllValidData = true;
+            }
+        }else{
+          // MessageDisplayManager.showError(MessageType.SEARCH_FIELD_EMPTY, this);
+           this.m_isAllValidData = false;
+        }
+    }
+    
+    private void auditDataNum (String dataToAudit){
+        m_dataChecker = new DataCheckerImplementation();
+        if ( !m_dataChecker.isNullString(dataToAudit)){
+            if ( m_dataChecker.isDoubleNum(dataToAudit) | m_dataChecker.isIntegerNum(dataToAudit) ){
+                this.m_isAllValidData = true;
+            } else {
+             //   MessageDisplayManager.showError(MessageType.REQUIRED_NUM, this);
+                this.m_isAllValidData = false;
+            }
+        }else{
+          // MessageDisplayManager.showError(MessageType.SEARCH_FIELD_EMPTY, this);
+            this.m_isAllValidData = false;
+        }
+        
+    }
      
     public final String NEW_COMMAND = "Nuevo";
     public final String MODIFY_COMMAND = "Modificar";
     public final String REMOVE_COMMAND = "Eliminar";
     public final String SAVE_COMMAND = "Guardar"; 
     public final String CANCEL_COMMAND = "Cancelar";
+    
+    public boolean m_isAllValidData = true; 
+    private DataCheckerImplementation m_dataChecker;
 }
