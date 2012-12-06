@@ -18,5 +18,6 @@ public enum MessageType {
     REQUIRED_TEXT,
     REQUIRED_NUM,
     ERROR_DATA_BASE,
-    INVALID_DATA
+    INVALID_DATA,
+    PRODUCT_EXISTS
 }
