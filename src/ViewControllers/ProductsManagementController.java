@@ -40,7 +40,7 @@ public class ProductsManagementController implements ActionListener{
             this.m_baseProductManagementController.performDisplayProcedures();
         } else if (optionSelected.equalsIgnoreCase(TOPPING_OPTION)){
             initToppingManagementController();
-            m_currentListener = this.m_toppingManagementController;
+            this.m_currentListener = this.m_toppingManagementController;
             this.m_toppingManagementController.performDisplayProcedures();
         } else if (optionSelected.equalsIgnoreCase(OTHER_PRODUCT_OPTION)){
             initOtherProductManagementController();
@@ -67,8 +67,8 @@ public class ProductsManagementController implements ActionListener{
         Topping topping = new Topping();
         ToppingManager toppingManager = new ToppingManagerImplementation();
         m_toppingManagementController = 
-                ToppingManagementController.getInstance(topping, toppingManager,
-                m_productsManagementGUI.productsTable);
+                ToppingManagementController.getInstance(toppingManager,
+                m_productsManagementGUI);
     }
     
     
@@ -77,8 +77,8 @@ public class ProductsManagementController implements ActionListener{
         OtherProductManager otherProductManager = 
                 new OtherProductManagerImplementation();
         m_otherProductManagementController = 
-                OtherProductManagementController.getInstance(otherProduct, 
-                otherProductManager, m_productsManagementGUI.productsTable);
+                OtherProductManagementController.getInstance( 
+                otherProductManager, m_productsManagementGUI);
     }
     
     
