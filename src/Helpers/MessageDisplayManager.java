@@ -18,6 +18,8 @@ public class MessageDisplayManager {
     private static final String NO_EXPENSE_FOUND = "No se encontró el gasto";
     private static final String REQUIRED_NUM = "Se requiere dato numérico";
     private static final String REQUIRED_TEXT = "Se requiere dato de texto";
+    private static final String ERROR_DATA_BASE = "Error al guardar. Intente de nuevo.";
+    private static final String INVALID_DATA = "Se requiere datos válidos.";
     
     public static void showInformation(MessageType type, Window parentFrame) {
         String dialogMessage = getMessageStringFromType(type);
@@ -71,7 +73,15 @@ public class MessageDisplayManager {
                 
             case REQUIRED_NUM:
                 messageString = REQUIRED_NUM;
-                break;    
+                break;
+                
+            case ERROR_DATA_BASE:
+                messageString = ERROR_DATA_BASE;
+                break;
+                
+            case INVALID_DATA:
+                messageString = INVALID_DATA;
+                break;
                         
                         
         }
