@@ -27,21 +27,26 @@ public class OtherProductManagementController extends ManagementController{
     }
  
     
-    public static OtherProductManagementController getInstance(OtherProduct otherProduct, 
-            OtherProductManager otherProductManager, JTable productsTable) {
-        m_otherProduct = otherProduct;
+    public static OtherProductManagementController getInstance( 
+            OtherProductManager otherProductManager, ProductsManagement productsModule) {
         m_otherProductManager = otherProductManager;
-        m_productsTable = productsTable;
+        m_productsModule = productsModule;
         return SingletonHolder.INSTANCE;
     }
     
 
     @Override
     public void createAndDisplayCaptureWindow() {
+        m_productsModule.disableNewButton();
         this.m_captureWindow = new CaptureProductData(this);
+        this.m_captureWindow.setLocationRelativeTo(m_productsModule);
+        m_productsModule.setEnabled(false);
         this.m_captureWindow.setTitleLabel(TITLE_LABEL);
+        this.m_captureWindow.setFirstPriceText(PRICE_FIELD_LABEL);
+        this.m_captureWindow.setSecondPriceText(STRING_NULL);
+        this.m_captureWindow.setThirdPriceText(STRING_NULL);
         this.m_captureWindow.disableSecondPriceText();
-        this.m_captureWindow.disableSecondPriceText();
+        this.m_captureWindow.disableThirdPriceText();
         this.m_captureWindow.setVisible(true);     
     }
     
@@ -65,6 +70,7 @@ public class OtherProductManagementController extends ManagementController{
 
     @Override
     public void performDisplayProcedures() {
+        m_productsTable = m_productsModule.productsTable;
         this.setProductsTableModel();
         List listOtherProducts = this.getOtherProducts();
         this.updateTableModel(listOtherProducts);
@@ -73,10 +79,12 @@ public class OtherProductManagementController extends ManagementController{
     
     
     @Override
-    public void performSearchingProcedures() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void closeCaptureWindow(){
+        m_productsModule.setEnabled(true);
+        m_captureWindow.dispose();
+        m_productsModule.enableNewButton();
     }
-    
+   
     
     @Override
     public void setProductsTableModel(){       
@@ -104,14 +112,16 @@ public class OtherProductManagementController extends ManagementController{
       
     }
 
-    
-    private final String[] OTHER_PRODUCT_COLUMN_TITLES = {"Nombre","Precio"};
-    private final int FIRST = 0;
-    private final int ELEMENTS_TOTAL = OTHER_PRODUCT_COLUMN_TITLES.length;
-    private final String TITLE_LABEL = "Otro tipo de producto";
+    private static final String NAME_FIELD_LABEL = "Nombre";
+    private static final String PRICE_FIELD_LABEL = "Precio";
+    private static final String[] OTHER_PRODUCT_COLUMN_TITLES = {NAME_FIELD_LABEL, PRICE_FIELD_LABEL};
+    private static final int FIRST = 0;
+    private static final int ELEMENTS_TOTAL = OTHER_PRODUCT_COLUMN_TITLES.length;
+    private static final String TITLE_LABEL = "Otro tipo de producto";
     private static OtherProduct m_otherProduct;
     private static OtherProductManager m_otherProductManager;
     private static JTable m_productsTable;
     private DefaultTableModel m_otherProductTableModel;
     private CaptureProductData m_captureWindow;
+    private static ProductsManagement m_productsModule;
 }
