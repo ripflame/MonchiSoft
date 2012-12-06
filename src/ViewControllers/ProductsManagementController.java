@@ -15,14 +15,6 @@ import Managers.ToppingManager;
 import Managers.ToppingManagerImplementation;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 
 
 /**
@@ -66,7 +58,7 @@ public class ProductsManagementController implements ActionListener{
         BaseProductManager baseProductManager = 
                 new BaseProductManagerImplementation(); 
         m_baseProductManagementController = 
-                BaseProductManagementController.getInstance(baseProduct, 
+                BaseProductManagementController.getInstance( 
                 baseProductManager, m_productsManagementGUI);      
     }
     
