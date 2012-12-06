@@ -19,6 +19,16 @@ public class OtherProductManagerImplementation extends GenericManagerImplementat
         
         return otherProducts;
     }
+    
+    
+    @Override
+    public List<OtherProduct> searchByExactName(String name) {
+        List<OtherProduct> productList = null;
+        productList = HQLQueryHelper.execute(OTHER_PRODUCT_QUERY_NAME + 
+                name + QueryConstants.TERMINATION_CHARACTER);
+        
+        return productList;
+    }
 
     @Override
     public List<OtherProduct> searchById(Integer id) {

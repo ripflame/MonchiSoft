@@ -17,7 +17,7 @@ public class ProductsManagement extends javax.swing.JFrame {
      * Creates new form ProductsView
      */
     public ProductsManagement() {
-        initComponents(); 
+        initComponents();
     }
 
     /**
@@ -44,6 +44,11 @@ public class ProductsManagement extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("MonchiSoft - Gestión de Productos");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         managementToolBar.setFloatable(false);
         managementToolBar.setRollover(true);
@@ -83,6 +88,11 @@ public class ProductsManagement extends javax.swing.JFrame {
                 "", "", "", ""
             }
         ));
+        productsTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                productsTableMouseClicked(evt);
+            }
+        });
         productsScrollPane.setViewportView(productsTable);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -121,10 +131,28 @@ public class ProductsManagement extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        AdministratorView administratorView = new AdministratorView();
+        administratorView.setVisible(rootPaneCheckingEnabled);
+    }//GEN-LAST:event_formWindowClosed
+
+    private void productsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_productsTableMouseClicked
+        enableModifyButton ();
+        enableRemoveButton ();
+        this.m_selectedRowNum = this.productsTable.getSelectedRow();
+        this.setSelectedRowNum(m_selectedRowNum);
+    }//GEN-LAST:event_productsTableMouseClicked
+
     public void addActionsListener (ActionListener commandsListener){
         this.newButton.addActionListener(commandsListener);
         this.modifyButton.addActionListener(commandsListener);
         this.removeButton.addActionListener(commandsListener);
+    }
+    
+    public void removeActionsListener (ActionListener commandsListener){
+        this.newButton.removeActionListener(commandsListener);
+        this.modifyButton.removeActionListener(commandsListener);
+        this.removeButton.removeActionListener(commandsListener);
     }
     
     public void disableNewButton (){
@@ -163,20 +191,27 @@ public class ProductsManagement extends javax.swing.JFrame {
         this.toppingRadioButton.addActionListener(choiceListener);
         this.otherProductRadioButton.addActionListener(choiceListener);
     }
-    
-    
-    
+
+    public int getSelectedRowNum() {
+        return m_selectedRowNum;
+    }
+
+    public void setSelectedRowNum(int selectedRowNum) {
+        this.m_selectedRowNum = selectedRowNum;
+    }
+
     public String getTextCell (){
     
         return "";
     }
     
-    
+    private int m_selectedRowNum;
+    public CaptureProductData m_captureProductData;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JRadioButton baseProductRadioButton;
     private javax.swing.JToolBar managementToolBar;
     private javax.swing.JButton modifyButton;
-    private javax.swing.JButton newButton;
+    public javax.swing.JButton newButton;
     private javax.swing.JSeparator optionsSeparator;
     public javax.swing.JRadioButton otherProductRadioButton;
     private javax.swing.ButtonGroup productsButtonGroup;
@@ -185,4 +220,5 @@ public class ProductsManagement extends javax.swing.JFrame {
     private javax.swing.JButton removeButton;
     public javax.swing.JRadioButton toppingRadioButton;
     // End of variables declaration//GEN-END:variables
+
 }

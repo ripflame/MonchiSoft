@@ -15,6 +15,7 @@ import java.util.List;
 public interface ToppingManager extends GenericManager<Topping, Integer> {
     
     public List<Topping> searchByName(String name);
+    public List<Topping> searchByExactName(String name); 
     public List<Topping> searchById(Integer id);
     public List<Topping> getAll();
     
