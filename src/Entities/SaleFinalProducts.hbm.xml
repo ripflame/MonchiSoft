@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class catalog="monchisDataBase" name="Entities.SaleFinalProducts" table="SALE_FINAL_PRODUCTS">
+    <composite-id class="Entities.SaleFinalProducts" name="id">
+      <key-property name="finalProductsId" type="int">
+        <column name="final_product_id"/>
+      </key-property>
+      <key-property name="saleId" type="int">
+        <column name="sale_id"/>
+      </key-property>
+    </composite-id>
+  </class>
+</hibernate-mapping>
