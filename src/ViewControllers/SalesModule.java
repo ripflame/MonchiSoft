@@ -22,7 +22,7 @@ import Managers.OtherProductManager;
 import Managers.OtherProductManagerImplementation;
 import Managers.ToppingManager;
 import Managers.ToppingManagerImplementation;
-import View.Main;
+import ViewControllers.Main;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

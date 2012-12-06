@@ -43,17 +43,17 @@ public class ProductsController implements ActionListener{
      
     @Override
     public void actionPerformed(ActionEvent e) {
-        
-        String optionSelected = e.getActionCommand();
-        
-        if (optionSelected.equalsIgnoreCase(m_productsManagementGUI.BASE_PRODUCT_COMMAND)){
-            this.m_productsManagementGUI.addActionsListener(m_baseProductManagementComponents);
-        } else if (optionSelected.equalsIgnoreCase(m_productsManagementGUI.OTHER_PRODUCT_COMMAND)){
-            this.m_productsManagementGUI.addActionsListener(m_otherProductManagementComponents);
-        } else if (optionSelected.equalsIgnoreCase(m_productsManagementGUI.TOPPING_COMMAND)){
-            this.m_productsManagementGUI.addActionsListener(m_toppingManagementComponents);        
-        } else {JOptionPane.showMessageDialog(null,"Ha ocurrido un evento que no se ha considerado");}
-   
+//        
+//        String optionSelected = e.getActionCommand();
+//        
+//        if (optionSelected.equalsIgnoreCase(m_productsManagementGUI.BASE_PRODUCT_COMMAND)){
+//            this.m_productsManagementGUI.addActionsListener(m_baseProductManagementComponents);
+//        } else if (optionSelected.equalsIgnoreCase(m_productsManagementGUI.OTHER_PRODUCT_COMMAND)){
+//            this.m_productsManagementGUI.addActionsListener(m_otherProductManagementComponents);
+//        } else if (optionSelected.equalsIgnoreCase(m_productsManagementGUI.TOPPING_COMMAND)){
+//            this.m_productsManagementGUI.addActionsListener(m_toppingManagementComponents);        
+//        } else {JOptionPane.showMessageDialog(null,"Ha ocurrido un evento que no se ha considerado");}
+//   
     }
     
     
