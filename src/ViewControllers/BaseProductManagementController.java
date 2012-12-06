@@ -224,7 +224,7 @@ public class BaseProductManagementController extends ManagementController {
     private static final int ELEMENTS_TOTAL = BASE_PRODUCT_COLUMN_TITLES.length;
     
     /*VARIABLES POR REFERENCIA*/
-    private static BaseProduct m_baseProduct;
+    private BaseProduct m_baseProduct;
     private static BaseProductManager m_baseProductManager;
     private static JTable m_productsTable;
     private static ProductsManagement m_productsModule;
