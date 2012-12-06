@@ -11,9 +11,8 @@ import Helpers.MessageType;
 import Managers.BaseProductManager;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -35,23 +34,19 @@ public class BaseProductManagementController extends ManagementController {
                 new BaseProductManagementController();
     }
  
-    public static BaseProductManagementController getInstance(BaseProduct baseProduct, 
+    public static BaseProductManagementController getInstance( 
             BaseProductManager baseProductManager, ProductsManagement productsModule) {
-        m_baseProduct = baseProduct;
         m_baseProductManager = baseProductManager;
         m_productsModule = productsModule;
-        m_productsTable = productsModule.productsTable;
-        m_newButton = productsModule.newButton;
         return SingletonHolder.INSTANCE;
     }
 
-
     @Override
     public void createAndDisplayCaptureWindow() {
-        m_newButton.setEnabled(false);
+        m_productsModule.disableNewButton();
         this.m_captureWindow = new CaptureProductData(this);
         this.m_captureWindow.setLocationRelativeTo(m_productsModule);
-        this.m_productsModule.setEnabled(false);
+        m_productsModule.setEnabled(false);
         this.m_captureWindow.setTitleLabel(TITLE_LABEL);
         this.m_captureWindow.setVisible(true);     
     }
@@ -64,32 +59,109 @@ public class BaseProductManagementController extends ManagementController {
         if (m_isAllValidData){
             setBaseProductData(baseProductData);
             boolean isSucces = false;
-            try {
-                m_baseProductManager.add(m_baseProduct);
-                isSucces = true;
-            } catch (Exception e){} 
-        
+            if ( !exists( m_baseProduct.getName() ) ){
+                try {
+                     m_baseProductManager.add( m_baseProduct );
+                     isSucces = true;
+                }catch(Exception e){
+                    isSucces = false;}
+                
             if (isSucces){
-                m_baseProductTableModel.addRow(baseProductData);
-                m_productsModule.setEnabled(true);
-                m_captureWindow.dispose();
-                m_productsModule.enableNewButton();
-            } else {
-                MessageDisplayManager.showInformation(MessageType.ERROR_DATA_BASE, m_captureWindow);
+                    m_baseProductTableModel.addRow(baseProductData);
+                    m_productsModule.setEnabled(true);
+                    m_captureWindow.dispose();
+                    m_productsModule.enableNewButton();
+                } else {
+                      MessageDisplayManager.showInformation(MessageType.ERROR_DATA_BASE, m_captureWindow);
+                }
             }
         } else {
             MessageDisplayManager.showInformation(MessageType.INVALID_DATA, m_captureWindow);
         }
-        
     }
     
-     private void setBaseProductData (String[] productData){
+    
+    @Override    
+    public void performModificationProcedures() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    
+    @Override
+    public void performRemovalProcedures() {
+        int rowSelected = this.m_productsModule.getSelectedRowNum();
+        //JOptionPane.showMessageDialog(null, rowSelected);
+        Object nameSelected = this.m_baseProductTableModel.getValueAt(rowSelected, 0);
+        //JOptionPane.showMessageDialog(null, rowSelected);
+        List listProducts = m_baseProductManager.searchByExactName(nameSelected.toString());
+        Iterator<BaseProduct> iterator = listProducts.iterator();
+        m_baseProduct = new BaseProduct ();
+        BaseProduct m_baseProduct = (BaseProduct) iterator.next();
+        boolean isSucces = false;
+        try {
+            m_baseProductManager.remove(m_baseProduct);
+            isSucces = true;
+        }catch(Exception e){}
+        if (isSucces) {
+            this.m_baseProductTableModel.removeRow(rowSelected);
+            m_productsModule.disableRemoveButton();
+            m_productsModule.disableModifyButton();
+        }
+    }
+    
+    @Override
+    public void performDisplayProcedures() {
+        this.setProductsTableModel();
+        List listBaseProducts = this.getBaseProducts();
+        this.updateTableModel(listBaseProducts);
+        m_productsTable.setModel(m_baseProductTableModel);
+    }
+    
+    
+    @Override
+    public void performSearchingProcedures() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    
+    @Override
+    public void setProductsTableModel(){       
+        m_baseProductTableModel = buildTableModel(BASE_PRODUCT_COLUMN_TITLES);
+    }
+    
+    private List getBaseProducts() {
+        List baseProducts = m_baseProductManager.getAll();
+        return baseProducts;
+    }
+    
+    
+    private void updateTableModel (List baseProducts){
+        Iterator<BaseProduct> iterator = baseProducts.iterator();
+	
+        while (iterator.hasNext()) {
+            int columnNum = FIRST;
+            m_baseProduct = new BaseProduct();
+            BaseProduct m_baseProduct = (BaseProduct) iterator.next();
+            String baseProductData[] = new String[ELEMENTS_TOTAL];
+            baseProductData[columnNum] = m_baseProduct.getName();
+            baseProductData[++columnNum] = String.valueOf(m_baseProduct.getSmallPrice());
+            baseProductData[++columnNum] = String.valueOf(m_baseProduct.getMediumPrice());
+            baseProductData[++columnNum] = String.valueOf(m_baseProduct.getLargePrice());
+            this.m_baseProductTableModel.addRow(baseProductData);
+        }
+      
+    }
+    
+    
+    private void setBaseProductData (String[] productData){
          int dataNum = FIRST;
+         m_baseProduct = new BaseProduct();
          m_baseProduct.setName(productData[dataNum]);
          m_baseProduct.setSmallPrice(Double.parseDouble(productData[++dataNum]));
          m_baseProduct.setMediumPrice(Double.parseDouble(productData[++dataNum]));
          m_baseProduct.setLargePrice(Double.parseDouble(productData[++dataNum]));
      }
+    
     
      private String[] getAndAuditDataCaptured (){
          
@@ -131,58 +203,14 @@ public class BaseProductManagementController extends ManagementController {
     }   
 
      
-    @Override    
-    public void performModificationProcedures() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    
-    @Override
-    public void performRemovalProcedures() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    
-    @Override
-    public void performDisplayProcedures() {
-        this.setProductsTableModel();
-        List listBaseProducts = this.getBaseProducts();
-        this.updateTableModel(listBaseProducts);
-        m_productsTable.setModel(m_baseProductTableModel);
-    }
-    
-    
-    @Override
-    public void performSearchingProcedures() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-    
-    
-    @Override
-    public void setProductsTableModel(){       
-        m_baseProductTableModel = buildTableModel(BASE_PRODUCT_COLUMN_TITLES);
-    }
-    
-    private List getBaseProducts() {
-        List baseProducts = m_baseProductManager.getAll();
-        return baseProducts;
-    }
-    
-    
-    private void updateTableModel (List baseProducts){
-        Iterator<BaseProduct> iterator = baseProducts.iterator();
-	
-        while (iterator.hasNext()) {
-            int columnNum = FIRST;
-            BaseProduct m_baseProduct = (BaseProduct) iterator.next();
-            String baseProductData[] = new String[ELEMENTS_TOTAL];
-            baseProductData[columnNum] = m_baseProduct.getName();
-            baseProductData[++columnNum] = String.valueOf(m_baseProduct.getSmallPrice());
-            baseProductData[++columnNum] = String.valueOf(m_baseProduct.getMediumPrice());
-            baseProductData[++columnNum] = String.valueOf(m_baseProduct.getLargePrice());
-            this.m_baseProductTableModel.addRow(baseProductData);
+    private boolean exists(String textData){
+        List listProducts = m_baseProductManager.searchByExactName(textData);
+        if (listProducts.isEmpty()){
+            return false;            
+        } else {
+            MessageDisplayManager.showInformation(MessageType.PRODUCT_EXISTS, m_captureWindow);
+            return true;
         }
-      
     }
     
     /*CONSTANTES NOMBRADAS*/
@@ -201,7 +229,6 @@ public class BaseProductManagementController extends ManagementController {
     private static BaseProduct m_baseProduct;
     private static BaseProductManager m_baseProductManager;
     private static JTable m_productsTable;
-    private static JButton m_newButton;
     private static ProductsManagement m_productsModule;
     private DefaultTableModel m_baseProductTableModel;
     private CaptureProductData m_captureWindow;
