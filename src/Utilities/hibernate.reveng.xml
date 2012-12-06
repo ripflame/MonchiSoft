@@ -11,4 +11,6 @@
   <table-filter match-name="FINAL_PRODUCT_TOPPINGS"/>
   <table-filter match-name="DAILY_CASH_CLOSING"/>
   <table-filter match-name="FINAL_PRODUCT"/>
+  <table-filter match-name="SALE_FINAL_PRODUCTS"/>
+  <table-filter match-name="SALE_OTHER_PRODUCTS"/>
 </hibernate-reverse-engineering>
