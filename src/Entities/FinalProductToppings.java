@@ -12,6 +12,7 @@ public class FinalProductToppings  implements java.io.Serializable {
      private FinalProductToppingsId id;
 
     public FinalProductToppings() {
+        this.id = null;
     }
 
     public FinalProductToppings(FinalProductToppingsId id) {

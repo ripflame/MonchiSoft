@@ -16,6 +16,11 @@ public class Expense implements java.io.Serializable {
     private double total;
 
     public Expense() {
+        this.id = 0;
+        this.date = null;
+        this.description = "";
+        this.total = 0;
+        
     }
 
     public Expense(Date date, String supplier, String description, double total) {
