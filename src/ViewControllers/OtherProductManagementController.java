@@ -75,10 +75,49 @@ public class OtherProductManagementController extends ManagementController{
     }
 
     
-    @Override
-    public void performModificationProcedures() {
-        throw new UnsupportedOperationException("Not supported yet.");
+     @Override
+    public void buildCaptureModifyWindow(){
+        int rowSelected = this.getRowAndProductSelected();
+        this.m_captureWindow = new CaptureProductData(this);
+        this.m_captureWindow.addActionsListener(this);
+        this.m_captureWindow.changeButton();
+        this.m_captureWindow.setNameText(this.m_otherProduct.getName());
+        this.m_captureWindow.setFirstPriceText(String.valueOf(this.m_otherProduct.getPrice()));
+
+        this.m_captureWindow.setLocationRelativeTo(m_productsModule);
+        m_productsModule.setEnabled(false);
+        this.m_captureWindow.setTitleLabel(TITLE_LABEL);
+        this.m_captureWindow.setVisible(true);
     }
+    
+    private int getRowAndProductSelected (){
+        int rowSelected = m_productsModule.getSelectedRowNum();
+        Object nameSelected = this.m_otherProductTableModel.getValueAt(rowSelected, 0);
+        List listProducts = m_otherProductManager.searchByExactName(nameSelected.toString());
+        Iterator<OtherProduct> iterator = listProducts.iterator();
+        this.m_otherProduct = new OtherProduct ();
+        this.m_otherProduct = (OtherProduct) iterator.next();
+        return rowSelected;
+    } 
+     
+    @Override    
+    public void performModificationProcedures() {      
+        int idProduct = this.m_otherProduct.getId();
+        String[] otherProductData = new String [ELEMENTS_TOTAL];
+        otherProductData = getAndAuditDataCaptured();
+        if (m_isAllValidData){
+            setOtherProductData(otherProductData);
+            m_otherProductManager.modify(m_otherProduct);
+            performDisplayProcedures();
+            m_productsModule.setEnabled(true);
+            m_captureWindow.dispose();
+            m_productsModule.enableNewButton();
+        } else {
+            MessageDisplayManager.showInformation(MessageType.INVALID_DATA, m_captureWindow);
+        }
+          
+    }
+
 
     
     @Override
