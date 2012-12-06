@@ -12,6 +12,7 @@ import Entities.FinalProductToppings;
 import Entities.FinalProductToppingsId;
 import Entities.OtherProduct;
 import Entities.Sale;
+import Entities.SaleFinalProducts;
 import Entities.SaleFinalProductsId;
 import Entities.Topping;
 import Helpers.MessageDisplayManger;
@@ -738,15 +739,19 @@ public class SalesModule extends javax.swing.JFrame {
     private void saveProductsToSale(Sale saleToSaveProducts){
         for(int row = 0; row < m_productTable.getRowCount(); row++){
             if(isFinalProduct(row)){
-                int finalProductId = getProductIdFromRow(row);
-                FinalProductManager finalProductManager = new FinalProductManagerImplementation();
-                List<FinalProduct> finalProductList = finalProductManager.searchById(finalProductId);
-                FinalProduct finalProduct = finalProductList.get(0);
-                SaleFinalProductsId saleFinalProductsId = new SaleFinalProductsId(finalProduct.getId(), saleToSaveProducts.getId());
+                addFinalProductToSale(row, saleToSaveProducts.getId());
             } else {
                 //otherProduct
             }
         }
+    }
+    
+    private void addFinalProductToSale(int rowOfProduct, int saleId){
+        int finalProductId = getProductIdFromRow(rowOfProduct);
+        SaleFinalProductsId saleFinalProductsId = new SaleFinalProductsId(finalProductId, saleId);
+        SaleFinalProducts saleFinalProducts = new SaleFinalProducts(saleFinalProductsId);
+        SaleFinalProductsManager saleFinalProductsManager = new SaleFinalProductsManagerImplementation();
+        saleFinalProductsManager.add(saleFinalProducts);
     }
     
     private void m_discountCashFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_m_discountCashFieldKeyReleased
@@ -843,13 +848,14 @@ public class SalesModule extends javax.swing.JFrame {
     }
     
     private void deleteAllProductsFromDataBase(){
-        int tableRow = 0;
-        for(tableRow = 0; tableRow < m_productTable.getRowCount(); tableRow++ ){
-            int currentProductId = getProductIdFromRow(tableRow);
-            FinalProductManager finalProductManager = new FinalProductManagerImplementation();
-            List<FinalProduct> foundProduct = finalProductManager.searchById(currentProductId);
-            FinalProduct finalProductToRemove = foundProduct.get(0);
-            finalProductManager.remove(finalProductToRemove);
+        for(int tableRow = 0; tableRow < m_productTable.getRowCount(); tableRow++ ){
+            if(isFinalProduct(tableRow)){
+                int currentProductId = getProductIdFromRow(tableRow);
+                FinalProductManager finalProductManager = new FinalProductManagerImplementation();
+                List<FinalProduct> foundProduct = finalProductManager.searchById(currentProductId);
+                FinalProduct finalProductToRemove = foundProduct.get(0);
+                finalProductManager.remove(finalProductToRemove);
+            }
         }
     }
     
