@@ -15,10 +15,6 @@ import Managers.ToppingManager;
 import Managers.ToppingManagerImplementation;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Iterator;
-import java.util.List;
-import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 
 
 /**
@@ -27,40 +23,32 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ProductsManagementController implements ActionListener{
   
-    //Constructor utilizado en LauncherMonchiSoft
-    ProductsManagementController(ProductsManagement productsManagementGUI) {
-        this.m_productsManagementGUI = productsManagementGUI;
-        initBaseProductManagementController();
-        initToppingManagementController();
-        initOtherProductManagementController();
-    }
-
-    
-    //Constructor utilizado en AdministratorView
     public ProductsManagementController() {
         this.m_productsManagementGUI = new ProductsManagement ();
-        initBaseProductManagementController();
-        initToppingManagementController();
-        initOtherProductManagementController();
     }
     
      
     @Override
     public void actionPerformed(ActionEvent e) {
         
+        this.m_productsManagementGUI.removeActionsListener(m_currentListener);
         String optionSelected = e.getActionCommand();
         
         if (optionSelected.equalsIgnoreCase(BASE_PRODUCT_OPTION)){
-            this.m_productsManagementGUI.addActionsListener(m_baseProductManagementController);
+            initBaseProductManagementController();
+            this.m_currentListener = this.m_baseProductManagementController;
             this.m_baseProductManagementController.performDisplayProcedures();
         } else if (optionSelected.equalsIgnoreCase(TOPPING_OPTION)){
-            this.m_productsManagementGUI.addActionsListener(m_toppingManagementController);
-            m_toppingManagementController.performDisplayProcedures();
+            initToppingManagementController();
+            this.m_currentListener = this.m_toppingManagementController;
+            this.m_toppingManagementController.performDisplayProcedures();
         } else if (optionSelected.equalsIgnoreCase(OTHER_PRODUCT_OPTION)){
-            this.m_productsManagementGUI.addActionsListener(m_otherProductManagementController);
+            initOtherProductManagementController();
+            this.m_currentListener = this.m_otherProductManagementController;
             this.m_otherProductManagementController.performDisplayProcedures();
         } else {}
-   
+        
+        this.m_productsManagementGUI.addActionsListener(m_currentListener); 
         this.m_productsManagementGUI.enableNewButton();
     }
     
@@ -69,17 +57,18 @@ public class ProductsManagementController implements ActionListener{
         BaseProduct baseProduct = new BaseProduct();
         BaseProductManager baseProductManager = 
                 new BaseProductManagerImplementation(); 
-        this.m_baseProductManagementController = new BaseProductManagementController
-                (baseProduct, baseProductManager, m_productsManagementGUI.productsTable);
-        
+        m_baseProductManagementController = 
+                BaseProductManagementController.getInstance( 
+                baseProductManager, m_productsManagementGUI);      
     }
     
     
     private void initToppingManagementController() {
         Topping topping = new Topping();
         ToppingManager toppingManager = new ToppingManagerImplementation();
-        this.m_toppingManagementController = 
-                new ToppingManagementController(topping, toppingManager);
+        m_toppingManagementController = 
+                ToppingManagementController.getInstance(toppingManager,
+                m_productsManagementGUI);
     }
     
     
@@ -87,8 +76,9 @@ public class ProductsManagementController implements ActionListener{
         OtherProduct otherProduct = new OtherProduct();
         OtherProductManager otherProductManager = 
                 new OtherProductManagerImplementation();
-        this.m_otherProductManagementController = 
-                new OtherProductManagementController(otherProduct, otherProductManager);
+        m_otherProductManagementController = 
+                OtherProductManagementController.getInstance( 
+                otherProductManager, m_productsManagementGUI);
     }
     
     
@@ -97,8 +87,8 @@ public class ProductsManagementController implements ActionListener{
         m_productsManagementGUI.addButtonGroupListener(this);
         m_productsManagementGUI.setVisible(true);
     }
-
     
+     
     private final String BASE_PRODUCT_OPTION = "Producto Base";
     private final String OTHER_PRODUCT_OPTION = "Otro Producto";
     private final String TOPPING_OPTION = "Topping";
@@ -106,5 +96,7 @@ public class ProductsManagementController implements ActionListener{
     private ManagementController m_baseProductManagementController;
     private ManagementController m_otherProductManagementController;
     private ManagementController m_toppingManagementController;
+    private ActionListener m_currentListener;
+
 
 }

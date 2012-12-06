@@ -21,6 +21,15 @@ public class ToppingManagerImplementation extends GenericManagerImplementation<T
     }
 
     @Override
+    public List<Topping> searchByExactName(String name) {
+        List<Topping> productList = null;
+        productList = HQLQueryHelper.execute(TOPPING_QUERY_NAME + 
+                name + QueryConstants.TERMINATION_CHARACTER);
+        
+        return productList;
+    }
+    
+    @Override
     public List<Topping> searchById(Integer id) {
         List<Topping> toppings = null;
         toppings = HQLQueryHelper.execute(TOPPING_QUERY_ID + id 

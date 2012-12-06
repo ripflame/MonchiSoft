@@ -14,6 +14,7 @@ import java.util.List;
 public interface OtherProductManager extends GenericManager<OtherProduct, Integer>{
     
     public List<OtherProduct> searchByName(String name);
+    public List<OtherProduct> searchByExactName(String name);        
     public List<OtherProduct> searchById(Integer id);
     public List<OtherProduct> getAll();
     

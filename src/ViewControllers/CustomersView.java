@@ -12,6 +12,7 @@ import Managers.CustomerManager;
 import Managers.CustomerManagerImplementation;
 import Managers.SaleManager;
 import Managers.SaleManagerImplementation;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.ListSelectionModel;
@@ -291,11 +292,63 @@ public class CustomersView extends javax.swing.JFrame {
 
     private void m_selectUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_selectUserButtonActionPerformed
         String customerName = getSelectedCustomerName();
+        int customerVisits = getSelectedCustomerVisits();
+        int customerId = getSelectedCustomerId();
+        if(((customerVisits % VISITS_TO_GET_DISCOUNT) == 0) && (customerVisits != 0) && 
+                (customerId != 1)){
+            double customerDiscount = calculateDiscount(customerId);
+            summonerWindow.setCashDiscount(customerDiscount);
+        }
+        
         summonerWindow.setCustomerName(customerName);
         summonerWindow.setEnabled(true);
         this.dispose();
     }//GEN-LAST:event_m_selectUserButtonActionPerformed
 
+    private double calculateDiscount(int id){
+        SaleManager saleManager = new SaleManagerImplementation();
+        List<Sale> sales = saleManager.getAll();
+
+        Iterator<Sale> iterator = sales.iterator();
+        List<Sale> customerSalesList = new ArrayList<Sale>();
+        while (iterator.hasNext()) {
+            Sale sale = iterator.next();
+            if (sale.getCustomerId() == id) {
+                customerSalesList.add(sale);
+            }
+        }
+        int lastCustomerSalesIndex = customerSalesList.size() - 1;
+        double salesTotal = 0;
+        
+        for(int i = 1 ; i <= VISITS_TO_GET_DISCOUNT; i++){
+            Sale discountSale = customerSalesList.get(lastCustomerSalesIndex);
+            salesTotal = salesTotal + discountSale.getTotal();
+            lastCustomerSalesIndex = lastCustomerSalesIndex - 1;
+        }
+        double totalDiscount = salesTotal * DISCOUNT_PERCENTAGE;
+        return totalDiscount;
+    }
+    
+    private int getSelectedCustomerVisits(){
+        int selectedRow = m_customersTable.getSelectedRow();
+        boolean isSelectedRow = (selectedRow != -1);
+        if (isSelectedRow) {
+            int customerVisits = Integer.parseInt((String) m_customersTable.getValueAt(selectedRow, COLUMN_VISITS_POSITION));
+            return customerVisits;
+        }
+        return 1;
+    }
+    
+    private int getSelectedCustomerId(){
+        int selectedRow = m_customersTable.getSelectedRow();
+        boolean isSelectedRow = (selectedRow != -1);
+        if (isSelectedRow) {
+            int customerId = Integer.parseInt((String) m_customersTable.getValueAt(selectedRow, COLUMN_ID_POSITION));
+            return customerId;
+        }
+        return 1;
+    }
+    
     private String getSelectedCustomerName() {
         int selectedRow = m_customersTable.getSelectedRow();
         boolean isSelectedRow = (selectedRow != -1);
@@ -400,6 +453,8 @@ public class CustomersView extends javax.swing.JFrame {
         this.m_customersTable.setRowSelectionAllowed(true);
     }
     
+    private static final double DISCOUNT_PERCENTAGE = .1;
+    private static final int VISITS_TO_GET_DISCOUNT = 10;
     public static final String COUNTER_CLIENT= "Mostrador";
     private static final int NAME_COLUMN = 1;
     private SalesModule summonerWindow;
