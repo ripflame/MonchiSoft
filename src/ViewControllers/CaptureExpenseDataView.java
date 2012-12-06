@@ -5,6 +5,7 @@
 package ViewControllers;
 
 import Entities.Expense;
+import Entities.SaleFinalProducts;
 import Managers.ExpenseManager;
 import Managers.ExpenseManagerImplementation;
 import javax.swing.JOptionPane;
