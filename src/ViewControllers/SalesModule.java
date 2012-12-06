@@ -783,6 +783,7 @@ public class SalesModule extends javax.swing.JFrame {
         SaleFinalProducts saleFinalProducts = new SaleFinalProducts(saleFinalProductsId);
         SaleFinalProductsManager saleFinalProductsManager = new SaleFinalProductsManagerImplementation();
         saleFinalProductsManager.add(saleFinalProducts);
+        saleFinalProductsManager.getAll();
     }
     
     private void m_discountCashFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_m_discountCashFieldKeyReleased
