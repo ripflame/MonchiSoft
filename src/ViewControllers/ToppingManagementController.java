@@ -65,7 +65,22 @@ public class ToppingManagementController extends ManagementController{
     
     @Override
     public void performRemovalProcedures() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        int rowSelected = m_productsModule.getSelectedRowNum();
+        Object nameSelected = this.m_toppingTableModel.getValueAt(rowSelected, 0);
+        List listProducts = m_toppingManager.searchByExactName(nameSelected.toString());
+        Iterator<Topping> iterator = listProducts.iterator();
+        m_topping = new Topping ();
+        Topping m_topping = (Topping) iterator.next();
+        boolean isSucces = false;
+        try {
+            m_toppingManager.remove(m_topping);
+            isSucces = true;
+        }catch(Exception e){}
+        if (isSucces) {
+            this.m_toppingTableModel.removeRow(rowSelected);
+            m_productsModule.disableRemoveButton();
+            m_productsModule.disableModifyButton();
+        }
     }
      
      
