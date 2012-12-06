@@ -103,33 +103,25 @@ public class AdministratorView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void m_customersModuleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_customersModuleActionPerformed
-        CustomersView customersView = new CustomersView();
-        customersView.setVisible(rootPaneCheckingEnabled); 
-        this.dispose();
+        openCustomersView();
     }//GEN-LAST:event_m_customersModuleActionPerformed
 
     private void m_productsModuleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_productsModuleActionPerformed
-        ProductsManagementController productsController = new ProductsManagementController();
-        productsController.EndCreateAndDisplayProductsManagement();
-        this.dispose();
+        openProductsView();
     }//GEN-LAST:event_m_productsModuleActionPerformed
 
     private void m_statisticsModuleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_statisticsModuleActionPerformed
-        // TODO add your handling code here:
+        openStatisticsView();
     }//GEN-LAST:event_m_statisticsModuleActionPerformed
 
     private void m_expensesModuleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_expensesModuleActionPerformed
-        ExpensesView expensesModule = new ExpensesView();
-        expensesModule.setVisible(rootPaneCheckingEnabled);
-        this.dispose();
+        openExpensesView();
     }//GEN-LAST:event_m_expensesModuleActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        Main main = new Main();
-        main.setVisible(rootPaneCheckingEnabled);
-        this.dispose();
+        openMainView();
     }//GEN-LAST:event_formWindowClosing
-    
+
     /**
      * @param args the command line arguments
      */
@@ -178,4 +170,34 @@ public class AdministratorView extends javax.swing.JFrame {
     private javax.swing.JButton m_productsModule;
     private javax.swing.JButton m_statisticsModule;
     // End of variables declaration//GEN-END:variables
+
+    private void openCustomersView() {
+        CustomersView customersView = new CustomersView();
+        customersView.setVisible(rootPaneCheckingEnabled);
+        this.dispose();
+    }
+
+    private void openProductsView() {
+        ProductsManagementController productsController = new ProductsManagementController();
+        productsController.EndCreateAndDisplayProductsManagement();
+        this.dispose();
+    }
+
+    private void openExpensesView() {
+        ExpensesView expensesModule = new ExpensesView();
+        expensesModule.setVisible(rootPaneCheckingEnabled);
+        this.dispose();
+    }
+
+    private void openMainView() {
+        Main main = new Main();
+        main.setVisible(rootPaneCheckingEnabled);
+        this.dispose();
+    }
+
+    private void openStatisticsView() {
+//        StatisticsView statisticView = new StatisticsView();
+//        statisticView.setVisible(rootPaneCheckingEnabled);
+//        this.dispose();
+    }
 }

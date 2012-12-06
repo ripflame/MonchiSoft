@@ -16,6 +16,7 @@ public class MessageDisplayManger {
     private static final String INFORMATION_DIALOG_TITLE = "Información";
     private static final String ERROR_DIALOG_TITLE = "Error";
     private static final String NO_EXPENSE_FOUND = "No se encontró el gasto";
+    private static final String NO_CUSTOMER_NAME_FOUND = "No se encontró el cliente, verifica los campos";
     
     public static void showInformation(MessageType type, Window parentFrame) {
         String dialogMessage = getMessageStringFromType(type);
@@ -61,6 +62,10 @@ public class MessageDisplayManger {
                 
             case NO_EXPENSE_FOUND:
                 messageString = NO_EXPENSE_FOUND;
+                break;
+                
+            case NO_CUSTOMER_NAME_FOUND:
+                messageString = NO_CUSTOMER_NAME_FOUND;
                 break;
         }
         

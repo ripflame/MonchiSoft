@@ -9,6 +9,8 @@ import Entities.FinalProductToppings;
 import Entities.FinalProductToppingsId;
 import Entities.OtherProduct;
 import Entities.Sale;
+import Entities.SaleFinalProducts;
+import Entities.SaleFinalProductsId;
 import Entities.Topping;
 import Managers.BaseProductManager;
 import Managers.BaseProductManagerImplementation;
@@ -24,6 +26,8 @@ import Managers.FinalProductToppingsManager;
 import Managers.FinalProductToppingsManagerImplementation;
 import Managers.OtherProductManager;
 import Managers.OtherProductManagerImplementation;
+import Managers.SaleFinalProductsManager;
+import Managers.SaleFinalProductsManagerImplementation;
 import Managers.SaleManager;
 import Managers.SaleManagerImplementation;
 import Managers.ToppingManager;
@@ -117,9 +121,9 @@ public class test {
         
         FinalProductToppingsManager fptm = new FinalProductToppingsManagerImplementation();
         
-        FinalProductToppingsId prueba1 = new FinalProductToppingsId(12, 2);
-        FinalProductToppings prueba2 = new FinalProductToppings(prueba1);
-        fptm.add(prueba2);
+//        FinalProductToppingsId prueba1 = new FinalProductToppingsId(12, 2);
+//        FinalProductToppings prueba2 = new FinalProductToppings(prueba1);
+//        fptm.add(prueba2);
         
         List<FinalProductToppings> products = fptm.getAll();
         System.out.println("Final product toppings: ");
@@ -129,6 +133,18 @@ public class test {
             FinalProductToppingsId temp = tempFPT.getId();
             System.out.println("FPId: " + temp.getFinalProductId());
             System.out.println("TOPID: " + temp.getToppingId());
+        }
+        
+        SaleFinalProductsManager sfpm = new SaleFinalProductsManagerImplementation();
+        
+        List<SaleFinalProducts> prods = sfpm.getAll();
+        System.out.println("Sale Final Products: ");
+        Iterator<SaleFinalProducts> sfpIterator = prods.iterator();
+        while (sfpIterator.hasNext()) {
+            SaleFinalProducts temp1 = sfpIterator.next();
+            SaleFinalProductsId temp = temp1.getId();
+            System.out.println("SFPID: " + temp.getFinalProductsId());
+            System.out.println("SID: " + temp.getSaleId());
         }
     }
 }

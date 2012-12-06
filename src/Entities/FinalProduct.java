@@ -14,6 +14,9 @@ public class FinalProduct  implements java.io.Serializable {
      private double price;
 
     public FinalProduct() {
+        this.id = 0;
+        this.baseProduct = 0;
+        this.price = 0;
     }
 
     public FinalProduct(int baseProduct, double price) {

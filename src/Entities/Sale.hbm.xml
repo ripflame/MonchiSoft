@@ -11,7 +11,7 @@
       <column length="19" name="date" not-null="true"/>
     </property>
     <property name="customerId" type="int">
-      <column name="client" not-null="true"/>
+      <column name="customer" not-null="true"/>
     </property>
     <property name="total" type="double">
       <column name="total" not-null="true" precision="22" scale="0"/>

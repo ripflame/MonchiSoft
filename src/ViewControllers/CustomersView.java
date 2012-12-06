@@ -12,7 +12,6 @@ import Managers.CustomerManager;
 import Managers.CustomerManagerImplementation;
 import Managers.SaleManager;
 import Managers.SaleManagerImplementation;
-import java.awt.event.ActionEvent;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.ListSelectionModel;
@@ -31,7 +30,7 @@ public class CustomersView extends javax.swing.JFrame {
         initComponents();
         hideChooserView();
     }
-    
+
     public CustomersView(SalesModule parentWindow) {
         initComponents();
         //m_backButton.setVisible(false);
@@ -39,9 +38,8 @@ public class CustomersView extends javax.swing.JFrame {
     }
 
     private void hideChooserView(){
-//        m_cancelButton.setVisible(false);
-//        m_selectUserButton.setVisible(false);
-//        m_backButton.setVisible(true);
+        m_cancelButton.setVisible(false);
+        m_selectUserButton.setVisible(false);
     }
 
     /**
@@ -215,7 +213,7 @@ public class CustomersView extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-   
+
     private void m_newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_newButtonActionPerformed
         openNewView();
     }//GEN-LAST:event_m_newButtonActionPerformed
@@ -277,7 +275,7 @@ public class CustomersView extends javax.swing.JFrame {
     }//GEN-LAST:event_m_removeButtonActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        if(summonerWindow == null){
+        if (summonerWindow == null) {
             AdministratorView administratorView = new AdministratorView();
             administratorView.setVisible(rootPaneCheckingEnabled);
         } else {
@@ -298,16 +296,16 @@ public class CustomersView extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_m_selectUserButtonActionPerformed
 
-    private String getSelectedCustomerName(){
+    private String getSelectedCustomerName() {
         int selectedRow = m_customersTable.getSelectedRow();
         boolean isSelectedRow = (selectedRow != -1);
-        if(isSelectedRow){
+        if (isSelectedRow) {
             String customerName = (String) m_customersTable.getValueAt(selectedRow, NAME_COLUMN);
             return customerName;
         }
         return COUNTER_CLIENT;
     }
-    
+
     private boolean validData() {
         boolean validData = true;
 
@@ -343,9 +341,9 @@ public class CustomersView extends javax.swing.JFrame {
         };
 
         String[] columnNames = new String[3];
-        columnNames[0] = "Id";
-        columnNames[1] = "Nombre";
-        columnNames[2] = "Visitas";
+        columnNames[COLUMN_ID_POSITION] = ID;
+        columnNames[COLUMN_NAME_POSITION] = NAME;
+        columnNames[COLUMN_VISITS_POSITION] = VISITS;
 
         model.setColumnIdentifiers(columnNames);
 
@@ -365,9 +363,9 @@ public class CustomersView extends javax.swing.JFrame {
         Iterator<Customer> iterator = customers.iterator();
         while (iterator.hasNext()) {
             Customer customer = (Customer) iterator.next();
-            customerData[0] = Integer.toString(customer.getId());
-            customerData[1] = customer.getName();
-            customerData[2] = Integer.toString(this.getVisits(customer));
+            customerData[COLUMN_ID_POSITION] = Integer.toString(customer.getId());
+            customerData[COLUMN_NAME_POSITION] = customer.getName();
+            customerData[COLUMN_VISITS_POSITION] = Integer.toString(this.getVisits(customer));
             model.addRow(customerData);
         }
         this.m_customersTable.setModel(model);
@@ -386,9 +384,9 @@ public class CustomersView extends javax.swing.JFrame {
         Iterator<Customer> iterator = customerFound.iterator();
         while (iterator.hasNext()) {
             Customer customer = (Customer) iterator.next();
-            customerData[0] = Integer.toString(customer.getId());
-            customerData[1] = customer.getName();
-            customerData[2] = Integer.toString(this.getVisits(customer));
+            customerData[COLUMN_ID_POSITION] = Integer.toString(customer.getId());
+            customerData[COLUMN_NAME_POSITION] = customer.getName();
+            customerData[COLUMN_VISITS_POSITION] = Integer.toString(this.getVisits(customer));
             model.addRow(customerData);
         }
 
@@ -402,9 +400,15 @@ public class CustomersView extends javax.swing.JFrame {
         this.m_customersTable.setRowSelectionAllowed(true);
     }
     
-    private static final String COUNTER_CLIENT= "Mostrador";
+    public static final String COUNTER_CLIENT= "Mostrador";
     private static final int NAME_COLUMN = 1;
     private SalesModule summonerWindow;
+    private int COLUMN_ID_POSITION = 0;
+    private int COLUMN_NAME_POSITION = 1;
+    private int COLUMN_VISITS_POSITION = 2;
+    private String ID = "Id";
+    private String NAME = "Nombre";
+    private String VISITS = "Visitas";
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup filtroBusqueda;
     private javax.swing.JScrollPane jScrollPane1;
@@ -425,7 +429,7 @@ public class CustomersView extends javax.swing.JFrame {
         SaleManager saleManager = new SaleManagerImplementation();
         List<Sale> sales = saleManager.getAll();
         int visitsNumber = 0;
-        
+
         Iterator<Sale> iterator = sales.iterator();
         while (iterator.hasNext()) {
             Sale sale = iterator.next();

@@ -11,19 +11,35 @@ import Entities.FinalProduct;
 import Entities.FinalProductToppings;
 import Entities.FinalProductToppingsId;
 import Entities.OtherProduct;
+import Entities.Sale;
+import Entities.SaleFinalProducts;
+import Entities.SaleFinalProductsId;
+import Entities.SaleOtherProducts;
+import Entities.SaleOtherProductsId;
 import Entities.Topping;
+import Helpers.MessageDisplayManger;
+import Helpers.MessageType;
 import Helpers.Size;
 import Managers.BaseProductManagerImplementation;
+import Managers.CustomerManager;
+import Managers.CustomerManagerImplementation;
 import Managers.FinalProductManager;
 import Managers.FinalProductManagerImplementation;
 import Managers.FinalProductToppingsManager;
 import Managers.FinalProductToppingsManagerImplementation;
 import Managers.OtherProductManager;
 import Managers.OtherProductManagerImplementation;
+import Managers.SaleFinalProductsManager;
+import Managers.SaleFinalProductsManagerImplementation;
+import Managers.SaleManager;
+import Managers.SaleManagerImplementation;
+import Managers.SaleOtherProductsManager;
+import Managers.SaleOtherProductsManagerImplementation;
 import Managers.ToppingManager;
 import Managers.ToppingManagerImplementation;
 import ViewControllers.Main;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.JButton;
@@ -46,7 +62,7 @@ public class SalesModule extends javax.swing.JFrame {
         Iterator<BaseProduct> iterator = baseProductsList.iterator();
         while (iterator.hasNext()) {
             BaseProduct currentBase = iterator.next();
-            m_baseProductComboBox.addItem(currentBase.getName());
+            m_baseProductsComboBox.addItem(currentBase.getName());
         }
         
         m_productSizeComboBox.addItem(Size.SMALL);
@@ -95,7 +111,7 @@ public class SalesModule extends javax.swing.JFrame {
     private void initComponents() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        m_baseProductComboBox = new javax.swing.JComboBox();
+        m_baseProductsComboBox = new javax.swing.JComboBox();
         m_productSizeComboBox = new javax.swing.JComboBox();
         m_secondToppingComboBox = new javax.swing.JComboBox();
         m_firstToppingComboBox = new javax.swing.JComboBox();
@@ -133,7 +149,7 @@ public class SalesModule extends javax.swing.JFrame {
             }
         });
 
-        m_baseProductComboBox.setModel(new javax.swing.DefaultComboBoxModel());
+        m_baseProductsComboBox.setModel(new javax.swing.DefaultComboBoxModel());
 
         m_productSizeComboBox.setModel(new javax.swing.DefaultComboBoxModel());
         m_productSizeComboBox.addItemListener(new java.awt.event.ItemListener() {
@@ -298,7 +314,7 @@ public class SalesModule extends javax.swing.JFrame {
                                     .addComponent(m_searchCustomerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE))
                                 .addGroup(layout.createSequentialGroup()
-                                    .addComponent(m_baseProductComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(m_baseProductsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                     .addComponent(m_productSizeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(18, 18, 18)
@@ -340,7 +356,7 @@ public class SalesModule extends javax.swing.JFrame {
                                     .addComponent(m_secondToppingComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(m_fourthToppingComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(m_baseProductComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(m_baseProductsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(m_productSizeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(6, 6, 6))
                     .addGroup(layout.createSequentialGroup()
@@ -443,7 +459,7 @@ public class SalesModule extends javax.swing.JFrame {
     
     private BaseProduct getSelectedBaseProduct(){
         BaseProductManager baseProductManager = new BaseProductManagerImplementation();
-        String selectedBaseProductName = (String) m_baseProductComboBox.getSelectedItem();
+        String selectedBaseProductName = (String) m_baseProductsComboBox.getSelectedItem();
         List baseProductList = baseProductManager.searchByName(selectedBaseProductName);
         BaseProduct baseProductFound = (BaseProduct) baseProductList.get(0);
         return baseProductFound;
@@ -694,10 +710,72 @@ public class SalesModule extends javax.swing.JFrame {
         extraToppingWindow.setVisible(true);
     }//GEN-LAST:event_m_extraToppingActionPerformed
 
+    private int getSelectedCustomerId(){
+        String clientName = m_customerNameTextField.getText();
+        if(clientName.equalsIgnoreCase(CustomersView.COUNTER_CLIENT) || 
+                clientName.equalsIgnoreCase(VOID)){
+            return 1;
+        }
+        CustomerManager customerManager = new CustomerManagerImplementation();
+        List<Customer> customerFoundList = customerManager.searchByName(clientName);
+        Customer customerFound = customerFoundList.get(0);
+        if(customerFound != null){
+            return customerFound.getId();
+        }
+        return 1;
+    }
+    
     private void m_completeSaleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_completeSaleButtonActionPerformed
-       //aceptar Venta
+        Date currentDate = new Date();
+        int selectedCustomerId = getSelectedCustomerId();
+        if(selectedCustomerId != -1){
+            double saleTotal = Double.valueOf(m_totalField.getText());
+            Sale saleToSave = new Sale(currentDate, selectedCustomerId, saleTotal);
+            SaleManager saleManager = new SaleManagerImplementation();
+            saleManager.add(saleToSave);
+            saveProductsToSale(saleToSave);
+        } else {
+            MessageDisplayManger.showError(MessageType.NO_CUSTOMER_NAME_FOUND, this); 
+        }
     }//GEN-LAST:event_m_completeSaleButtonActionPerformed
 
+    private void saveProductsToSale(Sale saleToSaveProducts){
+        for(int row = 0; row < m_productTable.getRowCount(); row++){
+            if(isFinalProduct(row)){
+                addFinalProductToSale(row, saleToSaveProducts.getId());
+            } else {
+                addOtherProductToSale(row, saleToSaveProducts.getId());
+            }
+        }
+        this.dispose();
+        SalesModule salesModule = new SalesModule();
+        salesModule.setVisible(true);
+    }
+    
+    private void addOtherProductToSale(int rowOfProduct, int saleId){
+        int otherProductId = getProductIdFromRow(rowOfProduct);
+        SaleOtherProductsId saleOtherProductsId = new SaleOtherProductsId(otherProductId, saleId);
+        int quantity = 0;
+        String otherProductName = (String) m_productTable.getValueAt(rowOfProduct, NAME_COLUMN);
+        for(int row = 0; row < m_productTable.getRowCount(); row ++){
+            String currentProductName = (String) m_productTable.getValueAt(row, NAME_COLUMN);
+            if(currentProductName.equalsIgnoreCase(otherProductName)){
+                quantity++;
+            }
+        }
+        SaleOtherProducts saleOtherProducts = new SaleOtherProducts(saleOtherProductsId, quantity);
+        SaleOtherProductsManager saleOtherProductsManager = new SaleOtherProductsManagerImplementation();
+        saleOtherProductsManager.add(saleOtherProducts);
+    }
+    
+    private void addFinalProductToSale(int rowOfProduct, int saleId){
+        int finalProductId = getProductIdFromRow(rowOfProduct);
+        SaleFinalProductsId saleFinalProductsId = new SaleFinalProductsId(finalProductId, saleId);
+        SaleFinalProducts saleFinalProducts = new SaleFinalProducts(saleFinalProductsId);
+        SaleFinalProductsManager saleFinalProductsManager = new SaleFinalProductsManagerImplementation();
+        saleFinalProductsManager.add(saleFinalProducts);
+    }
+    
     private void m_discountCashFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_m_discountCashFieldKeyReleased
         setTotalsWithCashDiscountField();
         isDiscountInPercentage = false;
@@ -723,10 +801,20 @@ public class SalesModule extends javax.swing.JFrame {
         finalProductManager.remove(finalProduct);
     }
     
-    private int getProductIdFromRow(int rowToDelete){
-        String FinalProductIdString = (String) m_productTable.getValueAt(rowToDelete, ID_COLUMN);
+    private int getProductIdFromRow(int row){
+        String FinalProductIdString = (String) m_productTable.getValueAt(row, ID_COLUMN);
         int selectedProductId = Integer.parseInt(FinalProductIdString);
         return selectedProductId;
+    }
+    
+    private boolean isFinalProduct(int selectedRow){
+        String productName = (String) m_productTable.getValueAt(selectedRow, NAME_COLUMN);
+        OtherProductManager otherProductManager = new OtherProductManagerImplementation();
+        List<OtherProduct> otherProductFound = otherProductManager.searchByName(productName);
+        if(otherProductFound.size() == 0){
+            return true;
+        }
+        return false;
     }
     
     private void m_removeProductButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_removeProductButtonActionPerformed
@@ -734,16 +822,20 @@ public class SalesModule extends javax.swing.JFrame {
         boolean isMoreThanOneProduct = m_productTable.getRowCount() > 1;
         if(isMoreThanOneProduct){
             int selectedProductRow = m_productTable.getSelectedRow();
-            int selectedProductId = getProductIdFromRow(selectedProductRow);
-            removeFinalProductFromDataBase(selectedProductId);
+            if(isFinalProduct(selectedProductRow)){
+                int selectedProductId = getProductIdFromRow(selectedProductRow);
+                removeFinalProductFromDataBase(selectedProductId);
+            }
             tableModel.removeRow(selectedProductRow);
             calculateDiscounts();
         } else {
             boolean isOneProduct = m_productTable.getRowCount() == 1;
             if(isOneProduct){
                 int selectedProductRow = m_productTable.getSelectedRow();
-                int selectedProductId = getProductIdFromRow(selectedProductRow);
-                removeFinalProductFromDataBase(selectedProductId);
+                if(isFinalProduct(selectedProductRow)){
+                    int selectedProductId = getProductIdFromRow(selectedProductRow);
+                    removeFinalProductFromDataBase(selectedProductId);
+                }
                 tableModel.removeRow(selectedProductRow);
                 setFieldsToZero();
             } else {
@@ -753,17 +845,39 @@ public class SalesModule extends javax.swing.JFrame {
     }//GEN-LAST:event_m_removeProductButtonActionPerformed
 
     private void m_otherProductButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_otherProductButtonActionPerformed
-        // TODO add your handling code here:
+        OtherProduct otherProductSelected = getSelectedOtherProduct();
+        addOtherProductToTable(otherProductSelected);
     }//GEN-LAST:event_m_otherProductButtonActionPerformed
 
+    private OtherProduct getSelectedOtherProduct(){
+        OtherProductManager otherProductManager = new OtherProductManagerImplementation();
+        String selectedOtherProductName = (String) m_otherProductsComboBox.getSelectedItem();
+        List otherProductList = otherProductManager.searchByName(selectedOtherProductName);
+        OtherProduct otherProductFound = (OtherProduct) otherProductList.get(0);
+        return otherProductFound;
+    }
+    
+    private void addOtherProductToTable(OtherProduct otherProductToAdd){
+        DefaultTableModel tableModel = (DefaultTableModel) m_productTable.getModel();
+        String[] rowToAdd = new String[ROW_ELEMENTS];
+        OtherProduct selectedOtherProduct = getSelectedOtherProduct();
+        rowToAdd[NAME_COLUMN] = selectedOtherProduct.getName();
+        rowToAdd[ID_COLUMN] = otherProductToAdd.getId().toString();
+        rowToAdd[PRICE_COLUMN] = String.valueOf(otherProductToAdd.getPrice());
+        rowToAdd[TOPPINGS_COLUMN] = null;
+        tableModel.addRow(rowToAdd);
+        calculateDiscounts();
+    }
+    
     private void deleteAllProductsFromDataBase(){
-        int tableRow = 0;
-        for(tableRow = 0; tableRow < m_productTable.getRowCount(); tableRow++ ){
-            int currentProductId = getProductIdFromRow(tableRow);
-            FinalProductManager finalProductManager = new FinalProductManagerImplementation();
-            List<FinalProduct> foundProduct = finalProductManager.searchById(currentProductId);
-            FinalProduct finalProductToRemove = foundProduct.get(0);
-            finalProductManager.remove(finalProductToRemove);
+        for(int tableRow = 0; tableRow < m_productTable.getRowCount(); tableRow++ ){
+            if(isFinalProduct(tableRow)){
+                int currentProductId = getProductIdFromRow(tableRow);
+                FinalProductManager finalProductManager = new FinalProductManagerImplementation();
+                List<FinalProduct> foundProduct = finalProductManager.searchById(currentProductId);
+                FinalProduct finalProductToRemove = foundProduct.get(0);
+                finalProductManager.remove(finalProductToRemove);
+            }
         }
     }
     
@@ -823,6 +937,7 @@ public class SalesModule extends javax.swing.JFrame {
         });
     }
     
+    private static final String VOID = "";
     private boolean isDiscountInCash;
     private boolean isDiscountInPercentage;
     private static final int PERCENTAGE = 100;
@@ -837,7 +952,7 @@ public class SalesModule extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel m_TotalLabel;
     private javax.swing.JButton m_baseProductAddButton;
-    private javax.swing.JComboBox m_baseProductComboBox;
+    private javax.swing.JComboBox m_baseProductsComboBox;
     private javax.swing.JButton m_completeSaleButton;
     private javax.swing.JLabel m_customerNameLabel;
     private javax.swing.JTextField m_customerNameTextField;
