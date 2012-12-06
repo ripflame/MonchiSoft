@@ -26,6 +26,8 @@ public abstract class ManagementController implements ActionListener {
     public abstract void performDisplayProcedures();
     public abstract void setProductsTableModel();
     public abstract void closeCaptureWindow();
+    public abstract void buildCaptureModifyWindow();
+    
     
     
     @Override
@@ -36,6 +38,8 @@ public abstract class ManagementController implements ActionListener {
         if (command.equalsIgnoreCase(NEW_COMMAND)) {
             createAndDisplayCaptureWindow();
         } else if (command.equalsIgnoreCase(MODIFY_COMMAND)){
+            buildCaptureModifyWindow();
+        } else if (command.equalsIgnoreCase(SAVE_MODIFY_COMMAND)){
             performModificationProcedures();
         } else if (command.equalsIgnoreCase(REMOVE_COMMAND)){
             performRemovalProcedures();   
@@ -88,6 +92,7 @@ public abstract class ManagementController implements ActionListener {
      
     public static final String NEW_COMMAND = "Nuevo";
     public static final String MODIFY_COMMAND = "Modificar";
+    public static final String SAVE_MODIFY_COMMAND = "Guardar/Modificar";
     public static final String REMOVE_COMMAND = "Eliminar";
     public static final String SAVE_COMMAND = "Guardar"; 
     public static final String CANCEL_COMMAND = "Cancelar";
