@@ -11,8 +11,6 @@ import Helpers.MessageType;
 import Managers.BaseProductManager;
 import java.util.Iterator;
 import java.util.List;
-import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -83,16 +81,14 @@ public class BaseProductManagementController extends ManagementController {
     
     @Override    
     public void performModificationProcedures() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
     }
 
     
     @Override
     public void performRemovalProcedures() {
         int rowSelected = this.m_productsModule.getSelectedRowNum();
-        //JOptionPane.showMessageDialog(null, rowSelected);
         Object nameSelected = this.m_baseProductTableModel.getValueAt(rowSelected, 0);
-        //JOptionPane.showMessageDialog(null, rowSelected);
         List listProducts = m_baseProductManager.searchByExactName(nameSelected.toString());
         Iterator<BaseProduct> iterator = listProducts.iterator();
         m_baseProduct = new BaseProduct ();
@@ -111,16 +107,18 @@ public class BaseProductManagementController extends ManagementController {
     
     @Override
     public void performDisplayProcedures() {
+        m_productsTable = m_productsModule.productsTable;
         this.setProductsTableModel();
         List listBaseProducts = this.getBaseProducts();
         this.updateTableModel(listBaseProducts);
         m_productsTable.setModel(m_baseProductTableModel);
     }
     
-    
     @Override
-    public void performSearchingProcedures() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void closeCaptureWindow(){
+        m_productsModule.setEnabled(true);
+        m_captureWindow.dispose();
+        m_productsModule.enableNewButton();
     }
     
     
@@ -214,16 +212,16 @@ public class BaseProductManagementController extends ManagementController {
     }
     
     /*CONSTANTES NOMBRADAS*/
-    private final String NAME_FIELD_LABEL = "Nombre";
-    private final String SMALL_PRICE_FIELD_LABEL = "Precio: Chico";
-    private final String MEDIUM_PRICE_FIELD_LABEL = "Precio: Mediano";
-    private final String LARGE_PRICE_FIELD_LABEL = "Precio: Grande";
-    private final String[] BASE_PRODUCT_COLUMN_TITLES = {
+    private static final String NAME_FIELD_LABEL = "Nombre";
+    private static final String SMALL_PRICE_FIELD_LABEL = "Precio: Chico";
+    private static final String MEDIUM_PRICE_FIELD_LABEL = "Precio: Mediano";
+    private static final String LARGE_PRICE_FIELD_LABEL = "Precio: Grande";
+    private static final String[] BASE_PRODUCT_COLUMN_TITLES = {
         NAME_FIELD_LABEL, SMALL_PRICE_FIELD_LABEL,
         MEDIUM_PRICE_FIELD_LABEL, LARGE_PRICE_FIELD_LABEL};
-    private final String TITLE_LABEL = "Producto base";
-    private final int FIRST = 0;
-    private final int ELEMENTS_TOTAL = BASE_PRODUCT_COLUMN_TITLES.length;
+    private static final String TITLE_LABEL = "Producto base";
+    private static final int FIRST = 0;
+    private static final int ELEMENTS_TOTAL = BASE_PRODUCT_COLUMN_TITLES.length;
     
     /*VARIABLES POR REFERENCIA*/
     private static BaseProduct m_baseProduct;
