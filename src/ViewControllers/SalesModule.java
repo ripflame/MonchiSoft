@@ -46,7 +46,7 @@ public class SalesModule extends javax.swing.JFrame {
         Iterator<BaseProduct> iterator = baseProductsList.iterator();
         while (iterator.hasNext()) {
             BaseProduct currentBase = iterator.next();
-            m_baseProductComboBox.addItem(currentBase.getName());
+            m_baseProductsComboBox.addItem(currentBase.getName());
         }
         
         m_productSizeComboBox.addItem(Size.SMALL);
@@ -95,7 +95,7 @@ public class SalesModule extends javax.swing.JFrame {
     private void initComponents() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        m_baseProductComboBox = new javax.swing.JComboBox();
+        m_baseProductsComboBox = new javax.swing.JComboBox();
         m_productSizeComboBox = new javax.swing.JComboBox();
         m_secondToppingComboBox = new javax.swing.JComboBox();
         m_firstToppingComboBox = new javax.swing.JComboBox();
@@ -133,7 +133,7 @@ public class SalesModule extends javax.swing.JFrame {
             }
         });
 
-        m_baseProductComboBox.setModel(new javax.swing.DefaultComboBoxModel());
+        m_baseProductsComboBox.setModel(new javax.swing.DefaultComboBoxModel());
 
         m_productSizeComboBox.setModel(new javax.swing.DefaultComboBoxModel());
         m_productSizeComboBox.addItemListener(new java.awt.event.ItemListener() {
@@ -298,7 +298,7 @@ public class SalesModule extends javax.swing.JFrame {
                                     .addComponent(m_searchCustomerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE))
                                 .addGroup(layout.createSequentialGroup()
-                                    .addComponent(m_baseProductComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(m_baseProductsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                     .addComponent(m_productSizeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(18, 18, 18)
@@ -340,7 +340,7 @@ public class SalesModule extends javax.swing.JFrame {
                                     .addComponent(m_secondToppingComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(m_fourthToppingComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(m_baseProductComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(m_baseProductsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(m_productSizeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(6, 6, 6))
                     .addGroup(layout.createSequentialGroup()
@@ -443,7 +443,7 @@ public class SalesModule extends javax.swing.JFrame {
     
     private BaseProduct getSelectedBaseProduct(){
         BaseProductManager baseProductManager = new BaseProductManagerImplementation();
-        String selectedBaseProductName = (String) m_baseProductComboBox.getSelectedItem();
+        String selectedBaseProductName = (String) m_baseProductsComboBox.getSelectedItem();
         List baseProductList = baseProductManager.searchByName(selectedBaseProductName);
         BaseProduct baseProductFound = (BaseProduct) baseProductList.get(0);
         return baseProductFound;
@@ -729,21 +729,35 @@ public class SalesModule extends javax.swing.JFrame {
         return selectedProductId;
     }
     
+    private boolean isFinalProduct(int selectedRow){
+        String productName = (String) m_productTable.getValueAt(selectedRow, NAME_COLUMN);
+        OtherProductManager otherProductManager = new OtherProductManagerImplementation();
+        List<OtherProduct> otherProductFound = otherProductManager.searchByName(productName);
+        if(otherProductFound.size() == 0){
+            return true;
+        }
+        return false;
+    }
+    
     private void m_removeProductButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_removeProductButtonActionPerformed
         DefaultTableModel tableModel = (DefaultTableModel) m_productTable.getModel();
         boolean isMoreThanOneProduct = m_productTable.getRowCount() > 1;
         if(isMoreThanOneProduct){
             int selectedProductRow = m_productTable.getSelectedRow();
-            int selectedProductId = getProductIdFromRow(selectedProductRow);
-            removeFinalProductFromDataBase(selectedProductId);
+            if(isFinalProduct(selectedProductRow)){
+                int selectedProductId = getProductIdFromRow(selectedProductRow);
+                removeFinalProductFromDataBase(selectedProductId);
+            }
             tableModel.removeRow(selectedProductRow);
             calculateDiscounts();
         } else {
             boolean isOneProduct = m_productTable.getRowCount() == 1;
             if(isOneProduct){
                 int selectedProductRow = m_productTable.getSelectedRow();
-                int selectedProductId = getProductIdFromRow(selectedProductRow);
-                removeFinalProductFromDataBase(selectedProductId);
+                if(isFinalProduct(selectedProductRow)){
+                    int selectedProductId = getProductIdFromRow(selectedProductRow);
+                    removeFinalProductFromDataBase(selectedProductId);
+                }
                 tableModel.removeRow(selectedProductRow);
                 setFieldsToZero();
             } else {
@@ -753,9 +767,30 @@ public class SalesModule extends javax.swing.JFrame {
     }//GEN-LAST:event_m_removeProductButtonActionPerformed
 
     private void m_otherProductButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_otherProductButtonActionPerformed
-        // TODO add your handling code here:
+        OtherProduct otherProductSelected = getSelectedOtherProduct();
+        addOtherProductToTable(otherProductSelected);
     }//GEN-LAST:event_m_otherProductButtonActionPerformed
 
+    private OtherProduct getSelectedOtherProduct(){
+        OtherProductManager otherProductManager = new OtherProductManagerImplementation();
+        String selectedOtherProductName = (String) m_otherProductsComboBox.getSelectedItem();
+        List otherProductList = otherProductManager.searchByName(selectedOtherProductName);
+        OtherProduct otherProductFound = (OtherProduct) otherProductList.get(0);
+        return otherProductFound;
+    }
+    
+    private void addOtherProductToTable(OtherProduct otherProductToAdd){
+        DefaultTableModel tableModel = (DefaultTableModel) m_productTable.getModel();
+        String[] rowToAdd = new String[ROW_ELEMENTS];
+        OtherProduct selectedOtherProduct = getSelectedOtherProduct();
+        rowToAdd[NAME_COLUMN] = selectedOtherProduct.getName();
+        rowToAdd[ID_COLUMN] = otherProductToAdd.getId().toString();
+        rowToAdd[PRICE_COLUMN] = String.valueOf(otherProductToAdd.getPrice());
+        rowToAdd[TOPPINGS_COLUMN] = null;
+        tableModel.addRow(rowToAdd);
+        calculateDiscounts();
+    }
+    
     private void deleteAllProductsFromDataBase(){
         int tableRow = 0;
         for(tableRow = 0; tableRow < m_productTable.getRowCount(); tableRow++ ){
@@ -837,7 +872,7 @@ public class SalesModule extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel m_TotalLabel;
     private javax.swing.JButton m_baseProductAddButton;
-    private javax.swing.JComboBox m_baseProductComboBox;
+    private javax.swing.JComboBox m_baseProductsComboBox;
     private javax.swing.JButton m_completeSaleButton;
     private javax.swing.JLabel m_customerNameLabel;
     private javax.swing.JTextField m_customerNameTextField;

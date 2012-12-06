@@ -39,9 +39,8 @@ public class CustomersView extends javax.swing.JFrame {
     }
 
     private void hideChooserView(){
-//        m_cancelButton.setVisible(false);
-//        m_selectUserButton.setVisible(false);
-//        m_backButton.setVisible(true);
+        m_cancelButton.setVisible(false);
+        m_selectUserButton.setVisible(false);
     }
 
     /**

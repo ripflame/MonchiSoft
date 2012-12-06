@@ -70,7 +70,7 @@
                                   <EmptySpace pref="87" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" attributes="0">
-                                  <Component id="m_baseProductComboBox" min="-2" pref="174" max="-2" attributes="0"/>
+                                  <Component id="m_baseProductsComboBox" min="-2" pref="174" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Component id="m_productSizeComboBox" min="-2" pref="174" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -125,7 +125,7 @@
                               </Group>
                           </Group>
                           <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                              <Component id="m_baseProductComboBox" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
+                              <Component id="m_baseProductsComboBox" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
                               <Component id="m_productSizeComboBox" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -187,7 +187,7 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JComboBox" name="m_baseProductComboBox">
+    <Component class="javax.swing.JComboBox" name="m_baseProductsComboBox">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
           <Connection code="new javax.swing.DefaultComboBoxModel()" type="code"/>
