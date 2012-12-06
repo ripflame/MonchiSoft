@@ -88,12 +88,9 @@ public class ProductsManagement extends javax.swing.JFrame {
                 "", "", "", ""
             }
         ));
-        productsTable.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                productsTableFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                productsTableFocusLost(evt);
+        productsTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                productsTableMouseClicked(evt);
             }
         });
         productsScrollPane.setViewportView(productsTable);
@@ -139,15 +136,12 @@ public class ProductsManagement extends javax.swing.JFrame {
         administratorView.setVisible(rootPaneCheckingEnabled);
     }//GEN-LAST:event_formWindowClosed
 
-    private void productsTableFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_productsTableFocusGained
+    private void productsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_productsTableMouseClicked
         enableModifyButton ();
         enableRemoveButton ();
-    }//GEN-LAST:event_productsTableFocusGained
-
-    private void productsTableFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_productsTableFocusLost
-        disableModifyButton ();
-        disableRemoveButton ();
-    }//GEN-LAST:event_productsTableFocusLost
+        this.m_selectedRowNum = this.productsTable.getSelectedRow();
+        this.setSelectedRowNum(m_selectedRowNum);
+    }//GEN-LAST:event_productsTableMouseClicked
 
     public void addActionsListener (ActionListener commandsListener){
         this.newButton.addActionListener(commandsListener);
@@ -197,13 +191,21 @@ public class ProductsManagement extends javax.swing.JFrame {
         this.toppingRadioButton.addActionListener(choiceListener);
         this.otherProductRadioButton.addActionListener(choiceListener);
     }
-    
-    
+
+    public int getSelectedRowNum() {
+        return m_selectedRowNum;
+    }
+
+    public void setSelectedRowNum(int selectedRowNum) {
+        this.m_selectedRowNum = selectedRowNum;
+    }
+
     public String getTextCell (){
     
         return "";
     }
     
+    private int m_selectedRowNum;
     public CaptureProductData m_captureProductData;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JRadioButton baseProductRadioButton;
