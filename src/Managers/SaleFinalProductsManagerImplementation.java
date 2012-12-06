@@ -2,6 +2,7 @@ package Managers;
 
 import Entities.FinalProductToppings;
 import Entities.SaleFinalProducts;
+import Entities.SaleFinalProductsId;
 import Helpers.HQLQueryHelper;
 import Helpers.QueryConstants;
 import java.util.List;

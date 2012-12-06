@@ -8,9 +8,7 @@ import Entities.*;
 import Helpers.MessageDisplayManger;
 import Helpers.MessageType;
 import Managers.*;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -20,7 +18,7 @@ import javax.swing.table.DefaultTableModel;
 public class StatisticsView extends javax.swing.JFrame {
 
     private int COLUMN_NAME_POSITION = 0;
-    private int COLUMN_QUANTITY_POSITION = 0;
+    private int COLUMN_QUANTITY_POSITION = 1;
     private String NAME = "Nombre";
     private String QUANTITY = "Cantidad";
 
@@ -42,8 +40,6 @@ public class StatisticsView extends javax.swing.JFrame {
 
         m_dateField = new com.toedter.calendar.JDateChooser();
         m_basesListButton = new javax.swing.JButton();
-        m_toppingsListButton = new javax.swing.JButton();
-        m_othersListButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         m_statisticsTable = new javax.swing.JTable();
 
@@ -62,19 +58,15 @@ public class StatisticsView extends javax.swing.JFrame {
             }
         });
 
-        m_toppingsListButton.setText("Toppings");
-
-        m_othersListButton.setText("Otros");
-
         m_statisticsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null},
+                {null},
+                {null},
+                {null}
             },
             new String [] {
-                "Nombre", "Cantidad"
+                "Nombre"
             }
         ));
         jScrollPane1.setViewportView(m_statisticsTable);
@@ -84,35 +76,27 @@ public class StatisticsView extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
+                .add(55, 55, 55)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(layout.createSequentialGroup()
-                        .add(113, 113, 113)
-                        .add(m_basesListButton)
-                        .add(45, 45, 45)
-                        .add(m_toppingsListButton)
-                        .add(44, 44, 44)
-                        .add(m_othersListButton))
-                    .add(layout.createSequentialGroup()
-                        .add(204, 204, 204)
+                        .add(18, 18, 18)
                         .add(m_dateField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 162, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 202, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(layout.createSequentialGroup()
                         .add(56, 56, 56)
-                        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 454, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(66, Short.MAX_VALUE))
+                        .add(m_basesListButton)))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
-                .add(42, 42, 42)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .add(m_dateField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(28, 28, 28)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(m_basesListButton)
-                    .add(m_toppingsListButton)
-                    .add(m_othersListButton))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(22, 22, 22)
+                .add(m_basesListButton)
+                .add(18, 18, 18)
                 .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 341, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .add(17, 17, 17))
         );
 
         pack();
@@ -125,7 +109,8 @@ public class StatisticsView extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void m_basesListButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_basesListButtonActionPerformed
-        showAllBaseProducts();
+        List salesInDate = dateFormatModifier();
+        showAllBaseProducts(salesInDate);
     }//GEN-LAST:event_m_basesListButtonActionPerformed
 
     private DefaultTableModel createTableModel() {
@@ -137,85 +122,103 @@ public class StatisticsView extends javax.swing.JFrame {
             }
         };
 
-        String[] columnNames = new String[2];
+        String[] columnNames = new String[1];
         columnNames[COLUMN_NAME_POSITION] = NAME;
-        columnNames[COLUMN_QUANTITY_POSITION] = QUANTITY;
 
         model.setColumnIdentifiers(columnNames);
 
         return model;
     }
-    
-    public List<Sale> getAllDaySales(Date date) {
+
+    public List dateFormatModifier() {
+        Date date = m_dateField.getDate();
+        String dateString = convertCalendarDateToString(date);
         SaleManager saleManager = new SaleManagerImplementation();
-        List<Sale> sales = saleManager.getAll();
+        List<Sale> salesList = saleManager.getAll();
+        Iterator<Sale> saleIterator = salesList.iterator();
+        List<Sale> salesInDate = new ArrayList<Sale>();
+        while (saleIterator.hasNext()) {
+            Sale currentSale = saleIterator.next();
+            Date dateSale = currentSale.getDate();
+            String convertUtilDateToString = convertUtilDateToString(dateSale);
+            if (convertUtilDateToString.equalsIgnoreCase(dateString)) {
+                salesInDate.add(currentSale);
+            }
+        }
         
-        return sales;
+        return salesInDate;
     }
 
-    public void showAllBaseProducts() {
-        List<Sale> daySales = getAllDaySales(this.m_dateField.getDate());;
-        DefaultTableModel model = this.createTableModel();
-        if (daySales == null) {
-            this.m_statisticsTable.setModel(model);
-//            MessageDisplayManger.showInformation(MessageType.NO_SALES_FOUND, this);
-            return;
-        }
-        
-        int quantity = 0;
-        
-        String[] customerData = new String[2];
-        Iterator<Sale> saleIterator = daySales.iterator();
-        while (saleIterator.hasNext()) {
-            Sale sale = saleIterator.next();
-            SaleFinalProductsManager saleFinalProductManager = new SaleFinalProductsManagerImplementation();
-            
-            List<SaleFinalProducts> finalProductsList = saleFinalProductManager.searchById(sale.getId());
-            Iterator<SaleFinalProducts> saleFinalProductIterator = finalProductsList.iterator();
-            while (saleFinalProductIterator.hasNext()) {
-                SaleFinalProducts saleFinalProduct = saleFinalProductIterator.next();
-                SaleFinalProductsId saleFinalProductId = saleFinalProduct.getId();
-                FinalProductManager finalProductManager = new FinalProductManagerImplementation();
-                List<FinalProduct> finalProductFound = finalProductManager.searchById(saleFinalProductId.getFinalProductsId());
-                FinalProduct finalProduct = finalProductFound.get(0);
-                int baseProductId = finalProduct.getBaseProduct();
-                BaseProductManager baseProductManager = new BaseProductManagerImplementation();
-                List<BaseProduct> baseProductFound = baseProductManager.searchById(baseProductId);
-                BaseProduct baseProduct = baseProductFound.get(0);
-                customerData[COLUMN_NAME_POSITION] =  baseProduct.getName();
-//                customerData[COLUMN_QUANTITY_POSITION] = getBaseProductQuantity(baseProduct);
-                
-            }
-                
-           model.addRow(customerData);
-        }
-        this.m_statisticsTable.setModel(model);
-//        this.rowSelectionProperties();
+    private String convertUtilDateToString(Date date) {
+        String stringDate = date.toString();
+        String[] splittedString = stringDate.split(SPACE_BAR);
+        String datePartOfString = splittedString[0];
+        return datePartOfString;
+
     }
-//    
-//    private int getBaseProductQuantity(BaseProduct product) {
+
+    private String convertCalendarDateToString(Date date) {
+        String year = String.valueOf(date.getYear() + YEAR_CONSTANT);
+        String dateString = year + SPACE;
+        dateString = dateString + String.valueOf(date.getMonth() + MONTH_CONVERTER) + SPACE;
+        Calendar calendar = m_dateField.getCalendar();
+        int daySelected = calendar.get(DAY_FIELD);
+        if (daySelected <= FIRST_9_NUMBERS) {
+            dateString = dateString + ZERO + String.valueOf(daySelected);
+        } else {
+            dateString = dateString + String.valueOf(daySelected);
+        }
+
+        return dateString;
+    }
+
+//    public List<Sale> getAllDaySales(Date date) {
 //        SaleManager saleManager = new SaleManagerImplementation();
 //        List<Sale> sales = saleManager.getAll();
-//        int visitsNumber = 0;
 //
-//        Iterator<Sale> iterator = sales.iterator();
-//        while (iterator.hasNext()) {
-//            Sale sale = iterator.next();
-//            if (sale.getCustomerId() == customer.getId()) {
-//                visitsNumber++;
-//            }
-//
-//        }
-//
-//        return visitsNumber;
+//        return sales;
 //    }
 
-    public void showAllToppings() {
-        
-    }
+    public void showAllBaseProducts(List salesInDate) {
+//        List<Sale> daySales = getAllDaySales();;
+        DefaultTableModel model = this.createTableModel();
+        if (salesInDate == null) {
+            this.m_statisticsTable.setModel(model);
+            MessageDisplayManger.showInformation(MessageType.NO_SALES_FOUND, this);
+            return;
+        }
 
-    public void showAllOtherProducts() {
-        
+        String[] customerData = new String[1];
+        Iterator<Sale> saleIterator = salesInDate.iterator();
+        while (saleIterator.hasNext()) {
+            Sale sale = saleIterator.next();
+
+            SaleFinalProductsManager saleFinalProductManager = new SaleFinalProductsManagerImplementation();
+
+            List<SaleFinalProducts> finalProductsList = saleFinalProductManager.getAll();
+            Iterator<SaleFinalProducts> saleFinalProductIterator = finalProductsList.iterator();
+
+            while (saleFinalProductIterator.hasNext()) {
+                SaleFinalProducts saleFinalProduct = saleFinalProductIterator.next();
+                SaleFinalProductsId saleFinalProductsId = saleFinalProduct.getId();
+                int saleId = saleFinalProductsId.getSaleId();
+                if (sale.getId().intValue() == saleId) {
+                    SaleFinalProductsId saleFinalProductId = saleFinalProduct.getId();
+                    FinalProductManager finalProductManager = new FinalProductManagerImplementation();
+                    List<FinalProduct> finalProductFound = finalProductManager.searchById(saleFinalProductId.getFinalProductsId());
+                    FinalProduct finalProduct = finalProductFound.get(0);
+                    int baseProductId = finalProduct.getBaseProduct();
+                    BaseProductManager baseProductManager = new BaseProductManagerImplementation();
+                    List<BaseProduct> baseProductFound = baseProductManager.searchById(baseProductId);
+                    BaseProduct baseProduct = baseProductFound.get(0);
+                    customerData[COLUMN_NAME_POSITION] = baseProduct.getName();
+                }
+            }
+
+
+            model.addRow(customerData);
+        }
+        this.m_statisticsTable.setModel(model);
     }
 
     /**
@@ -263,8 +266,13 @@ public class StatisticsView extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton m_basesListButton;
     private com.toedter.calendar.JDateChooser m_dateField;
-    private javax.swing.JButton m_othersListButton;
     private javax.swing.JTable m_statisticsTable;
-    private javax.swing.JButton m_toppingsListButton;
     // End of variables declaration//GEN-END:variables
+    private final static String SPACE_BAR = " ";
+    private final static String ZERO = "0";
+    private final static int MONTH_CONVERTER = 1;
+    private final static int DAY_FIELD = 5;
+    private final static int FIRST_9_NUMBERS = 9;
+    private final static int YEAR_CONSTANT = 1900;
+    private final static String SPACE = "-";
 }
