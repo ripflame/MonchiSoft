@@ -11,19 +11,30 @@ import Entities.FinalProduct;
 import Entities.FinalProductToppings;
 import Entities.FinalProductToppingsId;
 import Entities.OtherProduct;
+import Entities.Sale;
+import Entities.SaleFinalProductsId;
 import Entities.Topping;
+import Helpers.MessageDisplayManger;
+import Helpers.MessageType;
 import Helpers.Size;
 import Managers.BaseProductManagerImplementation;
+import Managers.CustomerManager;
+import Managers.CustomerManagerImplementation;
 import Managers.FinalProductManager;
 import Managers.FinalProductManagerImplementation;
 import Managers.FinalProductToppingsManager;
 import Managers.FinalProductToppingsManagerImplementation;
 import Managers.OtherProductManager;
 import Managers.OtherProductManagerImplementation;
+import Managers.SaleFinalProductsManager;
+import Managers.SaleFinalProductsManagerImplementation;
+import Managers.SaleManager;
+import Managers.SaleManagerImplementation;
 import Managers.ToppingManager;
 import Managers.ToppingManagerImplementation;
 import ViewControllers.Main;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.JButton;
@@ -694,10 +705,50 @@ public class SalesModule extends javax.swing.JFrame {
         extraToppingWindow.setVisible(true);
     }//GEN-LAST:event_m_extraToppingActionPerformed
 
+    private int getSelectedCustomerId(){
+        String clientName = m_customerNameTextField.getText();
+        if(clientName.equalsIgnoreCase(CustomersView.COUNTER_CLIENT) || 
+                clientName.equalsIgnoreCase(VOID)){
+            return 0;
+        }
+        CustomerManager customerManager = new CustomerManagerImplementation();
+        List<Customer> customerFoundList = customerManager.searchByName(clientName);
+        Customer customerFound = customerFoundList.get(0);
+        if(customerFound != null){
+            return customerFound.getId();
+        }
+        return -1;
+    }
+    
     private void m_completeSaleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_completeSaleButtonActionPerformed
-       //aceptar Venta
+        Date currentDate = new Date();
+        int selectedCustomerId = getSelectedCustomerId();
+        if(selectedCustomerId != -1){
+            double saleTotal = Double.valueOf(m_totalField.getText());
+            Sale saleToSave = new Sale(currentDate, selectedCustomerId, saleTotal);
+            SaleManager saleManager = new SaleManagerImplementation();
+            saleManager.add(saleToSave);
+            SaleFinalProductsManager saleFinalProductsManager = new SaleFinalProductsManagerImplementation();
+            saveProductsToSale(saleToSave);
+        } else {
+            MessageDisplayManger.showError(MessageType.NO_CUSTOMER_NAME_FOUND, this); 
+        }
     }//GEN-LAST:event_m_completeSaleButtonActionPerformed
 
+    private void saveProductsToSale(Sale saleToSaveProducts){
+        for(int row = 0; row < m_productTable.getRowCount(); row++){
+            if(isFinalProduct(row)){
+                int finalProductId = getProductIdFromRow(row);
+                FinalProductManager finalProductManager = new FinalProductManagerImplementation();
+                List<FinalProduct> finalProductList = finalProductManager.searchById(finalProductId);
+                FinalProduct finalProduct = finalProductList.get(0);
+                SaleFinalProductsId saleFinalProductsId = new SaleFinalProductsId(finalProduct.getId(), saleToSaveProducts.getId());
+            } else {
+                //otherProduct
+            }
+        }
+    }
+    
     private void m_discountCashFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_m_discountCashFieldKeyReleased
         setTotalsWithCashDiscountField();
         isDiscountInPercentage = false;
@@ -723,8 +774,8 @@ public class SalesModule extends javax.swing.JFrame {
         finalProductManager.remove(finalProduct);
     }
     
-    private int getProductIdFromRow(int rowToDelete){
-        String FinalProductIdString = (String) m_productTable.getValueAt(rowToDelete, ID_COLUMN);
+    private int getProductIdFromRow(int row){
+        String FinalProductIdString = (String) m_productTable.getValueAt(row, ID_COLUMN);
         int selectedProductId = Integer.parseInt(FinalProductIdString);
         return selectedProductId;
     }
@@ -858,6 +909,7 @@ public class SalesModule extends javax.swing.JFrame {
         });
     }
     
+    private static final String VOID = "";
     private boolean isDiscountInCash;
     private boolean isDiscountInPercentage;
     private static final int PERCENTAGE = 100;

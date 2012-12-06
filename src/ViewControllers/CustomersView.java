@@ -401,7 +401,7 @@ public class CustomersView extends javax.swing.JFrame {
         this.m_customersTable.setRowSelectionAllowed(true);
     }
     
-    private static final String COUNTER_CLIENT= "Mostrador";
+    public static final String COUNTER_CLIENT= "Mostrador";
     private static final int NAME_COLUMN = 1;
     private SalesModule summonerWindow;
     // Variables declaration - do not modify//GEN-BEGIN:variables
