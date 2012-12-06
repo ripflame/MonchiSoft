@@ -1,13 +1,11 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package ViewControllers;
 
 import Entities.Expense;
+import Helpers.MessageDisplayManger;
+import Helpers.MessageType;
 import Managers.ExpenseManager;
 import Managers.ExpenseManagerImplementation;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -26,9 +24,10 @@ public class CaptureExpenseDataView extends javax.swing.JDialog {
         this.setAddText();
     }
     
-       public CaptureExpenseDataView(java.awt.Frame parent, boolean modal, Expense modifiedExpense) {
+    public CaptureExpenseDataView(java.awt.Frame parent, boolean modal, Expense modifiedExpense) {
         super(parent, modal);
         initComponents();
+        
         this.isAddButton = false;
         this.setModifyText();
         this.modifiedExpense = modifiedExpense;
@@ -37,61 +36,58 @@ public class CaptureExpenseDataView extends javax.swing.JDialog {
         this.m_totalField.setText(Double.toString(this.modifiedExpense.getTotal()));
         this.m_dateField.setDate(this.modifiedExpense.getDate());
         
-    }
+   }
    
    private void setAddText() {
-        this.setTitle("Agregar");
+        this.setTitle("Agregar gasto");
         this.m_saveButton.setText("Agregar");
     }
    
    private void setModifyText() {
-        this.setTitle("Modificar");
+        this.setTitle("Modificar gasto");
         this.m_saveButton.setText("Modificar");
     }
    
    private void addExpense() {
         double total= Double.parseDouble(this.m_totalField.getText());
         if (this.validData()) {
-            
-            
             ExpenseManager expenseManager = new ExpenseManagerImplementation();
-            Expense expense = new Expense(this.m_dateField.getDate(), this.m_supplierField.getText(),
-                                           this.m_descriptionField.getText(), total
+            Expense expense = new Expense(this.m_dateField.getDate(), 
+                                          this.m_supplierField.getText(),
+                                          this.m_descriptionField.getText(), 
+                                          total
                                           );
             expenseManager.add(expense);
             this.dispose();
         } else {
-            this.showErrorView();
+            MessageDisplayManger.showInformation(MessageType.EMPTY_FIELDS, this );
         }
     }
    
-   private void modifyExpense(Expense expense) {
-       //java.util.Date utilDate = ;
-
-      double total= Double.parseDouble(this.m_totalField.getText());
+   private void modifyExpense(Expense expense) {  
         if (this.validData()) {
-            Expense modifiedExpense = expense;
             ExpenseManager expenseManager = new ExpenseManagerImplementation();
-            modifiedExpense.setSupplier(this.m_supplierField.getText());
-            modifiedExpense.setDescription(this.m_descriptionField.getText());
-            modifiedExpense.setTotal(total);
-            modifiedExpense.setDate(this.m_dateField.getDate());
-            
+            modifiedExpense= this.modifyDataExpense(expense);
             expenseManager.modify(modifiedExpense);
             ((ExpensesView)this.getParent()).showAllExpenses();
             this.dispose();
         } else {
-            this.showErrorView();
+            MessageDisplayManger.showInformation(MessageType.EMPTY_FIELDS, this );
         }
     }
    
-   private void showErrorView() {
-        JOptionPane.showConfirmDialog(this,
-                "No todos los campos están llenos.",
-                "Oops!",
-                JOptionPane.DEFAULT_OPTION,
-                JOptionPane.INFORMATION_MESSAGE);
-    }
+   public Expense modifyDataExpense(Expense expense){
+       double total= Double.parseDouble(this.m_totalField.getText());
+       Expense modifiedExpense = expense;
+       modifiedExpense.setSupplier(this.m_supplierField.getText());
+            modifiedExpense.setDescription(this.m_descriptionField.getText());
+            modifiedExpense.setTotal(total);
+            modifiedExpense.setDate(this.m_dateField.getDate());
+       
+       return modifiedExpense;
+   }
+   
+   
    
    private boolean validData() {
         boolean correctData = true;
@@ -99,11 +95,9 @@ public class CaptureExpenseDataView extends javax.swing.JDialog {
             if(this.m_descriptionLabel.getText().isEmpty())
                 if(this.m_totalLabel.getText().isEmpty())
                     if(this.m_dateLabel.getText().isEmpty())
-                
-            
-            correctData = false;
+                         correctData = false;
         }else{
-             //correctData= true;
+            
         }
         return correctData;
     }
@@ -131,6 +125,11 @@ public class CaptureExpenseDataView extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         m_cancelButton.setText("Cancelar");
+        m_cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                m_cancelButtonActionPerformed(evt);
+            }
+        });
 
         m_saveButton.setText("Guardar");
         m_saveButton.addActionListener(new java.awt.event.ActionListener() {
@@ -164,28 +163,24 @@ public class CaptureExpenseDataView extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(27, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(m_supplierLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(m_descriptionLabel)
-                            .addComponent(m_totalLabel)
-                            .addComponent(m_dateLabel))
-                        .addGap(30, 30, 30)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(m_totalField, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
-                            .addComponent(m_descriptionField)
-                            .addComponent(m_supplierField)
-                            .addComponent(m_dateField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(44, 44, 44))
+                    .addComponent(m_supplierLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(m_descriptionLabel)
+                    .addComponent(m_totalLabel)
+                    .addComponent(m_dateLabel))
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(114, 114, 114)
-                        .addComponent(m_saveButton)
-                        .addGap(31, 31, 31)
                         .addComponent(m_cancelButton)
-                        .addGap(0, 37, Short.MAX_VALUE)))
-                .addGap(41, 41, 41))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                        .addComponent(m_saveButton))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(m_totalField, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
+                        .addComponent(m_descriptionField)
+                        .addComponent(m_supplierField)
+                        .addComponent(m_dateField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(85, 85, 85))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -232,8 +227,16 @@ public class CaptureExpenseDataView extends javax.swing.JDialog {
     }//GEN-LAST:event_m_descriptionFieldActionPerformed
 
     private void m_supplierFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_supplierFieldActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_m_supplierFieldActionPerformed
+/**
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+       
+    }//GEN-LAST:event_cancelButtonActionPerformed
+*/
+    private void m_cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_cancelButtonActionPerformed
+       this.dispose();
+    }//GEN-LAST:event_m_cancelButtonActionPerformed
 
     
     
