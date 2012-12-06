@@ -48,7 +48,7 @@ public class SaleFinalProductsId implements java.io.Serializable{
     public boolean equals(Object other) {
          if ( (this == other ) ) return true;
 		 if ( (other == null ) ) return false;
-		 if ( !(other instanceof FinalProductToppingsId) ) return false;
+		 if ( !(other instanceof SaleFinalProductsId) ) return false;
 		 SaleFinalProductsId castOther = ( SaleFinalProductsId ) other; 
          
 		 return (this.getFinalProductId()==castOther.getFinalProductId())
