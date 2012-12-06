@@ -4,7 +4,10 @@
  */
 package ViewControllers;
 
+import Entities.Customer;
 import Entities.Sale;
+import Helpers.MessageDisplayManger;
+import Helpers.MessageType;
 import Managers.SaleManager;
 import Managers.SaleManagerImplementation;
 import java.util.ArrayList;
@@ -12,6 +15,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -37,60 +42,60 @@ public class ExpenseEstatistics extends javax.swing.JFrame {
 
         m_dateChooser = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        m_expenseEstatisticsTable = new javax.swing.JTable();
         m_searchButton = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        m_expenseEstatisticsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Id", "Fecha", "Cliente", "Total"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(m_expenseEstatisticsTable);
 
-        m_searchButton.setText("jButton1");
+        m_searchButton.setText("Buscar");
         m_searchButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 m_searchButtonActionPerformed(evt);
             }
         });
 
+        jLabel1.setText("Ventas del día");
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
+                .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
                     .add(layout.createSequentialGroup()
-                        .add(156, 156, 156)
-                        .add(m_searchButton)
+                        .add(m_dateChooser, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 170, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(m_searchButton))
+                    .add(layout.createSequentialGroup()
+                        .add(jLabel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 122, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .add(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .add(layout.createSequentialGroup()
-                .add(110, 110, 110)
-                .add(m_dateChooser, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 128, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(162, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(m_dateChooser, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(18, 18, 18)
-                .add(m_searchButton)
-                .add(37, 37, 37)
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 102, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(117, Short.MAX_VALUE))
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(m_dateChooser, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(m_searchButton))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 21, Short.MAX_VALUE)
+                .add(jLabel1)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 253, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -115,7 +120,51 @@ public class ExpenseEstatistics extends javax.swing.JFrame {
     }//GEN-LAST:event_m_searchButtonActionPerformed
 
     private void createTable(List sales){
-        
+        DefaultTableModel model = this.createTableModel();
+        if (sales == null) {
+            this.m_expenseEstatisticsTable.setModel(model);
+            MessageDisplayManger.showInformation(MessageType.NO_COSTUMER_FOUND, this);
+            return;
+        }
+
+        String[] customerData = new String[4];
+        Iterator<Sale> iterator = sales.iterator();
+        while (iterator.hasNext()) {
+            Sale sale = (Sale) iterator.next();
+            customerData[COLUMN_ID_POSITION] = Integer.toString(sale.getId());
+            customerData[COLUMN_DATE_POSITION] = sale.getDate().toString();
+            customerData[COLUMN_CUSTOMER_POSITION] = Integer.toString(sale.getCustomerId());
+            customerData[COLUMN_TOTAL_POSITION] = Double.toString(sale.getTotal());
+            model.addRow(customerData);
+        }
+        this.m_expenseEstatisticsTable.setModel(model);
+        this.rowSelectionProperties();
+    }
+    
+    private void rowSelectionProperties() {
+        this.m_expenseEstatisticsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        this.m_expenseEstatisticsTable.setCellSelectionEnabled(false);
+        this.m_expenseEstatisticsTable.setRowSelectionAllowed(true);
+    }
+    
+    private DefaultTableModel createTableModel() {
+        DefaultTableModel model = new DefaultTableModel() {
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        String[] columnNames = new String[4];
+        columnNames[COLUMN_ID_POSITION] = ID;
+        columnNames[COLUMN_DATE_POSITION] = DATE;
+        columnNames[COLUMN_CUSTOMER_POSITION] = CUSTOMER;
+        columnNames[COLUMN_TOTAL_POSITION] = TOTAL;
+
+        model.setColumnIdentifiers(columnNames);
+
+        return model;
     }
     
     private String convertUtilDateToString(Date date){
@@ -183,10 +232,19 @@ public class ExpenseEstatistics extends javax.swing.JFrame {
     private final static int FIRST_9_NUMBERS = 9;
     private final static int YEAR_CONSTANT = 1900;
     private final static String SPACE = "-";
+    private static final int COLUMN_ID_POSITION = 0;
+    private static final int COLUMN_DATE_POSITION = 1;
+    private static final int COLUMN_CUSTOMER_POSITION = 2;
+    private static final int COLUMN_TOTAL_POSITION = 3;
+    private static final String ID = "Id";
+    private static final String DATE = "Fecha";
+    private static final String CUSTOMER = "Cliente";
+    private static final String TOTAL = "Total";
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private com.toedter.calendar.JDateChooser m_dateChooser;
+    private javax.swing.JTable m_expenseEstatisticsTable;
     private javax.swing.JButton m_searchButton;
     // End of variables declaration//GEN-END:variables
 }
