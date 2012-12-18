@@ -82,7 +82,6 @@ public class BaseProductManagementController extends ManagementController {
     public void buildCaptureModifyWindow(){
         int rowSelected = this.getRowAndProductSelected();
         this.m_captureWindow = new CaptureProductData(this);
-        this.m_captureWindow.addActionsListener(this);
         this.m_captureWindow.changeButton();
         this.m_captureWindow.setNameText(this.m_baseProduct.getName());
         this.m_captureWindow.setFirstPriceText(String.valueOf(this.m_baseProduct.getSmallPrice()));
@@ -101,6 +100,7 @@ public class BaseProductManagementController extends ManagementController {
         baseProductData = getAndAuditDataCaptured();
         if (m_isAllValidData){
             setBaseProductData(baseProductData);
+            m_baseProduct.setId(idProduct);
             m_baseProductManager.modify(m_baseProduct);
             performDisplayProcedures();
             m_productsModule.setEnabled(true);
@@ -139,6 +139,8 @@ public class BaseProductManagementController extends ManagementController {
     
     @Override
     public void performDisplayProcedures() {
+        m_productsModule.disableRemoveButton();
+        m_productsModule.disableModifyButton();
         m_productsTable = m_productsModule.productsTable;
         this.setProductsTableModel();
         List listBaseProducts = this.getBaseProducts();
