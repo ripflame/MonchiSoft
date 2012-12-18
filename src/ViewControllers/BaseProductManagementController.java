@@ -265,5 +265,6 @@ public class BaseProductManagementController extends ManagementController {
     private DefaultTableModel m_baseProductTableModel;
     private CaptureProductData m_captureWindow;
     private DataCheckerImplementation m_dataChecker;
-    private boolean m_isAllValidData;
+    private boolean m_isAllValidData; 
+  
 }
