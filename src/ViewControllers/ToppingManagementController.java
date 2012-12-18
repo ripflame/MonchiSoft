@@ -120,16 +120,16 @@ public class ToppingManagementController extends ManagementController{
     public void buildCaptureModifyWindow(){
         int rowSelected = this.getRowAndProductSelected();
         this.m_captureWindow = new CaptureProductData(this);
-        this.m_captureWindow.addActionsListener(this);
         this.m_captureWindow.changeButton();
         this.m_captureWindow.setNameText(this.m_topping.getName());
         this.m_captureWindow.setFirstPriceText(String.valueOf(this.m_topping.getPrice()));
         this.m_captureWindow.setLocationRelativeTo(m_productsModule);
         m_productsModule.setEnabled(false);
         this.m_captureWindow.setTitleLabel(TITLE_LABEL);
-        this.m_captureWindow.setFirstPriceText(EXTRA_PRICE_FIELD_LABEL);
         this.m_captureWindow.setSecondPriceText(STRING_NULL);
         this.m_captureWindow.setThirdPriceText(STRING_NULL);
+        this.m_captureWindow.disableSecondPriceText();
+        this.m_captureWindow.disableThirdPriceText();
         this.m_captureWindow.setVisible(true);
     }
     
@@ -150,6 +150,7 @@ public class ToppingManagementController extends ManagementController{
         toppingData = getAndAuditDataCaptured();
         if (m_isAllValidData){
             setToppingData(toppingData);
+            m_topping.setId(idProduct);
             m_toppingManager.modify(m_topping);
             performDisplayProcedures();
             m_productsModule.setEnabled(true);
@@ -185,6 +186,8 @@ public class ToppingManagementController extends ManagementController{
      
     @Override
     public void performDisplayProcedures() {
+        m_productsModule.disableRemoveButton();
+        m_productsModule.disableModifyButton();
         m_productsTable = m_productsModule.productsTable;
         this.setProductsTableModel();
         List listToppings = this.getToppings();
