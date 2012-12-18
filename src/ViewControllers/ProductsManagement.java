@@ -199,11 +199,7 @@ public class ProductsManagement extends javax.swing.JFrame {
     public void setSelectedRowNum(int selectedRowNum) {
         this.m_selectedRowNum = selectedRowNum;
     }
-
-    public String getTextCell (){
     
-        return "";
-    }
     
     private int m_selectedRowNum;
     public CaptureProductData m_captureProductData;
