@@ -79,17 +79,16 @@ public class OtherProductManagementController extends ManagementController{
     public void buildCaptureModifyWindow(){
         int rowSelected = this.getRowAndProductSelected();
         this.m_captureWindow = new CaptureProductData(this);
-        this.m_captureWindow.addActionsListener(this);
         this.m_captureWindow.changeButton();
         this.m_captureWindow.setNameText(this.m_otherProduct.getName());
         this.m_captureWindow.setFirstPriceText(String.valueOf(this.m_otherProduct.getPrice()));
-
         this.m_captureWindow.setLocationRelativeTo(m_productsModule);
         m_productsModule.setEnabled(false);
         this.m_captureWindow.setTitleLabel(TITLE_LABEL);
-        this.m_captureWindow.setFirstPriceText(PRICE_FIELD_LABEL);
         this.m_captureWindow.setSecondPriceText(STRING_NULL);
         this.m_captureWindow.setThirdPriceText(STRING_NULL);
+        this.m_captureWindow.disableSecondPriceText();
+        this.m_captureWindow.disableThirdPriceText();
         this.m_captureWindow.setVisible(true);
     }
     
@@ -110,6 +109,7 @@ public class OtherProductManagementController extends ManagementController{
         otherProductData = getAndAuditDataCaptured();
         if (m_isAllValidData){
             setOtherProductData(otherProductData);
+            m_otherProduct.setId(idProduct);
             m_otherProductManager.modify(m_otherProduct);
             performDisplayProcedures();
             m_productsModule.setEnabled(true);
@@ -153,6 +153,8 @@ public class OtherProductManagementController extends ManagementController{
 
     @Override
     public void performDisplayProcedures() {
+        m_productsModule.disableRemoveButton();
+        m_productsModule.disableModifyButton();
         m_productsTable = m_productsModule.productsTable;
         this.setProductsTableModel();
         List listOtherProducts = this.getOtherProducts();
