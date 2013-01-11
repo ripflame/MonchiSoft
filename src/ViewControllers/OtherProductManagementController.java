@@ -262,4 +262,5 @@ public class OtherProductManagementController extends ManagementController{
     
     private DataCheckerImplementation m_dataChecker;
     private boolean m_isAllValidData;
+    
 }
