@@ -260,4 +260,5 @@ public class ToppingManagementController extends ManagementController{
     private CaptureProductData m_captureWindow;
     private static ProductsManagement m_productsModule;
     private DataCheckerImplementation m_dataChecker;
+    
 }
