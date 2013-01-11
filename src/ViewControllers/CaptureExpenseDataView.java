@@ -2,6 +2,7 @@
 package ViewControllers;
 
 import Entities.Expense;
+import Entities.SaleFinalProducts;
 import Helpers.MessageDisplayManger;
 import Helpers.MessageType;
 import Managers.ExpenseManager;
